@@ -1,0 +1,59 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/compresr-openapi-original.json
+docs: https://compresr.ai/docs/authentication
+summary:
+  types:
+  - apiKey
+  - oauth2
+  - http
+  api_key_in:
+  - header
+  api_key_header: X-API-Key
+  api_key_prefix: cmp_
+  oauth2_flows:
+  - authorizationCode
+  - deviceCode
+  pkce: true
+notes: >-
+  The public API authenticates with an X-API-Key header carrying a cmp_-prefixed key
+  issued from the dashboard (documented at /docs/authentication). The OpenAPI's
+  generated securitySchemes only declares an HTTPBearer http/bearer scheme; the
+  operations themselves take X-API-Key as a header parameter. A separate OAuth 2.0
+  authorization server (authorization-code with PKCE, device-code, and refresh-token
+  grants) backs CLI (`compresr-sdk login`) and dashboard sign-in, not per-request API
+  auth. API keys carry a scope of demo | user | enterprise.
+schemes:
+- name: X-API-Key
+  type: apiKey
+  in: header
+  parameter_name: X-API-Key
+  key_prefix: cmp_
+  scopes:
+  - demo
+  - user
+  - enterprise
+  docs: https://compresr.ai/docs/authentication
+  sources:
+  - openapi/compresr-openapi-original.json
+  - https://compresr.ai/docs/authentication
+- name: OAuth2
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api.compresr.ai/oauth/authorize
+    tokenUrl: https://api.compresr.ai/oauth/token
+    pkce: true
+    refresh: true
+  - flow: deviceCode
+    deviceAuthorizationUrl: https://api.compresr.ai/oauth/device_authorization
+    tokenUrl: https://api.compresr.ai/oauth/token
+  purpose: CLI and dashboard login (not per-request API authentication)
+  sources:
+  - openapi/compresr-openapi-original.json
+- name: HTTPBearer
+  type: http
+  scheme: bearer
+  note: declared in OpenAPI securitySchemes (FastAPI-generated); actual request auth is X-API-Key
+  sources:
+  - openapi/compresr-openapi-original.json
