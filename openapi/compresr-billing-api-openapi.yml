@@ -1,0 +1,1134 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Billing API
+  version: 1.0.0
+tags:
+- name: Billing
+paths:
+  /api/billing/create-checkout-session:
+    post:
+      tags:
+      - Billing
+      summary: Create Checkout Session
+      description: Create Stripe Checkout session for adding funds. Returns hosted-page URL.
+      operationId: create_checkout_session_api_billing_create_checkout_session_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutSessionRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutSessionResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/billing/upload:
+    post:
+      tags:
+      - Billing
+      summary: Upload Money
+      description: '[ADMIN ONLY] Manually credit a user account.
+
+
+        SEC-004: This endpoint is restricted to admins only. Normal users credit
+
+        their balance via the Stripe checkout flow, which is verified by webhook.'
+      operationId: upload_money_api_billing_upload_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoneyUploadRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoneyUploadResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /api/billing/transactions:
+    get:
+      tags:
+      - Billing
+      summary: Get Transactions
+      description: "Get transaction history with optional filters.\n\nQuery params:\n    - limit: Max results (default 50)\n    - start_date: Filter from date (ISO format: 2025-01-01)\n    - end_date: Filter to date (ISO format: 2025-12-31)"
+      operationId: get_transactions_api_billing_transactions_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: start_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Start Date
+      - name: end_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: End Date
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/billing/receipts:
+    get:
+      tags:
+      - Billing
+      summary: Get Receipts
+      description: 'Get Stripe invoice receipts with PDF download links.
+
+
+        These are formal Stripe invoices from payment_receipts — distinct from
+
+        the per-charge receipt_url available in transactions.metadata.
+
+        Cached 5 minutes (receipts rarely change).'
+      operationId: get_receipts_api_billing_receipts_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentReceiptsResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/billing/tiers:
+    get:
+      tags:
+      - Billing
+      summary: Get Tiers
+      description: Return tier configs and per-scale rate-limit matrices.
+      operationId: get_tiers_api_billing_tiers_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TiersResponse'
+  /api/billing/invoices:
+    get:
+      tags:
+      - Billing
+      summary: Get Invoices
+      description: Get enterprise invoice history. Prepaid top-ups are on GET /billing/transactions.
+      operationId: get_invoices_api_billing_invoices_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - paid
+            - pending
+            - draft
+            - failed
+            type: string
+          - type: 'null'
+          description: 'Filter by status: paid, pending, draft, failed'
+          title: Status
+        description: 'Filter by status: paid, pending, draft, failed'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceListResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/billing/invoices/pay:
+    post:
+      tags:
+      - Billing
+      summary: Create Invoice Payment
+      description: Create Stripe Checkout session to pay a pending enterprise invoice.
+      operationId: create_invoice_payment_api_billing_invoices_pay_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoicePaymentRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoicePaymentResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/billing/enterprise/budget:
+    put:
+      tags:
+      - Billing
+      summary: Set Enterprise Budget
+      description: 'Set or update a monthly budget for an enterprise API key.
+
+
+        Budget is a soft cap (alerts only); hard limit is admin-set credit_limit_usd.
+
+        Pass monthly_budget_usd=null to remove the budget (unlimited spending).'
+      operationId: set_enterprise_budget_api_billing_enterprise_budget_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnterpriseBudgetUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnterpriseBudgetResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/billing/enterprise/budget/{api_key_id}:
+    delete:
+      tags:
+      - Billing
+      summary: Remove Enterprise Budget
+      description: Remove the monthly budget for an enterprise API key (sets to unlimited).
+      operationId: remove_enterprise_budget_api_billing_enterprise_budget__api_key_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: api_key_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Api Key Id
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnterpriseBudgetResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/billing/webhooks/stripe:
+    post:
+      tags:
+      - Billing
+      summary: Stripe Webhook
+      description: "Handle Stripe webhooks (checkout.session.completed, payment_intent.succeeded).\n\nRecords transaction + updates balance when Stripe payment completes.\n\nSECURITY:\n- Validates Stripe signature before processing\n- Uses database UNIQUE constraint on stripe_payment_intent_id\n  to prevent race condition double-crediting\n\nHandles:\n- checkout.session.completed: When Checkout Session payment succeeds\n- payment_intent.succeeded: When direct PaymentIntent succeeds\n- payment_intent.payment_failed: Logs failed payments"
+      operationId: stripe_webhook_api_billing_webhooks_stripe_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookResponse'
+components:
+  schemas:
+    TiersResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        tiers:
+          items:
+            $ref: '#/components/schemas/TierInfo'
+          type: array
+          title: Tiers
+          default: []
+        scale_limits:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/ScaleTierLimits'
+            type: array
+          type: object
+          title: Scale Limits
+          default: {}
+      type: object
+      title: TiersResponse
+    Transaction:
+      properties:
+        id:
+          type: string
+          title: Id
+        type:
+          type: string
+          enum:
+          - money_upload
+          - free_trial
+          - refund
+          - adjustment
+          title: Type
+          description: money_upload, free_trial, refund, adjustment
+        amount_usd:
+          type: number
+          title: Amount Usd
+          description: Amount in USD
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        status:
+          type: string
+          enum:
+          - completed
+          - pending
+          - failed
+          - refunded
+          title: Status
+          description: completed, pending, failed, refunded
+        payment_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Provider
+        payment_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Id
+        payment_method_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method Type
+          description: card, apple_pay, google_pay, link, etc.
+        card_brand:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Brand
+          description: visa, mastercard, amex, etc.
+        card_last4:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Last4
+          description: Last 4 digits of card
+        receipt_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Receipt Url
+          description: Stripe receipt/invoice URL
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - id
+      - type
+      - amount_usd
+      - status
+      - created_at
+      title: Transaction
+    ScaleTierLimits:
+      properties:
+        tier:
+          type: string
+          title: Tier
+        rate_limits:
+          $ref: '#/components/schemas/TierRateLimits'
+      type: object
+      required:
+      - tier
+      - rate_limits
+      title: ScaleTierLimits
+    InvoiceStatus:
+      type: string
+      enum:
+      - draft
+      - pending
+      - paid
+      - failed
+      title: InvoiceStatus
+    PaymentReceipt:
+      properties:
+        id:
+          type: string
+          title: Id
+        receipt_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Receipt Number
+        amount_usd:
+          type: number
+          title: Amount Usd
+          description: Payment amount in USD
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        status:
+          type: string
+          enum:
+          - completed
+          - pending
+          - failed
+          - refunded
+          title: Status
+          description: completed, pending, failed, refunded
+        stripe_payment_intent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stripe Payment Intent Id
+        stripe_invoice_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stripe Invoice Id
+        invoice_pdf_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Invoice Pdf Url
+          description: Stripe invoice PDF download URL
+        payment_method:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method
+        payment_method_last4:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method Last4
+        paid_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paid At
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - id
+      - amount_usd
+      - status
+      - created_at
+      title: PaymentReceipt
+    InvoicePaymentRequest:
+      properties:
+        billing_month:
+          type: string
+          title: Billing Month
+          description: Billing month to pay (YYYY-MM)
+      type: object
+      required:
+      - billing_month
+      title: InvoicePaymentRequest
+    InvoiceListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          items:
+            $ref: '#/components/schemas/Invoice'
+          type: array
+          title: Data
+          default: []
+        total_pending_usd:
+          type: number
+          title: Total Pending Usd
+          description: Total pending amount
+          default: 0.0
+      type: object
+      title: InvoiceListResponse
+    Invoice:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Invoice UUID
+        invoice_type:
+          $ref: '#/components/schemas/InvoiceType'
+          description: Invoice type
+          default: enterprise
+        billing_month:
+          type: string
+          title: Billing Month
+          description: Billing month (YYYY-MM)
+        amount_usd:
+          type: number
+          title: Amount Usd
+          description: Invoice amount in USD
+        status:
+          $ref: '#/components/schemas/InvoiceStatus'
+          description: Payment status
+        stripe_invoice_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stripe Invoice Id
+          description: Stripe invoice ID
+        invoice_pdf_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Invoice Pdf Url
+          description: PDF download URL
+        created_at:
+          type: string
+          title: Created At
+          description: Invoice creation timestamp
+        paid_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paid At
+          description: Payment timestamp
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Invoice description
+        api_key_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Name
+          description: API key name (for enterprise)
+        can_pay:
+          type: boolean
+          title: Can Pay
+          description: Whether user can pay this invoice now
+          default: false
+      type: object
+      required:
+      - id
+      - billing_month
+      - amount_usd
+      - status
+      - created_at
+      title: Invoice
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CheckoutSessionResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Stripe Checkout URL to redirect user
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Stripe session ID
+      type: object
+      title: CheckoutSessionResponse
+    EnterpriseBudgetUpdate:
+      properties:
+        api_key_id:
+          type: string
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          title: Api Key Id
+          description: API key UUID to update
+        monthly_budget_usd:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Monthly Budget Usd
+          description: Monthly budget in USD. Set to null/None to remove budget (unlimited).
+      type: object
+      required:
+      - api_key_id
+      title: EnterpriseBudgetUpdate
+    CheckoutSessionRequest:
+      properties:
+        amount_usd:
+          type: number
+          maximum: 10000.0
+          minimum: 1.0
+          title: Amount Usd
+          description: Amount to upload ($1-$10,000)
+      type: object
+      required:
+      - amount_usd
+      title: CheckoutSessionRequest
+    TierRateLimits:
+      properties:
+        rpm:
+          type: integer
+          title: Rpm
+          description: Requests Per Minute
+        tpm:
+          type: integer
+          title: Tpm
+          description: Tokens Per Minute
+        rpd:
+          type: integer
+          title: Rpd
+          description: Requests Per Day
+      type: object
+      required:
+      - rpm
+      - tpm
+      - rpd
+      title: TierRateLimits
+    InvoiceType:
+      type: string
+      enum:
+      - enterprise
+      title: InvoiceType
+      description: 'Invoice types — enterprise postpaid only.
+
+
+        Prepaid wallet top-ups are ''transactions'', not invoices.'
+    EnterpriseBudgetResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        api_key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Id
+          description: API key UUID
+        api_key_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Name
+          description: API key name
+        monthly_budget_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Monthly Budget Usd
+          description: Monthly budget (null = unlimited)
+        current_month_usage_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Current Month Usage Usd
+          description: Current month's usage
+        budget_utilization_percent:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Utilization Percent
+          description: Percentage of budget used (null if no budget)
+        is_over_budget:
+          type: boolean
+          title: Is Over Budget
+          description: Whether current usage exceeds budget
+          default: false
+      type: object
+      title: EnterpriseBudgetResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TransactionResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Transaction'
+            type: array
+          - $ref: '#/components/schemas/Transaction'
+          - type: 'null'
+          title: Data
+      type: object
+      title: TransactionResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    WebhookResponse:
+      properties:
+        received:
+          type: boolean
+          title: Received
+          default: true
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+      type: object
+      title: WebhookResponse
+    InvoicePaymentResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Stripe Checkout URL
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Stripe session ID
+        amount_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Amount Usd
+          description: Amount to pay
+      type: object
+      title: InvoicePaymentResponse
+    MoneyUploadResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/Transaction'
+          - type: 'null'
+        new_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: New Balance
+      type: object
+      title: MoneyUploadResponse
+    MoneyUploadRequest:
+      properties:
+        amount_usd:
+          type: number
+          maximum: 10000.0
+          exclusiveMinimum: 0.0
+          title: Amount Usd
+          description: Amount to upload in USD (max $10,000)
+        payment_method_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method Id
+          description: Stripe payment method ID
+        target_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target User Id
+          description: User ID to credit (admin only). Defaults to admin's own account if omitted.
+        idempotency_key:
+          anyOf:
+          - type: string
+            maxLength: 128
+          - type: 'null'
+          title: Idempotency Key
+          description: Caller-supplied idempotency key to prevent double-credits on retry
+      type: object
+      required:
+      - amount_usd
+      title: MoneyUploadRequest
+    PaymentReceiptsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          items:
+            $ref: '#/components/schemas/PaymentReceipt'
+          type: array
+          title: Data
+          default: []
+      type: object
+      title: PaymentReceiptsResponse
+    TierInfo:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: 'Tier identifier: tier1, tier2, tier3, tier4, tier5'
+        display_name:
+          type: string
+          title: Display Name
+          description: Human-readable tier name
+        min_monthly_tokens:
+          type: integer
+          title: Min Monthly Tokens
+          description: Minimum monthly compressed tokens to reach this tier
+        max_api_keys:
+          type: integer
+          title: Max Api Keys
+          description: Maximum API keys allowed
+        rate_limits:
+          $ref: '#/components/schemas/TierRateLimits'
+      type: object
+      required:
+      - name
+      - display_name
+      - min_monthly_tokens
+      - max_api_keys
+      - rate_limits
+      title: TierInfo
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

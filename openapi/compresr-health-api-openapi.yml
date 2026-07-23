@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Health API
+  version: 1.0.0
+tags:
+- name: Health
+paths:
+  /health:
+    get:
+      summary: Health
+      description: 'Health check endpoint for ALB.
+
+
+        CRITICAL: Must respond within 5 seconds (ALB timeout).
+
+        Redis checks are optional - failure should not fail the health check.'
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Health
+  /health/deep:
+    get:
+      summary: Deep Health
+      description: "Deep health check with dependency status.\n\nUse for monitoring dashboards and debugging.\nNOT for ALB health checks (too slow).\n\nQuery params:\n    include_stripe: Include Stripe API check\n    include_compression: Include compression service check"
+      operationId: deep_health_health_deep_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: include_stripe
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Stripe
+      - name: include_compression
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Compression
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Health
+  /health/circuits:
+    get:
+      summary: Circuit Status
+      description: 'Circuit breaker status for all services.
+
+
+        Use for monitoring circuit breaker states and detecting
+
+        failing downstream services.
+
+
+        Security: Requires support/admin role to prevent information disclosure.'
+      operationId: circuit_status_health_circuits_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+      tags:
+      - Health
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

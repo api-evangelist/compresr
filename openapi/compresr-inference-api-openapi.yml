@@ -1,0 +1,101 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Inference API
+  version: 1.0.0
+tags:
+- name: Inference
+paths:
+  /api/tokens/count:
+    post:
+      tags:
+      - Inference
+      summary: Count Tokens Endpoint
+      description: Count tokens in text for cost estimation.
+      operationId: count_tokens_endpoint_api_tokens_count_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenCountRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenCountResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    TokenCountRequest:
+      properties:
+        prompt:
+          type: string
+          maxLength: 100000
+          minLength: 1
+          title: Prompt
+          description: Text to count
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Model for tokenizer
+      type: object
+      required:
+      - prompt
+      title: TokenCountRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TokenCountResponse:
+      properties:
+        tokens:
+          type: integer
+          title: Tokens
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+      type: object
+      required:
+      - tokens
+      title: TokenCountResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

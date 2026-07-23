@@ -1,0 +1,327 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Admin - Whitelist API
+  version: 1.0.0
+tags:
+- name: Admin - Whitelist
+paths:
+  /api/admin/whitelist:
+    get:
+      tags:
+      - Admin - Whitelist
+      summary: List Whitelist
+      description: Return every whitelist rule, newest first, with per-rule detected-user counts.
+      operationId: list_whitelist_api_admin_whitelist_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhitelistListResponse'
+      security:
+      - HTTPBearer: []
+    post:
+      tags:
+      - Admin - Whitelist
+      summary: Add Whitelist
+      description: Add a whitelist rule. 409-equivalent if the pattern already exists.
+      operationId: add_whitelist_api_admin_whitelist_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WhitelistCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhitelistEntry'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /api/admin/whitelist/{rule_id}/matches:
+    get:
+      tags:
+      - Admin - Whitelist
+      summary: Whitelist Matches
+      description: 'Return the users currently matched by a specific whitelist rule.
+
+
+        Data source is the cached Supabase auth email map + platform user_profiles
+
+        for full names, so the query is cheap even with many rules on the page.'
+      operationId: whitelist_matches_api_admin_whitelist__rule_id__matches_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Rule Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhitelistMatchesResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/whitelist/{rule_id}:
+    delete:
+      tags:
+      - Admin - Whitelist
+      summary: Delete Whitelist
+      description: Remove a whitelist rule by id.
+      operationId: delete_whitelist_api_admin_whitelist__rule_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Rule Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Delete Whitelist Api Admin Whitelist  Rule Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/whitelist/preview:
+    post:
+      tags:
+      - Admin - Whitelist
+      summary: Preview Match
+      description: 'Test an email against the current ruleset without side effects.
+
+
+        Useful for admins verifying a rule before onboarding a customer.'
+      operationId: preview_match_api_admin_whitelist_preview_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WhitelistMatchPreviewRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhitelistMatchPreviewResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    WhitelistMatchedUser:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        email:
+          type: string
+          title: Email
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+      type: object
+      required:
+      - user_id
+      - email
+      title: WhitelistMatchedUser
+    WhitelistEntry:
+      properties:
+        id:
+          type: string
+          title: Id
+        pattern:
+          type: string
+          title: Pattern
+          description: '"user@company.com" or "@company.com"'
+        credit_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Credit Limit Usd
+        created_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+        created_at:
+          type: string
+          title: Created At
+        detected_user_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Detected User Count
+      type: object
+      required:
+      - id
+      - pattern
+      - created_at
+      title: WhitelistEntry
+    WhitelistCreateRequest:
+      properties:
+        pattern:
+          type: string
+          maxLength: 254
+          minLength: 3
+          title: Pattern
+        credit_limit_usd:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Credit Limit Usd
+        notes:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Notes
+      type: object
+      required:
+      - pattern
+      title: WhitelistCreateRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    WhitelistMatchPreviewResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        match:
+          anyOf:
+          - $ref: '#/components/schemas/WhitelistEntry'
+          - type: 'null'
+      type: object
+      title: WhitelistMatchPreviewResponse
+    WhitelistListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        entries:
+          items:
+            $ref: '#/components/schemas/WhitelistEntry'
+          type: array
+          title: Entries
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: WhitelistListResponse
+    WhitelistMatchesResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        rule_id:
+          type: string
+          title: Rule Id
+        pattern:
+          type: string
+          title: Pattern
+        matches:
+          items:
+            $ref: '#/components/schemas/WhitelistMatchedUser'
+          type: array
+          title: Matches
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      required:
+      - rule_id
+      - pattern
+      title: WhitelistMatchesResponse
+    WhitelistMatchPreviewRequest:
+      properties:
+        email:
+          type: string
+          maxLength: 254
+          minLength: 3
+          title: Email
+      type: object
+      required:
+      - email
+      title: WhitelistMatchPreviewRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

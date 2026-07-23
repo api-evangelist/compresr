@@ -1,0 +1,2946 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin API
+  version: 1.0.0
+tags:
+- name: Admin
+paths:
+  /api/admin/users:
+    get:
+      tags:
+      - Admin
+      summary: Get Users
+      description: 'Get all users with filtering and sorting.
+
+
+        Uses UserListRequest schema for query parameters.
+
+        Set skip_emails=true (default) for faster response in list views.'
+      operationId: get_users_api_admin_users_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 100
+            pattern: ^[a-zA-Z0-9\s\-@._]+$
+          - type: 'null'
+          title: Search
+      - name: tier
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+      - name: plan
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Plan
+      - name: has_enterprise_key
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Has Enterprise Key
+      - name: balance_min
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Balance Min
+      - name: balance_max
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Balance Max
+      - name: date_from
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Date From
+      - name: date_to
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Date To
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          enum:
+          - created_at
+          - full_name
+          - company_name
+          - last_login
+          - last_request_at
+          - total_used_money
+          - total_uploaded_money
+          - lifetime_charges
+          - current_remaining_credits
+          - total_api_calls
+          - tier
+          - plan
+          - prepaid_added
+          - prepaid_balance
+          - prepaid_spent
+          - postpaid_paid
+          - postpaid_unpaid
+          - postpaid_current_month
+          - total_requests
+          - total_tokens
+          type: string
+          default: created_at
+          title: Sort By
+      - name: sort_order
+        in: query
+        required: false
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+          default: desc
+          title: Sort Order
+      - name: skip_emails
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Skip Emails
+      - name: include_admins
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Admins
+      - name: include_pilots
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Pilots
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/users/sync:
+    post:
+      tags:
+      - Admin
+      summary: Sync Users
+      description: 'Force sync users data from database.
+
+
+        Clears all backend caches (email cache), flushes Redis usage stream to DB,
+
+        and fetches fresh user data.
+
+        Use this when you need to see the latest data that may be stale due to caching.'
+      operationId: sync_users_api_admin_users_sync_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+  /api/admin/users/by-email/{email}:
+    get:
+      tags:
+      - Admin
+      summary: Get User By Email
+      description: Get user details by email address.
+      operationId: get_user_by_email_api_admin_users_by_email__email__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 254
+          pattern: ^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$
+          title: Email
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/users/{user_id}:
+    get:
+      tags:
+      - Admin
+      summary: Get User Details
+      description: Get detailed user information.
+      operationId: get_user_details_api_admin_users__user_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Admin
+      summary: Delete User
+      description: 'Delete a user account with data retention.
+
+
+        For enterprise accounts with unpaid invoices, returns 409 with billing details.
+
+        A final invoice is auto-generated for unbilled current-month usage.
+
+        Deletion proceeds only after all invoices are paid.'
+      operationId: delete_user_api_admin_users__user_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+          title: User Id
+      - name: reason
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 500
+          title: Reason
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Admin
+      summary: Update User
+      description: Update user profile information.
+      operationId: update_user_api_admin_users__user_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+          title: User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/users/{user_id}/analytics:
+    get:
+      tags:
+      - Admin
+      summary: Get User Analytics
+      description: 'Get comprehensive analytics for a specific user.
+
+
+        Includes:
+
+        - Profile information
+
+        - Financial summary (spending, credits, budget)
+
+        - API usage statistics (calls, tokens, compression)
+
+        - API keys list
+
+        - Usage breakdown by model and request type'
+      operationId: get_user_analytics_api_admin_users__user_id__analytics_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAnalyticsResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/audit:
+    get:
+      tags:
+      - Admin
+      summary: Get Audit Logs
+      description: 'Get audit logs.
+
+
+        Uses AuditLogsRequest schema for query parameters.'
+      operationId: get_audit_logs_api_admin_audit_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: action
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Action
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLogsResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/stats:
+    get:
+      tags:
+      - Admin
+      summary: Get Admin Stats
+      description: 'Get platform statistics for admin dashboard.
+
+
+        - **period**: Time period (last_day, last_week, last_month, last_90_days, last_year, custom)
+
+        - **start_date**: Start date for custom period (YYYY-MM-DD)
+
+        - **end_date**: End date for custom period (YYYY-MM-DD)
+
+        - **api_key_types**: Filter by API key types (comma-separated: demo, completion, compress)
+
+        - **compression_models**: Filter by compression models (comma-separated)
+
+        - **tiers**: Filter by customer tiers (comma-separated: tier1, tier2, tier3, tier4, tier5)'
+      operationId: get_admin_stats_api_admin_stats_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: period
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, custom'
+          default: last_day
+          title: Period
+        description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, custom'
+      - name: start_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            pattern: ^\d{4}-\d{2}-\d{2}$
+          - type: 'null'
+          description: 'Start date for custom period (ISO format: YYYY-MM-DD)'
+          title: Start Date
+        description: 'Start date for custom period (ISO format: YYYY-MM-DD)'
+      - name: end_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            pattern: ^\d{4}-\d{2}-\d{2}$
+          - type: 'null'
+          description: 'End date for custom period (ISO format: YYYY-MM-DD)'
+          title: End Date
+        description: 'End date for custom period (ISO format: YYYY-MM-DD)'
+      - name: api_key_types
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Filter by API key types (comma-separated): demo, completion, compress, or None for all'
+          title: Api Key Types
+        description: 'Filter by API key types (comma-separated): demo, completion, compress, or None for all'
+      - name: compression_models
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by compression models (comma-separated, e.g., americano, latte) or None for all
+          title: Compression Models
+        description: Filter by compression models (comma-separated, e.g., americano, latte) or None for all
+      - name: tiers
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by customer tiers (comma-separated, e.g., tier1, tier2, tier3) or None for all
+          title: Tiers
+        description: Filter by customer tiers (comma-separated, e.g., tier1, tier2, tier3) or None for all
+      - name: skip_cache
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: 'Invalidate cache and fetch fresh from DB. (Legacy alias: refresh)'
+          default: false
+          title: Skip Cache
+        description: 'Invalidate cache and fetch fresh from DB. (Legacy alias: refresh)'
+      - name: refresh
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: DEPRECATED — use skip_cache. Kept for backward compatibility.
+          default: false
+          title: Refresh
+        description: DEPRECATED — use skip_cache. Kept for backward compatibility.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStatsResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/active-users:
+    get:
+      tags:
+      - Admin
+      summary: Get Daily Active Users
+      description: 'Get the list of users who were active on a specific date.
+
+
+        Returns user names, emails, and request counts for the given day.'
+      operationId: get_daily_active_users_api_admin_active_users_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: date
+        in: query
+        required: true
+        schema:
+          type: string
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          description: Date to get active users for (YYYY-MM-DD)
+          title: Date
+        description: Date to get active users for (YYYY-MM-DD)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyActiveUsersResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/active-users-count:
+    get:
+      tags:
+      - Admin
+      summary: Get Active Users Count
+      description: 'Distinct active users over the selected period (deduplicated across days).
+
+
+        Lightweight companion to /admin/stats for the Daily Active Users card, whose
+
+        headline must show true distinct users in the period rather than a sum of
+
+        per-day counts (which double-counts users active on multiple days).'
+      operationId: get_active_users_count_api_admin_active_users_count_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: period
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, custom'
+          default: last_month
+          title: Period
+        description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, custom'
+      - name: start_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            pattern: ^\d{4}-\d{2}-\d{2}$
+          - type: 'null'
+          description: 'Start date for custom period (ISO format: YYYY-MM-DD)'
+          title: Start Date
+        description: 'Start date for custom period (ISO format: YYYY-MM-DD)'
+      - name: end_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            pattern: ^\d{4}-\d{2}-\d{2}$
+          - type: 'null'
+          description: 'End date for custom period (ISO format: YYYY-MM-DD)'
+          title: End Date
+        description: 'End date for custom period (ISO format: YYYY-MM-DD)'
+      - name: tiers
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by customer tiers (comma-separated, e.g., tier1, tier2, tier3) or None for all
+          title: Tiers
+        description: Filter by customer tiers (comma-separated, e.g., tier1, tier2, tier3) or None for all
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Active Users Count Api Admin Active Users Count Get
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/newsletter/subscribers:
+    get:
+      tags:
+      - Admin
+      summary: Get Newsletter Subscribers
+      description: 'Get all newsletter subscribers (admin only).
+
+
+        - **status**: Filter by subscription status (active/unsubscribed)'
+      operationId: get_newsletter_subscribers_api_admin_newsletter_subscribers_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Filter by status: active, unsubscribed'
+          title: Status
+        description: 'Filter by status: active, unsubscribed'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsletterListResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/newsletter/subscribers/{subscriber_id}:
+    delete:
+      tags:
+      - Admin
+      summary: Delete Newsletter Subscriber
+      description: Delete a newsletter subscriber permanently.
+      operationId: delete_newsletter_subscriber_api_admin_newsletter_subscribers__subscriber_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: subscriber_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+          title: Subscriber Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/downloads/stats:
+    get:
+      tags:
+      - Admin
+      summary: Get Download Stats
+      description: 'Get product download statistics for admin dashboard.
+
+
+        Tracks downloads of all Compresr products:
+
+        - **gateway**: Context-Gateway CLI installs
+
+        - **sdk_pypi**: Python SDK downloads (PyPI)
+
+        - **extension_vscode**: VS Code extension installs
+
+
+        Filters:
+
+        - **period**: Time period (last_day, last_week, etc.)
+
+        - **source**: Filter by specific product source'
+      operationId: get_download_stats_api_admin_downloads_stats_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: period
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, custom'
+          default: last_week
+          title: Period
+        description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, custom'
+      - name: start_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Start date for custom period (ISO format: YYYY-MM-DD)'
+          title: Start Date
+        description: 'Start date for custom period (ISO format: YYYY-MM-DD)'
+      - name: end_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'End date for custom period (ISO format: YYYY-MM-DD)'
+          title: End Date
+        description: 'End date for custom period (ISO format: YYYY-MM-DD)'
+      - name: source
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Filter by source: gateway, sdk_pypi, extension_vscode (or None for all)'
+          title: Source
+        description: 'Filter by source: gateway, sdk_pypi, extension_vscode (or None for all)'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DownloadStatsResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/enterprise/billing:
+    get:
+      tags:
+      - Admin
+      summary: Get Enterprise Billing
+      description: 'Get enterprise billing dashboard data.
+
+
+        Returns all enterprise keys with their billing details:
+
+        - Summary cards: total paid, unpaid, current month usage
+
+        - List of enterprise keys with invoices
+
+
+        Admin/pilot accounts are excluded by default (same rule as the admin users
+
+        list); flip include_admins / include_pilots to bring them back in.'
+      operationId: get_enterprise_billing_api_admin_enterprise_billing_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: include_admins
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include internal/admin-owned enterprise keys
+          default: false
+          title: Include Admins
+        description: Include internal/admin-owned enterprise keys
+      - name: include_pilots
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include pilot accounts (e.g. Thomson Reuters, Character)
+          default: false
+          title: Include Pilots
+        description: Include pilot accounts (e.g. Thomson Reuters, Character)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnterpriseBillingResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/enterprise/pending:
+    get:
+      tags:
+      - Admin
+      summary: List Pending Enterprise Keys
+      description: 'List all pending enterprise keys awaiting admin approval.
+
+
+        Returns enterprise keys with status=''pending'' that need admin review.
+
+        Includes user info, company name, request message, and expected usage.'
+      operationId: list_pending_enterprise_keys_api_admin_enterprise_pending_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingEnterpriseKeysResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+  /api/admin/enterprise/{key_id}/approve:
+    put:
+      tags:
+      - Admin
+      summary: Approve Enterprise Key
+      description: 'Approve a pending enterprise key (Admin only).
+
+
+        Once approved:
+
+        - Key status changes to ''active''
+
+        - User can start using the key with postpaid billing
+
+        - Credit limit is set (default or custom)
+
+
+        Optionally override the credit limit.'
+      operationId: approve_enterprise_key_api_admin_enterprise__key_id__approve_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: key_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+          title: Key Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnterpriseKeyApprovalRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnterpriseKeyApprovalResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/enterprise/{key_id}/decline:
+    put:
+      tags:
+      - Admin
+      summary: Decline Enterprise Key
+      description: 'Decline a pending enterprise key (Admin only).
+
+
+        Once declined:
+
+        - Key status changes to ''declined''
+
+        - User is notified with the decline reason
+
+        - Key cannot be used
+
+
+        Provide a decline_reason to explain why.'
+      operationId: decline_enterprise_key_api_admin_enterprise__key_id__decline_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: key_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+          title: Key Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnterpriseKeyApprovalRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnterpriseKeyApprovalResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/settings/excluded-patterns:
+    get:
+      tags:
+      - Admin
+      summary: Get Excluded Patterns
+      description: 'Get all excluded email patterns grouped by source.
+
+
+        Returns patterns from:
+
+        - **patterns**: Editable patterns stored in DB (managed here)
+
+        - **hardcoded**: Built-in patterns (e.g. "compresr.ai") -- cannot be removed
+
+        - **env_patterns**: Patterns from STATS_EXCLUDED_EMAIL_PATTERNS env var -- read-only'
+      operationId: get_excluded_patterns_api_admin_settings_excluded_patterns_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExcludedPatternsResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+    post:
+      tags:
+      - Admin
+      summary: Add Excluded Pattern
+      description: 'Add a new excluded email pattern (Admin only).
+
+
+        Patterns are matched as substrings against user emails and names.
+
+        Examples: "@test.com", "staging", "internal".'
+      operationId: add_excluded_pattern_api_admin_settings_excluded_patterns_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddExcludedPatternRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+    delete:
+      tags:
+      - Admin
+      summary: Remove Excluded Pattern
+      description: 'Remove an excluded email pattern (Admin only).
+
+
+        Cannot remove built-in patterns like "compresr.ai".'
+      operationId: remove_excluded_pattern_api_admin_settings_excluded_patterns_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveExcludedPatternRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /api/admin/settings/pilot-patterns:
+    get:
+      tags:
+      - Admin
+      summary: Get Pilot Patterns
+      description: Get pilot-account patterns (revenue excluded, usage kept), grouped by source.
+      operationId: get_pilot_patterns_api_admin_settings_pilot_patterns_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExcludedPatternsResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+    post:
+      tags:
+      - Admin
+      summary: Add Pilot Pattern
+      description: Add a pilot-account pattern (Admin only). Matches emails/names as substrings.
+      operationId: add_pilot_pattern_api_admin_settings_pilot_patterns_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddExcludedPatternRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+    delete:
+      tags:
+      - Admin
+      summary: Remove Pilot Pattern
+      description: Remove a pilot-account pattern (Admin only). Cannot remove built-in pilots.
+      operationId: remove_pilot_pattern_api_admin_settings_pilot_patterns_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveExcludedPatternRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    UserAPIKeyInfo:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        scope:
+          $ref: '#/components/schemas/APIKeyScope'
+        status:
+          $ref: '#/components/schemas/APIKeyStatus'
+        key_preview:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key Preview
+        total_requests:
+          type: integer
+          title: Total Requests
+          default: 0
+        last_used_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Used At
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        daily_limit:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Daily Limit
+        daily_requests_remaining:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Daily Requests Remaining
+        budget_limit:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Limit
+        budget_used_this_month:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Used This Month
+      type: object
+      required:
+      - id
+      - name
+      - scope
+      - status
+      title: UserAPIKeyInfo
+    EnterpriseBillingSummary:
+      properties:
+        total_paid:
+          type: number
+          title: Total Paid
+          description: Total paid invoices (all enterprise keys)
+          default: 0.0
+        total_unpaid:
+          type: number
+          title: Total Unpaid
+          description: Total unpaid invoices
+          default: 0.0
+        total_current_month:
+          type: number
+          title: Total Current Month
+          description: Current month usage (not yet invoiced)
+          default: 0.0
+        paid_invoice_count:
+          type: integer
+          title: Paid Invoice Count
+          description: Number of paid invoices
+          default: 0
+        unpaid_invoice_count:
+          type: integer
+          title: Unpaid Invoice Count
+          description: Number of unpaid invoices
+          default: 0
+        active_enterprise_keys:
+          type: integer
+          title: Active Enterprise Keys
+          description: Number of active enterprise keys
+          default: 0
+      type: object
+      title: EnterpriseBillingSummary
+    DownloadStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        period:
+          type: string
+          title: Period
+          description: Time period (last_hour, last_day, etc.)
+        period_start:
+          type: string
+          title: Period Start
+          description: Start of period (ISO)
+        period_end:
+          type: string
+          title: Period End
+          description: End of period (ISO)
+        total_downloads:
+          type: integer
+          title: Total Downloads
+          description: Total downloads in period
+          default: 0
+        time_series:
+          items:
+            $ref: '#/components/schemas/DownloadTimeSeriesPoint'
+          type: array
+          title: Time Series
+          description: Time series data for charting
+        by_source:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Source
+          description: 'Downloads by source in period: gateway, sdk_pypi, extension_vscode'
+        by_source_total:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Source Total
+          description: All-time downloads by source for display cards
+        by_os:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Os
+          description: Downloads by OS
+        by_country:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Country
+          description: Downloads by country
+      type: object
+      required:
+      - period
+      - period_start
+      - period_end
+      title: DownloadStatsResponse
+    EnterpriseKeyApprovalRequest:
+      properties:
+        action:
+          type: string
+          enum:
+          - approve
+          - decline
+          title: Action
+          description: 'Action: ''approve'' or ''decline'''
+        credit_limit_usd:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Credit Limit Usd
+          description: Override credit limit for this key (only for approve action)
+        decline_reason:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Decline Reason
+          description: Reason for declining (only for decline action)
+      type: object
+      required:
+      - action
+      title: EnterpriseKeyApprovalRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AccountType:
+      type: string
+      enum:
+      - user
+      - enterprise
+      title: AccountType
+      description: 'Account type: determines billing mode and allowed API key scopes.
+
+
+        - USER: Prepaid wallet billing, can create user-scope keys
+
+        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
+    AdminStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        total_users:
+          type: integer
+          title: Total Users
+          default: 0
+        total_admin_users:
+          type: integer
+          title: Total Admin Users
+          default: 0
+        active_users:
+          type: integer
+          title: Active Users
+          default: 0
+        active_users_previous_period:
+          type: integer
+          title: Active Users Previous Period
+          default: 0
+        new_signups:
+          type: integer
+          title: New Signups
+          default: 0
+        paying_users:
+          type: integer
+          title: Paying Users
+          default: 0
+        churned_users:
+          type: integer
+          title: Churned Users
+          default: 0
+        users_by_tier:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Users By Tier
+        credit_spent:
+          type: number
+          title: Credit Spent
+          default: 0.0
+        credit_spent_in_period:
+          type: number
+          title: Credit Spent In Period
+          default: 0.0
+        admin_credit_spent:
+          type: number
+          title: Admin Credit Spent
+          default: 0.0
+        admin_credit_spent_in_period:
+          type: number
+          title: Admin Credit Spent In Period
+          default: 0.0
+        user_savings_usd:
+          type: number
+          title: User Savings Usd
+          default: 0.0
+        admin_savings_usd:
+          type: number
+          title: Admin Savings Usd
+          default: 0.0
+        revenue:
+          type: number
+          title: Revenue
+          default: 0.0
+        revenue_in_period:
+          type: number
+          title: Revenue In Period
+          default: 0.0
+        revenue_previous_period:
+          type: number
+          title: Revenue Previous Period
+          default: 0.0
+        enterprise_revenue:
+          type: number
+          title: Enterprise Revenue
+          default: 0.0
+        enterprise_revenue_in_period:
+          type: number
+          title: Enterprise Revenue In Period
+          default: 0.0
+        total_requests:
+          type: integer
+          title: Total Requests
+          default: 0
+        user_requests:
+          type: integer
+          title: User Requests
+          default: 0
+        admin_requests:
+          type: integer
+          title: Admin Requests
+          default: 0
+        anonymous_demo_requests:
+          type: integer
+          title: Anonymous Demo Requests
+          default: 0
+        requests_per_minute:
+          type: number
+          title: Requests Per Minute
+          default: 0.0
+        total_tokens:
+          type: integer
+          title: Total Tokens
+          default: 0
+        user_tokens:
+          type: integer
+          title: User Tokens
+          default: 0
+        admin_tokens:
+          type: integer
+          title: Admin Tokens
+          default: 0
+        user_tokens_saved:
+          type: integer
+          title: User Tokens Saved
+          default: 0
+        admin_tokens_saved:
+          type: integer
+          title: Admin Tokens Saved
+          default: 0
+        newsletter_total:
+          type: integer
+          title: Newsletter Total
+          default: 0
+        newsletter_active:
+          type: integer
+          title: Newsletter Active
+          default: 0
+        newsletter_unsubscribed:
+          type: integer
+          title: Newsletter Unsubscribed
+          default: 0
+        features_total:
+          type: integer
+          title: Features Total
+          default: 0
+        features_pending:
+          type: integer
+          title: Features Pending
+          default: 0
+        features_approved:
+          type: integer
+          title: Features Approved
+          default: 0
+        gateway_unique_users:
+          type: integer
+          title: Gateway Unique Users
+          default: 0
+        gateway_total_requests:
+          type: integer
+          title: Gateway Total Requests
+          default: 0
+        gateway_requests_in_period:
+          type: integer
+          title: Gateway Requests In Period
+          default: 0
+        downloads_total:
+          type: integer
+          title: Downloads Total
+          default: 0
+        downloads_in_period:
+          type: integer
+          title: Downloads In Period
+          default: 0
+        downloads_gateway:
+          type: integer
+          title: Downloads Gateway
+          default: 0
+        daily_active_users:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Daily Active Users
+          description: 'Daily active users: [{timestamp, count}]'
+        time_series:
+          items:
+            $ref: '#/components/schemas/AdminTimeSeriesDataPoint'
+          type: array
+          title: Time Series
+        usage_breakdown:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Usage Breakdown
+          description: 'Daily usage by category: [{timestamp, {user,admin,pilot}_{requests,tokens,usd}}]'
+        revenue_breakdown:
+          anyOf:
+          - $ref: '#/components/schemas/RevenueBreakdown'
+          - type: 'null'
+        model_stats:
+          items:
+            $ref: '#/components/schemas/ModelStats'
+          type: array
+          title: Model Stats
+        period:
+          type: string
+          title: Period
+          default: last_day
+        period_start:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Period Start
+        period_end:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Period End
+      type: object
+      title: AdminStatsResponse
+    RevenueBreakdown:
+      properties:
+        prepaid_total:
+          type: number
+          title: Prepaid Total
+          default: 0.0
+        prepaid_in_period:
+          type: number
+          title: Prepaid In Period
+          default: 0.0
+        enterprise_invoiced_total:
+          type: number
+          title: Enterprise Invoiced Total
+          default: 0.0
+        enterprise_invoiced_in_period:
+          type: number
+          title: Enterprise Invoiced In Period
+          default: 0.0
+        enterprise_paid_total:
+          type: number
+          title: Enterprise Paid Total
+          default: 0.0
+        enterprise_paid_in_period:
+          type: number
+          title: Enterprise Paid In Period
+          default: 0.0
+        enterprise_pending_total:
+          type: number
+          title: Enterprise Pending Total
+          default: 0.0
+        enterprise_pending_in_period:
+          type: number
+          title: Enterprise Pending In Period
+          default: 0.0
+        enterprise_unbilled:
+          type: number
+          title: Enterprise Unbilled
+          default: 0.0
+        prepaid_mtd:
+          type: number
+          title: Prepaid Mtd
+          default: 0.0
+        enterprise_mtd:
+          type: number
+          title: Enterprise Mtd
+          default: 0.0
+        total_mtd:
+          type: number
+          title: Total Mtd
+          default: 0.0
+        prepaid_time_series:
+          items:
+            $ref: '#/components/schemas/RevenueDataPoint'
+          type: array
+          title: Prepaid Time Series
+        enterprise_time_series:
+          items:
+            $ref: '#/components/schemas/RevenueDataPoint'
+          type: array
+          title: Enterprise Time Series
+        enterprise_daily_time_series:
+          items:
+            $ref: '#/components/schemas/RevenueDataPoint'
+          type: array
+          title: Enterprise Daily Time Series
+        unbilled_time_series:
+          items:
+            $ref: '#/components/schemas/RevenueDataPoint'
+          type: array
+          title: Unbilled Time Series
+        mrr_trend:
+          items:
+            $ref: '#/components/schemas/MRRDataPoint'
+          type: array
+          title: Mrr Trend
+      type: object
+      title: RevenueBreakdown
+    UserBasic:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        role:
+          type: string
+          enum:
+          - user
+          - admin
+          - support
+          title: Role
+          default: user
+        tier:
+          $ref: '#/components/schemas/TierName'
+          default: tier1
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+          default: user
+        prepaid_added:
+          type: number
+          title: Prepaid Added
+          default: 0.0
+        prepaid_balance:
+          type: number
+          title: Prepaid Balance
+          default: 0.0
+        prepaid_spent:
+          type: number
+          title: Prepaid Spent
+          default: 0.0
+        postpaid_paid:
+          type: number
+          title: Postpaid Paid
+          default: 0.0
+        postpaid_unpaid:
+          type: number
+          title: Postpaid Unpaid
+          default: 0.0
+        postpaid_current_month:
+          type: number
+          title: Postpaid Current Month
+          default: 0.0
+        total_requests:
+          type: integer
+          title: Total Requests
+          default: 0
+        total_tokens:
+          type: integer
+          title: Total Tokens
+          default: 0
+        requests_rejected_30d:
+          type: integer
+          title: Requests Rejected 30D
+          default: 0
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        last_login:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Login
+        last_request_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Request At
+      type: object
+      required:
+      - user_id
+      title: UserBasic
+    EnterpriseKeyApprovalResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+          description: Result message
+        key_id:
+          type: string
+          title: Key Id
+          description: The key ID that was processed
+        new_status:
+          type: string
+          enum:
+          - active
+          - declined
+          title: New Status
+          description: 'New status: ''active'' or ''declined'''
+      type: object
+      required:
+      - message
+      - key_id
+      - new_status
+      title: EnterpriseKeyApprovalResponse
+    AddExcludedPatternRequest:
+      properties:
+        pattern:
+          type: string
+          maxLength: 254
+          minLength: 1
+          title: Pattern
+          description: Pattern to exclude
+      type: object
+      required:
+      - pattern
+      title: AddExcludedPatternRequest
+    PendingEnterpriseKey:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: API key ID
+        user_id:
+          type: string
+          title: User Id
+          description: User ID who requested the key
+        user_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Email
+          description: User's email
+        name:
+          type: string
+          title: Name
+          description: Key display name
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+          description: Company name
+        request_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Message
+          description: Reason for requesting enterprise access
+        expected_monthly_usage:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Expected Monthly Usage
+          description: Expected monthly usage in USD
+        credit_limit_usd:
+          type: number
+          title: Credit Limit Usd
+          description: Credit limit for this key
+          default: 10000.0
+        created_at:
+          type: string
+          title: Created At
+          description: Request creation timestamp
+      type: object
+      required:
+      - id
+      - user_id
+      - name
+      - created_at
+      title: PendingEnterpriseKey
+    ModelStats:
+      properties:
+        model:
+          type: string
+          title: Model
+        requests:
+          type: integer
+          title: Requests
+          default: 0
+        tokens:
+          type: integer
+          title: Tokens
+          default: 0
+        cost_usd:
+          type: number
+          title: Cost Usd
+          default: 0.0
+      type: object
+      required:
+      - model
+      title: ModelStats
+    UserAnalyticsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        user_id:
+          type: string
+          title: User Id
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        tier:
+          $ref: '#/components/schemas/TierName'
+          default: tier1
+        role:
+          type: string
+          enum:
+          - user
+          - admin
+          - support
+          title: Role
+          default: user
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+          default: user
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        last_login:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Login
+        prepaid_added:
+          type: number
+          title: Prepaid Added
+          default: 0.0
+        prepaid_spent:
+          type: number
+          title: Prepaid Spent
+          default: 0.0
+        prepaid_balance:
+          type: number
+          title: Prepaid Balance
+          default: 0.0
+        monthly_budget:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Monthly Budget
+        spend_this_month:
+          type: number
+          title: Spend This Month
+          default: 0.0
+        postpaid_paid:
+          type: number
+          title: Postpaid Paid
+          default: 0.0
+        postpaid_unpaid:
+          type: number
+          title: Postpaid Unpaid
+          default: 0.0
+        postpaid_current_month:
+          type: number
+          title: Postpaid Current Month
+          default: 0.0
+        total_requests:
+          type: integer
+          title: Total Requests
+          default: 0
+        api_calls_this_month:
+          type: integer
+          title: Api Calls This Month
+          default: 0
+        total_input_tokens:
+          type: integer
+          title: Total Input Tokens
+          default: 0
+        total_output_tokens:
+          type: integer
+          title: Total Output Tokens
+          default: 0
+        total_tokens_saved:
+          type: integer
+          title: Total Tokens Saved
+          default: 0
+        avg_compression_ratio:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Compression Ratio
+        avg_latency_ms:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Latency Ms
+        median_latency_ms:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Median Latency Ms
+        api_keys:
+          items:
+            $ref: '#/components/schemas/UserAPIKeyInfo'
+          type: array
+          title: Api Keys
+          default: []
+        active_api_keys:
+          type: integer
+          title: Active Api Keys
+          default: 0
+        usage_by_model:
+          items:
+            $ref: '#/components/schemas/UsageBreakdown'
+          type: array
+          title: Usage By Model
+          default: []
+        usage_by_type:
+          items:
+            $ref: '#/components/schemas/UsageBreakdown'
+          type: array
+          title: Usage By Type
+          default: []
+        usage_by_source:
+          items:
+            $ref: '#/components/schemas/UsageBreakdown'
+          type: array
+          title: Usage By Source
+          default: []
+        last_request_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Request At
+        outcomes_30d:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Outcomes 30D
+          default: {}
+        requests_succeeded_30d:
+          type: integer
+          title: Requests Succeeded 30D
+          default: 0
+        requests_skipped_30d:
+          type: integer
+          title: Requests Skipped 30D
+          default: 0
+        requests_rejected_30d:
+          type: integer
+          title: Requests Rejected 30D
+          default: 0
+        requests_errored_30d:
+          type: integer
+          title: Requests Errored 30D
+          default: 0
+      type: object
+      required:
+      - user_id
+      title: UserAnalyticsResponse
+    EnterpriseBillingResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        summary:
+          $ref: '#/components/schemas/EnterpriseBillingSummary'
+        keys:
+          items:
+            $ref: '#/components/schemas/EnterpriseKeyBilling'
+          type: array
+          title: Keys
+        total:
+          type: integer
+          title: Total
+          description: Total enterprise keys
+          default: 0
+      type: object
+      title: EnterpriseBillingResponse
+    EnterpriseInvoice:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Invoice record ID
+        api_key_id:
+          type: string
+          title: Api Key Id
+          description: API key ID
+        billing_month:
+          type: string
+          title: Billing Month
+          description: Billing month (YYYY-MM)
+        usage_usd:
+          type: number
+          title: Usage Usd
+          description: Usage amount for the month
+          default: 0.0
+        total_requests:
+          type: integer
+          title: Total Requests
+          description: Total requests in the month
+          default: 0
+        invoice_paid:
+          type: boolean
+          title: Invoice Paid
+          description: Whether invoice is paid
+          default: false
+        invoice_generated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Invoice Generated At
+          description: When invoice was generated
+        paid_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paid At
+          description: When invoice was paid
+      type: object
+      required:
+      - id
+      - api_key_id
+      - billing_month
+      title: EnterpriseInvoice
+    PendingEnterpriseKeysResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          items:
+            $ref: '#/components/schemas/PendingEnterpriseKey'
+          type: array
+          title: Data
+        total:
+          type: integer
+          title: Total
+          description: Total pending keys
+          default: 0
+      type: object
+      title: PendingEnterpriseKeysResponse
+    MessageResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
+    APIKeyStatus:
+      type: string
+      enum:
+      - pending
+      - active
+      - expired
+      - declined
+      - revoked
+      title: APIKeyStatus
+    RemoveExcludedPatternRequest:
+      properties:
+        pattern:
+          type: string
+          title: Pattern
+          description: Pattern to remove
+      type: object
+      required:
+      - pattern
+      title: RemoveExcludedPatternRequest
+    MRRDataPoint:
+      properties:
+        month:
+          type: string
+          title: Month
+        prepaid:
+          type: number
+          title: Prepaid
+          default: 0.0
+        enterprise:
+          type: number
+          title: Enterprise
+          default: 0.0
+        total:
+          type: number
+          title: Total
+          default: 0.0
+      type: object
+      required:
+      - month
+      title: MRRDataPoint
+    UserListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        users:
+          items:
+            $ref: '#/components/schemas/UserBasic'
+          type: array
+          title: Users
+          default: []
+        total:
+          type: integer
+          title: Total
+          default: 0
+        page:
+          type: integer
+          title: Page
+          default: 1
+        limit:
+          type: integer
+          title: Limit
+          default: 50
+        tier_distribution:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Tier Distribution
+          default: {}
+        admin_count:
+          type: integer
+          title: Admin Count
+          default: 0
+      type: object
+      title: UserListResponse
+    AuditLogsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        logs:
+          items:
+            $ref: '#/components/schemas/AuditLogEntry'
+          type: array
+          title: Logs
+          default: []
+        total:
+          type: integer
+          title: Total
+          default: 0
+        page:
+          type: integer
+          title: Page
+          default: 1
+        limit:
+          type: integer
+          title: Limit
+          default: 50
+      type: object
+      title: AuditLogsResponse
+    RevenueDataPoint:
+      properties:
+        timestamp:
+          type: string
+          title: Timestamp
+        amount:
+          type: number
+          title: Amount
+          default: 0.0
+      type: object
+      required:
+      - timestamp
+      title: RevenueDataPoint
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TierName:
+      type: string
+      enum:
+      - tier1
+      - tier2
+      - tier3
+      - tier4
+      - tier5
+      title: TierName
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    APIKeyScope:
+      type: string
+      enum:
+      - demo
+      - user
+      - enterprise
+      title: APIKeyScope
+    DownloadTimeSeriesPoint:
+      properties:
+        timestamp:
+          type: string
+          title: Timestamp
+          description: ISO timestamp
+        downloads:
+          type: integer
+          title: Downloads
+          description: Number of downloads
+          default: 0
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Product source (gateway, sdk_pypi, extension_vscode)
+      type: object
+      required:
+      - timestamp
+      title: DownloadTimeSeriesPoint
+    DailyActiveUsersResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        date:
+          type: string
+          title: Date
+          description: Date (YYYY-MM-DD)
+        count:
+          type: integer
+          title: Count
+          description: Number of active users
+          default: 0
+        users:
+          items:
+            $ref: '#/components/schemas/ActiveUserInfo'
+          type: array
+          title: Users
+          description: List of active users
+      type: object
+      required:
+      - date
+      title: DailyActiveUsersResponse
+    NewsletterListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        subscribers:
+          items:
+            $ref: '#/components/schemas/NewsletterSubscriber'
+          type: array
+          title: Subscribers
+          default: []
+        total_active:
+          type: integer
+          title: Total Active
+          default: 0
+        total_unsubscribed:
+          type: integer
+          title: Total Unsubscribed
+          default: 0
+      type: object
+      title: NewsletterListResponse
+    AdminTimeSeriesDataPoint:
+      properties:
+        timestamp:
+          type: string
+          title: Timestamp
+          description: ISO timestamp
+        requests:
+          type: integer
+          title: Requests
+          description: Number of requests
+          default: 0
+        tokens:
+          type: integer
+          title: Tokens
+          description: Total tokens processed
+          default: 0
+        cost_usd:
+          type: number
+          title: Cost Usd
+          description: Cost in USD (user spending)
+          default: 0.0
+        revenue_usd:
+          type: number
+          title: Revenue Usd
+          description: Revenue in USD
+          default: 0.0
+        compression_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Compression Model
+          description: Compression model used
+        api_key_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Type
+          description: API key type/scope (demo, user, enterprise)
+        request_source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Source
+          description: 'Request source: sdk, demo, or gateway'
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+          description: User tier
+      type: object
+      required:
+      - timestamp
+      title: AdminTimeSeriesDataPoint
+    UserDetailsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        user_id:
+          type: string
+          title: User Id
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+        tier:
+          $ref: '#/components/schemas/TierName'
+          default: tier1
+        prepaid_spent:
+          type: number
+          title: Prepaid Spent
+          default: 0.0
+        prepaid_added:
+          type: number
+          title: Prepaid Added
+          default: 0.0
+        prepaid_balance:
+          type: number
+          title: Prepaid Balance
+          default: 0.0
+        role:
+          type: string
+          enum:
+          - user
+          - admin
+          - support
+          title: Role
+          default: user
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+          default: user
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        last_login:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Login
+      type: object
+      required:
+      - user_id
+      title: UserDetailsResponse
+    ExcludedPatternsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        patterns:
+          items:
+            type: string
+          type: array
+          title: Patterns
+          description: Editable patterns stored in DB
+        hardcoded:
+          items:
+            type: string
+          type: array
+          title: Hardcoded
+          description: Built-in patterns that cannot be removed
+        env_patterns:
+          items:
+            type: string
+          type: array
+          title: Env Patterns
+          description: Patterns from STATS_EXCLUDED_EMAIL_PATTERNS env var (read-only)
+      type: object
+      title: ExcludedPatternsResponse
+    NewsletterSubscriber:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          title: Email
+        status:
+          type: string
+          title: Status
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+        subscribed_at:
+          type: string
+          format: date-time
+          title: Subscribed At
+        unsubscribed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Unsubscribed At
+      type: object
+      required:
+      - id
+      - email
+      - status
+      - subscribed_at
+      title: NewsletterSubscriber
+    UserUpdateRequest:
+      properties:
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+          description: Full name
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+          description: Company name
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Country
+        tier:
+          anyOf:
+          - $ref: '#/components/schemas/TierName'
+          - type: 'null'
+          description: New rate-limit tier
+        account_type:
+          anyOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+          description: 'Billing plan: ''user'' (prepaid) or ''enterprise'' (postpaid). Admin-only.'
+        current_remaining_credits:
+          anyOf:
+          - type: number
+            maximum: 100000.0
+            minimum: 0.0
+          - type: 'null'
+          title: Current Remaining Credits
+          description: Set user balance/credits (must be finite, non-negative, max $100k)
+      type: object
+      title: UserUpdateRequest
+    ActiveUserInfo:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+          description: User ID
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+          description: User email
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+          description: User full name
+        request_count:
+          type: integer
+          title: Request Count
+          description: Number of requests on this day
+          default: 0
+      type: object
+      required:
+      - user_id
+      title: ActiveUserInfo
+    UsageBreakdown:
+      properties:
+        name:
+          type: string
+          title: Name
+        count:
+          type: integer
+          title: Count
+          default: 0
+        tokens:
+          type: integer
+          title: Tokens
+          default: 0
+        cost_usd:
+          type: number
+          title: Cost Usd
+          default: 0.0
+      type: object
+      required:
+      - name
+      title: UsageBreakdown
+    EnterpriseKeyBilling:
+      properties:
+        key_id:
+          type: string
+          title: Key Id
+          description: API key ID
+        key_name:
+          type: string
+          title: Key Name
+          description: Key display name
+        key_preview:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key Preview
+          description: Key preview (first 12 chars)
+        status:
+          type: string
+          title: Status
+          description: 'Key status: active, pending, revoked'
+        created_at:
+          type: string
+          title: Created At
+          description: Key creation timestamp
+        user_id:
+          type: string
+          title: User Id
+          description: User ID who owns the key
+        user_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Email
+          description: User email
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+          description: Company name
+        credit_limit_usd:
+          type: number
+          title: Credit Limit Usd
+          description: Credit limit for this key
+          default: 10000.0
+        monthly_budget_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Monthly Budget Usd
+          description: Monthly budget if set
+        total_paid:
+          type: number
+          title: Total Paid
+          description: Total paid invoices (all time)
+          default: 0.0
+        total_unpaid:
+          type: number
+          title: Total Unpaid
+          description: Total unpaid invoices
+          default: 0.0
+        current_month_usage:
+          type: number
+          title: Current Month Usage
+          description: Current month usage (not yet invoiced)
+          default: 0.0
+        paid_invoice_count:
+          type: integer
+          title: Paid Invoice Count
+          description: Number of paid invoices
+          default: 0
+        unpaid_invoice_count:
+          type: integer
+          title: Unpaid Invoice Count
+          description: Number of unpaid invoices
+          default: 0
+        invoices:
+          items:
+            $ref: '#/components/schemas/EnterpriseInvoice'
+          type: array
+          title: Invoices
+          description: All invoices for this key
+        category:
+          type: string
+          title: Category
+          description: admin | pilot | customer
+          default: customer
+      type: object
+      required:
+      - key_id
+      - key_name
+      - status
+      - created_at
+      - user_id
+      title: EnterpriseKeyBilling
+    AuditLogEntry:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        admin_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Admin Id
+        admin_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Admin Name
+        action:
+          type: string
+          title: Action
+        target_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target User Id
+        details:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Details
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+      type: object
+      required:
+      - action
+      title: AuditLogEntry
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

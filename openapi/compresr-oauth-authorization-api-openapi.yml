@@ -1,0 +1,239 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin OAuth Authorization API
+  version: 1.0.0
+tags:
+- name: OAuth Authorization
+paths:
+  /api/authorize/cli-token:
+    post:
+      tags:
+      - OAuth Authorization
+      summary: Get Cli Token
+      description: 'Get or create the user''s CLI Key for Context Gateway CLI.
+
+
+        Key scope matches user''s account_type (user=prepaid, enterprise=postpaid).
+
+        SEC-001: key_plain is not stored, so existing keys are rotated.'
+      operationId: get_cli_token_api_authorize_cli_token_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CLIKeyResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+      - HTTPBearer: []
+  /api/authorize/logout:
+    post:
+      tags:
+      - OAuth Authorization
+      summary: Logout
+      description: Revoke the calling API key. Idempotent — 200 whether the key was ACTIVE or already gone.
+      operationId: logout_api_authorize_logout_post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/authorize/ws-callback:
+    post:
+      tags:
+      - OAuth Authorization
+      summary: Ws Callback
+      description: 'Deliver a CLI key to a waiting WebSocket session.
+
+
+        Called by the frontend after the user authorizes in the browser.
+
+        Gets or rotates the user''s CLI Key (scope matches account_type),
+
+        then pushes it over the WebSocket to the CLI.'
+      operationId: ws_callback_api_authorize_ws_callback_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WsCallbackRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WsCallbackResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+      - HTTPBearer: []
+components:
+  schemas:
+    LogoutResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        revoked_key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Revoked Key Id
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - message
+      title: LogoutResponse
+    WsCallbackRequest:
+      properties:
+        ws_session:
+          type: string
+          title: Ws Session
+        state:
+          type: string
+          title: State
+      type: object
+      required:
+      - ws_session
+      - state
+      title: WsCallbackRequest
+    WsCallbackResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - message
+      title: WsCallbackResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CLIKeyResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        token:
+          type: string
+          title: Token
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - token
+      - message
+      title: CLIKeyResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

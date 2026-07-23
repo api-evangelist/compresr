@@ -1,0 +1,1071 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Compression-Agentic API
+  version: 1.0.0
+tags:
+- name: Compression-Agentic
+paths:
+  /api/compress/history/:
+    post:
+      tags:
+      - Compression-Agentic
+      summary: Compress History
+      operationId: compress_history_api_compress_history__post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryCompressRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryCompressResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/history/batch:
+    post:
+      tags:
+      - Compression-Agentic
+      summary: Compress History Batch
+      operationId: compress_history_batch_api_compress_history_batch_post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryBatchRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/history/stream:
+    post:
+      tags:
+      - Compression-Agentic
+      summary: Compress History Stream
+      operationId: compress_history_stream_api_compress_history_stream_post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryCompressRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/history/health:
+    get:
+      tags:
+      - Compression-Agentic
+      summary: Health History
+      operationId: health_history_api_compress_history_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Health History Api Compress History Health Get
+  /api/compress/history/models:
+    get:
+      tags:
+      - Compression-Agentic
+      summary: Models History
+      operationId: models_history_api_compress_history_models_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoDataResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/history/models/{model_id}:
+    get:
+      tags:
+      - Compression-Agentic
+      summary: Model History
+      operationId: model_history_api_compress_history_models__model_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: model_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Model Id
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoDataResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-output/:
+    post:
+      tags:
+      - Compression-Agentic
+      summary: Compress Tool Output
+      operationId: compress_tool_output_api_compress_tool_output__post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolOutputCompressRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolOutputCompressResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-output/batch:
+    post:
+      tags:
+      - Compression-Agentic
+      summary: Compress Tool Output Batch
+      operationId: compress_tool_output_batch_api_compress_tool_output_batch_post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolOutputBatchRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-output/stream:
+    post:
+      tags:
+      - Compression-Agentic
+      summary: Compress Tool Output Stream
+      operationId: compress_tool_output_stream_api_compress_tool_output_stream_post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolOutputCompressRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-output/health:
+    get:
+      tags:
+      - Compression-Agentic
+      summary: Health Tool Output
+      operationId: health_tool_output_api_compress_tool_output_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Health Tool Output Api Compress Tool Output Health Get
+  /api/compress/tool-output/models:
+    get:
+      tags:
+      - Compression-Agentic
+      summary: Models Tool Output
+      operationId: models_tool_output_api_compress_tool_output_models_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoDataResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-output/models/{model_id}:
+    get:
+      tags:
+      - Compression-Agentic
+      summary: Model Tool Output
+      operationId: model_tool_output_api_compress_tool_output_models__model_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: model_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Model Id
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoDataResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-discovery/:
+    post:
+      tags:
+      - Compression-Agentic
+      summary: Compress Tool Discovery
+      operationId: compress_tool_discovery_api_compress_tool_discovery__post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolDiscoveryRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolDiscoveryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-discovery/batch:
+    post:
+      tags:
+      - Compression-Agentic
+      summary: Compress Tool Discovery Batch
+      operationId: compress_tool_discovery_batch_api_compress_tool_discovery_batch_post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolDiscoveryBatchRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-discovery/stream:
+    post:
+      tags:
+      - Compression-Agentic
+      summary: Compress Tool Discovery Stream
+      operationId: compress_tool_discovery_stream_api_compress_tool_discovery_stream_post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolDiscoveryRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-discovery/health:
+    get:
+      tags:
+      - Compression-Agentic
+      summary: Health Tool Discovery
+      operationId: health_tool_discovery_api_compress_tool_discovery_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Health Tool Discovery Api Compress Tool Discovery Health Get
+  /api/compress/tool-discovery/models:
+    get:
+      tags:
+      - Compression-Agentic
+      summary: Models Tool Discovery
+      operationId: models_tool_discovery_api_compress_tool_discovery_models_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoDataResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/compress/tool-discovery/models/{model_id}:
+    get:
+      tags:
+      - Compression-Agentic
+      summary: Model Tool Discovery
+      operationId: model_tool_discovery_api_compress_tool_discovery_models__model_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: model_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Model Id
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoDataResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    SampleText:
+      properties:
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - name
+      - text
+      title: SampleText
+    HistoryCompressResult:
+      properties:
+        summary:
+          type: string
+          title: Summary
+          description: Compressed history summary
+        original_tokens:
+          type: integer
+          title: Original Tokens
+          description: Token count of original history
+        compressed_tokens:
+          type: integer
+          title: Compressed Tokens
+          description: Token count of summary
+        messages_compressed:
+          type: integer
+          title: Messages Compressed
+          description: Number of messages that were compressed
+        messages_kept:
+          type: integer
+          title: Messages Kept
+          description: Number of recent messages kept
+        compression_ratio:
+          type: number
+          title: Compression Ratio
+          description: Actual compression ratio achieved
+        duration_ms:
+          type: integer
+          title: Duration Ms
+          description: Processing time in milliseconds
+          default: 0
+      type: object
+      required:
+      - summary
+      - original_tokens
+      - compressed_tokens
+      - messages_compressed
+      - messages_kept
+      - compression_ratio
+      title: HistoryCompressResult
+    ToolDiscoveryResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/ToolDiscoveryResult'
+          - type: 'null'
+      type: object
+      title: ToolDiscoveryResponse
+    HistoryCompressResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/HistoryCompressResult'
+          - type: 'null'
+      type: object
+      title: HistoryCompressResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DemoDataResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          $ref: '#/components/schemas/DemoData'
+      type: object
+      required:
+      - data
+      title: DemoDataResponse
+    ToolDiscoveryBatchRequest:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/ToolDiscoveryRequest'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Inputs
+      type: object
+      required:
+      - inputs
+      title: ToolDiscoveryBatchRequest
+    ToolDiscoveryRequest:
+      properties:
+        query:
+          type: string
+          minLength: 1
+          title: Query
+          description: User's query to find relevant tools (REQUIRED)
+        tools:
+          items:
+            $ref: '#/components/schemas/ToolDefinition'
+          type: array
+          minItems: 1
+          title: Tools
+          description: All available tools
+        max_tools:
+          type: integer
+          maximum: 50.0
+          minimum: 1.0
+          title: Max Tools
+          description: 'Maximum number of tools to return (default: 5)'
+          default: 5
+        always_keep:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Always Keep
+          description: Tool names to always include in results
+        compression_model_name:
+          type: string
+          title: Compression Model Name
+          description: Compression model to use (e.g., 'tdc_espresso')
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/Source'
+          - type: 'null'
+          description: 'Source of request: demo, extension, sdk:<client>, gateway:<provider>'
+      type: object
+      required:
+      - query
+      - tools
+      - compression_model_name
+      title: ToolDiscoveryRequest
+      description: 'Request to discover relevant tools.
+
+
+        Backbone: SaT (conversion happens in compressor layer)
+
+        - chunks = tool descriptions
+
+        - query = user''s query
+
+        - output = filtered list of relevant tool names'
+    ToolDefinition:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Unique tool name
+        description:
+          type: string
+          title: Description
+          description: Tool description
+          default: ''
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: JSON schema for tool parameters
+      type: object
+      required:
+      - name
+      title: ToolDefinition
+    ToolOutputCompressRequest:
+      properties:
+        tool_output:
+          anyOf:
+          - type: string
+          - items:
+              type: string
+            type: array
+          title: Tool Output
+          description: Tool output to compress - single string or list of strings
+        query:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Query
+          description: User's query for context-aware compression (required for GemFilter, prohibited for Lingua)
+        tool_name:
+          type: string
+          title: Tool Name
+          description: Name of the tool that produced the output
+        compression_model_name:
+          type: string
+          title: Compression Model Name
+          description: Compression model to use (e.g., 'toc_latte' or 'toc_americano')
+        target_compression_ratio:
+          type: number
+          maximum: 200.0
+          minimum: 0.0
+          title: Target Compression Ratio
+          description: 'Target compression ratio: 0-1 (strength) or >1 for factor. Max 200. Default: 0.5'
+          default: 0.5
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/Source'
+          - type: 'null'
+          description: 'Source of request: demo, extension, sdk:<client>, gateway:<provider>'
+      type: object
+      required:
+      - tool_output
+      - tool_name
+      - compression_model_name
+      title: ToolOutputCompressRequest
+      description: 'Request to compress tool output.
+
+
+        Accepts tool_output as either:
+
+        - str: Single tool output
+
+        - List[str]: Multiple tool outputs (output type matches input type)
+
+
+        Backbone mapping (conversion happens in compressor layer):
+
+        - Lingua models (toc_americano): query PROHIBITED
+
+        - GemFilter models (toc_latte): query REQUIRED'
+    Source:
+      type: string
+      enum:
+      - demo
+      - extension
+      - sdk:python
+      - sdk:typescript
+      - sdk:curl
+      - gateway:unknown
+      - gateway:anthropic
+      - gateway:openai
+      - gateway:gemini
+      - integration:litellm
+      - integration:hermes
+      title: Source
+      description: 'Source of an API request.
+
+
+        Format: source[:detail]
+
+        - demo, extension: no detail needed
+
+        - sdk:python, sdk:typescript, sdk:curl
+
+        - gateway:anthropic, gateway:openai, gateway:gemini
+
+        - integration:litellm, integration:hermes'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DemoData:
+      properties:
+        sample_texts:
+          items:
+            $ref: '#/components/schemas/SampleText'
+          type: array
+          title: Sample Texts
+        compression_models:
+          items:
+            $ref: '#/components/schemas/DemoCompressionModelOption'
+          type: array
+          title: Compression Models
+          default: []
+      type: object
+      required:
+      - sample_texts
+      title: DemoData
+    ToolOutputCompressResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/ToolOutputCompressResult'
+          - type: 'null'
+      type: object
+      title: ToolOutputCompressResponse
+    HistoryMessage:
+      properties:
+        role:
+          type: string
+          title: Role
+          description: 'Message role: ''user'', ''assistant'', ''system'', or ''tool'''
+        content:
+          type: string
+          title: Content
+          description: Message content
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Optional name for the message sender
+        tool_call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Call Id
+          description: Tool call ID for tool messages
+      type: object
+      required:
+      - role
+      - content
+      title: HistoryMessage
+    HistoryBatchRequest:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/HistoryCompressRequest'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Inputs
+      type: object
+      required:
+      - inputs
+      title: HistoryBatchRequest
+    ToolOutputBatchRequest:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/ToolOutputCompressRequest'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Inputs
+      type: object
+      required:
+      - inputs
+      title: ToolOutputBatchRequest
+    DemoCompressionModelOption:
+      properties:
+        value:
+          type: string
+          title: Value
+        label:
+          type: string
+          title: Label
+        description:
+          type: string
+          title: Description
+          default: ''
+        tier_scale:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier Scale
+      type: object
+      required:
+      - value
+      - label
+      title: DemoCompressionModelOption
+    HistoryCompressRequest:
+      properties:
+        messages:
+          items:
+            $ref: '#/components/schemas/HistoryMessage'
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Messages
+          description: Conversation history to compress (list of messages, REQUIRED, max 1000)
+        keep_recent:
+          type: integer
+          maximum: 50.0
+          minimum: 1.0
+          title: Keep Recent
+          description: 'Number of recent messages to keep uncompressed (default: 3)'
+          default: 3
+        compression_model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Compression Model Name
+          description: Compression model to use. Defaults to DEFAULT_MODEL_HISTORY (hcc_latte_v1).
+        target_compression_ratio:
+          type: number
+          maximum: 200.0
+          minimum: 0.0
+          title: Target Compression Ratio
+          description: 'Target compression ratio: 0-1 (strength) or >1 for factor. Max 200. Default: 0.3'
+          default: 0.3
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/Source'
+          - type: 'null'
+          description: 'Source of request: demo, extension, sdk:<client>, gateway:<provider>'
+      type: object
+      required:
+      - messages
+      title: HistoryCompressRequest
+      description: 'Request to compress conversation history.
+
+
+        The service layer injects a default query when the resolved backbone
+
+        requires one (GemFilter), so callers never pass a query directly.'
+    ToolOutputCompressResult:
+      properties:
+        compressed_output:
+          anyOf:
+          - type: string
+          - items:
+              type: string
+            type: array
+          title: Compressed Output
+          description: Compressed tool output - same type as input
+        original_tokens:
+          type: integer
+          title: Original Tokens
+          description: Token count of original output
+        compressed_tokens:
+          type: integer
+          title: Compressed Tokens
+          description: Token count after compression
+        compression_ratio:
+          type: number
+          title: Compression Ratio
+          description: Actual compression ratio achieved
+        tool_name:
+          type: string
+          title: Tool Name
+          description: Name of the tool
+        duration_ms:
+          type: integer
+          title: Duration Ms
+          description: Processing time in milliseconds
+          default: 0
+      type: object
+      required:
+      - compressed_output
+      - original_tokens
+      - compressed_tokens
+      - compression_ratio
+      - tool_name
+      title: ToolOutputCompressResult
+    ToolDiscoveryResult:
+      properties:
+        relevant_tools:
+          items:
+            type: string
+          type: array
+          title: Relevant Tools
+          description: Names of relevant tools
+        tool_count:
+          type: integer
+          title: Tool Count
+          description: Number of tools returned
+        original_tool_count:
+          type: integer
+          title: Original Tool Count
+          description: Number of tools in input
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+          description: Why these tools were selected
+        duration_ms:
+          type: integer
+          title: Duration Ms
+          description: Processing time in milliseconds
+          default: 0
+      type: object
+      required:
+      - relevant_tools
+      - tool_count
+      - original_tool_count
+      title: ToolDiscoveryResult
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,605 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Profile API
+  version: 1.0.0
+tags:
+- name: Profile
+paths:
+  /api/profile/create:
+    post:
+      tags:
+      - Profile
+      summary: Create Profile
+      description: Create user profile after signup. Honors account_type from onboarding; defaults to 'user'.
+      operationId: create_profile_api_profile_create_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/ProfileCreateRequest'
+              - type: 'null'
+              title: Body
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /api/profile/role:
+    get:
+      tags:
+      - Profile
+      summary: Get Role
+      description: Return the caller's role and account type.
+      operationId: get_role_api_profile_role_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+      security:
+      - HTTPBearer: []
+  /api/profile/me:
+    get:
+      tags:
+      - Profile
+      summary: Get Profile
+      description: Get user profile.
+      operationId: get_profile_api_profile_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+    patch:
+      tags:
+      - Profile
+      summary: Update Profile
+      description: Update user profile.
+      operationId: update_profile_api_profile_me_patch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileUpdateResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /api/profile/rate-limits:
+    get:
+      tags:
+      - Profile
+      summary: Get User Rate Limits
+      description: Get rate limits for authenticated user based on their tier.
+      operationId: get_user_rate_limits_api_profile_rate_limits_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitsResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+  /api/profile/can-delete:
+    get:
+      tags:
+      - Profile
+      summary: Check Can Delete
+      description: Check if account can be deleted.
+      operationId: check_can_delete_api_profile_can_delete_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteAccountResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+  /api/profile/delete:
+    delete:
+      tags:
+      - Profile
+      summary: Delete Account
+      description: Delete account (requires confirmation='DELETE').
+      operationId: delete_account_api_profile_delete_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteAccountRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    AccountType:
+      type: string
+      enum:
+      - user
+      - enterprise
+      title: AccountType
+      description: 'Account type: determines billing mode and allowed API key scopes.
+
+
+        - USER: Prepaid wallet billing, can create user-scope keys
+
+        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
+    RoleResponse:
+      properties:
+        role:
+          type: string
+          title: Role
+          description: 'User role: user, admin, support'
+        is_admin:
+          type: boolean
+          title: Is Admin
+          description: Whether user is admin or support
+        account_type:
+          type: string
+          title: Account Type
+          description: 'Account type: user or enterprise'
+      type: object
+      required:
+      - role
+      - is_admin
+      - account_type
+      title: RoleResponse
+    ProfileCreateRequest:
+      properties:
+        account_type:
+          anyOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+          description: 'Account type selected at onboarding: ''user'' (prepaid) or ''enterprise'' (postpaid)'
+      additionalProperties: false
+      type: object
+      title: ProfileCreateRequest
+    DeleteAccountResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/DeleteAccountInfo'
+          - type: 'null'
+      type: object
+      title: DeleteAccountResponse
+    Profile:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+        role:
+          type: string
+          enum:
+          - user
+          - admin
+          - support
+          title: Role
+          default: user
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+          default: user
+        tier:
+          $ref: '#/components/schemas/TierName'
+          default: tier1
+        extra_usage_enabled:
+          type: boolean
+          title: Extra Usage Enabled
+          default: true
+        extra_usage_limit:
+          type: number
+          title: Extra Usage Limit
+          default: 0.0
+        wallet_balance:
+          type: number
+          title: Wallet Balance
+          default: 0.0
+        lifetime_deposited:
+          type: number
+          title: Lifetime Deposited
+          default: 0.0
+        lifetime_used:
+          type: number
+          title: Lifetime Used
+          default: 0.0
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        is_admin:
+          type: boolean
+          title: Is Admin
+          readOnly: true
+      type: object
+      required:
+      - user_id
+      - is_admin
+      title: Profile
+      description: 'User profile data aggregated from multiple tables.
+
+
+        Data sources (after M_14 migration):
+
+        - user_profiles: user_id, full_name, company_name, country, role
+
+        - user_subscriptions: tier (tier1-tier5 based on usage)
+
+        - user_wallets: balance_usd, lifetime totals
+
+
+        Note: Enterprise status is determined by active enterprise API tokens,
+
+        not the plan column (which is no longer used).'
+    MessageResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
+    RateLimits:
+      properties:
+        tier:
+          $ref: '#/components/schemas/TierName'
+          description: Tier name
+        rpm:
+          type: integer
+          title: Rpm
+          description: Requests per minute (-1 = unlimited)
+        tpm:
+          type: integer
+          title: Tpm
+          description: Tokens per minute (-1 = unlimited)
+        rpd:
+          type: integer
+          title: Rpd
+          description: Requests per day (-1 = unlimited)
+        max_api_keys:
+          type: integer
+          title: Max Api Keys
+          description: Max API keys (-1 = unlimited)
+      type: object
+      required:
+      - tier
+      - rpm
+      - tpm
+      - rpd
+      - max_api_keys
+      title: RateLimits
+    DeleteAccountRequest:
+      properties:
+        confirmation:
+          type: string
+          const: DELETE
+          title: Confirmation
+          description: Must be 'DELETE' to confirm
+      type: object
+      required:
+      - confirmation
+      title: DeleteAccountRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ProfileUpdateResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/Profile'
+          - type: 'null'
+      type: object
+      title: ProfileUpdateResponse
+    TierName:
+      type: string
+      enum:
+      - tier1
+      - tier2
+      - tier3
+      - tier4
+      - tier5
+      title: TierName
+    ProfileUpdateRequest:
+      properties:
+        full_name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Full Name
+          description: User's full name
+        company_name:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Company Name
+          description: Company name
+        country:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Country
+          description: Country
+        extra_usage_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Extra Usage Enabled
+          description: Enable extra usage (use wallet balance when subscription credits exhausted)
+        extra_usage_limit:
+          anyOf:
+          - type: number
+            maximum: 100.0
+            minimum: 0.0
+          - type: 'null'
+          title: Extra Usage Limit
+          description: Spending limit for extra wallet usage in USD (max $100)
+      type: object
+      title: ProfileUpdateRequest
+      description: 'Request to update profile.
+
+
+        Note: subscription-related fields (extra_usage_*) are now in user_subscriptions
+
+        but can still be updated via this endpoint for convenience.'
+    RateLimitsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/RateLimits'
+          - type: 'null'
+      type: object
+      title: RateLimitsResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    ProfileResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/Profile'
+          - type: 'null'
+      type: object
+      title: ProfileResponse
+    DeleteAccountInfo:
+      properties:
+        can_delete:
+          type: boolean
+          title: Can Delete
+          default: true
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+        pending_balance:
+          type: number
+          title: Pending Balance
+          default: 0.0
+        pending_reports:
+          type: integer
+          title: Pending Reports
+          default: 0
+      type: object
+      title: DeleteAccountInfo
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

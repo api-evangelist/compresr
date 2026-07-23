@@ -1,0 +1,589 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin API Keys API
+  version: 1.0.0
+tags:
+- name: API Keys
+paths:
+  /api/api-keys:
+    get:
+      tags:
+      - API Keys
+      summary: List Api Keys
+      description: 'Get all API keys for current user (excludes demo-scoped keys).
+
+
+        Also returns a `revoked_summary` aggregate so the frontend can show
+
+        "N revoked keys" info without listing each revoked row in the dropdown.'
+      operationId: list_api_keys_api_api_keys_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKeyListResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+      - HTTPBearer: []
+    post:
+      tags:
+      - API Keys
+      summary: Create Api Key
+      description: 'Create a new API key.
+
+
+        - **name**: Display name for the key
+
+        - **scope**: API key scope (user or enterprise; demo is admin-only)
+
+        - **daily_limit**: Optional daily request limit (NULL = unlimited)
+
+        - **expires_at**: Optional expiration date (NULL = 30 days from now)
+
+
+        **Enterprise keys (scope=enterprise):**
+
+        - Require admin approval before activation
+
+        - Use postpaid billing (monthly invoicing)
+
+        - Require company_name and request_message
+
+        - Get Business subscription access + unlimited rate limits
+
+
+        **Important**: The plain key is only shown once! Store it securely.'
+      operationId: create_api_key_api_api_keys_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKeyCreateRequest'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKeyCreatedResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+      - HTTPBearer: []
+  /api/api-keys/demo-key-info:
+    get:
+      tags:
+      - API Keys
+      summary: Get Demo Key Info
+      description: Get demo key information (remaining requests, etc.) without exposing the key.
+      operationId: get_demo_key_info_api_api_keys_demo_key_info_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKeyResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+      - HTTPBearer: []
+  /api/api-keys/{key_id}/revoke:
+    put:
+      tags:
+      - API Keys
+      summary: Revoke Api Key
+      description: 'Revoke an API key (soft delete).
+
+
+        - **key_id**: Key UUID to revoke'
+      operationId: revoke_api_key_api_api_keys__key_id__revoke_put
+      security:
+      - HTTPBearer: []
+      - HTTPBearer: []
+      parameters:
+      - name: key_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          title: Key Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/api-keys/{key_id}:
+    get:
+      tags:
+      - API Keys
+      summary: Get Api Key
+      description: 'Get a specific API key''s details.
+
+
+        - **key_id**: Key UUID'
+      operationId: get_api_key_api_api_keys__key_id__get
+      security:
+      - HTTPBearer: []
+      - HTTPBearer: []
+      parameters:
+      - name: key_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          title: Key Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKeyResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    BillingMode:
+      type: string
+      enum:
+      - prepaid
+      - postpaid
+      title: BillingMode
+      description: "Billing mode for API keys.\n\nPREPAID: User must have positive balance. Session stops if balance runs out.\n         Used by regular users (demo, user scopes).\n\nPOSTPAID: Can go negative. Invoiced monthly.\n          Used by enterprise keys only (requires admin approval)."
+    APIKeyListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          items:
+            $ref: '#/components/schemas/APIKeyResult'
+          type: array
+          title: Data
+          default: []
+        revoked_summary:
+          anyOf:
+          - $ref: '#/components/schemas/RevokedKeysSummary'
+          - type: 'null'
+      type: object
+      title: APIKeyListResponse
+    APIKeyCreatedResult:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        scope:
+          $ref: '#/components/schemas/APIKeyScope'
+        status:
+          $ref: '#/components/schemas/APIKeyStatus'
+        billing_mode:
+          $ref: '#/components/schemas/BillingMode'
+          default: prepaid
+        key:
+          type: string
+          title: Key
+          description: The API key - store securely, shown only once!
+        key_preview:
+          type: string
+          title: Key Preview
+          description: Masked preview of the key
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+      type: object
+      required:
+      - id
+      - name
+      - scope
+      - status
+      - key
+      - key_preview
+      - created_at
+      title: APIKeyCreatedResult
+    APIKeyStatus:
+      type: string
+      enum:
+      - pending
+      - active
+      - expired
+      - declined
+      - revoked
+      title: APIKeyStatus
+    APIKeyCreatedResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/APIKeyCreatedResult'
+          - type: 'null'
+      type: object
+      title: APIKeyCreatedResponse
+    MessageResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
+    RevokedKeysSummary:
+      properties:
+        count:
+          type: integer
+          title: Count
+          default: 0
+        total_requests_all_time:
+          type: integer
+          title: Total Requests All Time
+          default: 0
+        total_requests_this_month:
+          type: number
+          title: Total Requests This Month
+          default: 0.0
+        total_usage_this_month_usd:
+          type: number
+          title: Total Usage This Month Usd
+          default: 0.0
+        latest_revoked_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Latest Revoked At
+      type: object
+      title: RevokedKeysSummary
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    APIKeyCreateRequest:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+          description: Display name for the key
+        scope:
+          $ref: '#/components/schemas/APIKeyScope'
+          description: 'API key scope: user (regular prepaid) or enterprise (postpaid, requires admin approval)'
+          default: user
+        daily_limit:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Daily Limit
+          description: Optional daily request limit (NULL = unlimited). Use for testing or rate-limited access.
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+          description: Key expiration date (NULL = never expires, default = 30 days from now)
+        request_message:
+          anyOf:
+          - type: string
+            maxLength: 1000
+            minLength: 1
+          - type: 'null'
+          title: Request Message
+          description: Message explaining the reason for requesting API access. Required for enterprise keys.
+        company_name:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Company Name
+          description: Company name (required for enterprise keys)
+        expected_monthly_usage:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Expected Monthly Usage
+          description: Expected monthly usage in USD (helps set credit limit for enterprise keys)
+      type: object
+      required:
+      - name
+      title: APIKeyCreateRequest
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    APIKeyResult:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        scope:
+          $ref: '#/components/schemas/APIKeyScope'
+        status:
+          $ref: '#/components/schemas/APIKeyStatus'
+        billing_mode:
+          $ref: '#/components/schemas/BillingMode'
+          default: prepaid
+        key_preview:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key Preview
+        key_plain:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key Plain
+        last_used_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Used At
+        total_requests:
+          type: integer
+          title: Total Requests
+          default: 0
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+        daily_limit:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Daily Limit
+        daily_requests_remaining:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Daily Requests Remaining
+        last_reset_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Reset At
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+        credit_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Credit Limit Usd
+        current_balance_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Current Balance Usd
+      type: object
+      required:
+      - id
+      - name
+      - scope
+      - status
+      - created_at
+      title: APIKeyResult
+    APIKeyScope:
+      type: string
+      enum:
+      - demo
+      - user
+      - enterprise
+      title: APIKeyScope
+    APIKeyResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/APIKeyResult'
+          - type: 'null'
+      type: object
+      title: APIKeyResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,286 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Pricing API
+  version: 1.0.0
+tags:
+- name: Pricing
+paths:
+  /api/pricing/compression-models:
+    get:
+      tags:
+      - Pricing
+      summary: Get Compression Models
+      description: "Get our compression model(s) with pricing info (cached).\n\nUsed by frontend to display our pricing (e.g., latte_v1 @ $0.10/1M tokens).\n\nReturns:\n- List of compression models with:\n  - name: Model name (e.g., \"latte_v1\")\n  - display_name: Human-readable name\n  - description: Model description\n  - input_price_per_1m: Our price per 1M input tokens"
+      operationId: get_compression_models_api_pricing_compression_models_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompressionModelsResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/pricing/estimate-cost:
+    post:
+      tags:
+      - Pricing
+      summary: Estimate Compression Cost
+      description: 'Estimate the cost of using our compression service.
+
+
+        Used by frontend pricing calculator.
+
+
+        User provides:
+
+        - Compression model
+
+        - Number of input tokens
+
+        - Desired compression ratio
+
+
+        Returns cost breakdown.'
+      operationId: estimate_compression_cost_api_pricing_estimate_cost_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstimateCostRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateCostResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CompressionModelInfo:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Model name (e.g., 'latte_v1')
+        display_name:
+          type: string
+          title: Display Name
+          description: Human-readable name
+        description:
+          type: string
+          title: Description
+          description: Description of the compression technology
+        input_price_per_1m:
+          type: number
+          title: Input Price Per 1M
+          description: Our price per 1M input tokens
+        min_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Min Tier
+          description: Minimum subscription tier required
+      type: object
+      required:
+      - name
+      - display_name
+      - description
+      - input_price_per_1m
+      title: CompressionModelInfo
+    EstimateCostResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          $ref: '#/components/schemas/CostBreakdown'
+      type: object
+      required:
+      - data
+      title: EstimateCostResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CostBreakdown:
+      properties:
+        input_tokens:
+          type: integer
+          minimum: 0.0
+          title: Input Tokens
+          description: Original input token count
+        compressed_tokens:
+          type: integer
+          minimum: 0.0
+          title: Compressed Tokens
+          description: Estimated compressed token count
+        tokens_saved:
+          type: integer
+          minimum: 0.0
+          title: Tokens Saved
+          description: Estimated tokens saved
+        compression_ratio:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Compression Ratio
+          description: Compression ratio (0-1)
+        processing_cost_usd:
+          type: number
+          minimum: 0.0
+          title: Processing Cost Usd
+          description: Estimated processing cost in USD
+        model:
+          type: string
+          title: Model
+          description: Compression model used for estimate
+        input_price_per_1m:
+          type: number
+          minimum: 0.0
+          title: Input Price Per 1M
+          description: Input price per 1M tokens
+      type: object
+      required:
+      - input_tokens
+      - compressed_tokens
+      - tokens_saved
+      - compression_ratio
+      - processing_cost_usd
+      - model
+      - input_price_per_1m
+      title: CostBreakdown
+    CompressionModelsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          items:
+            $ref: '#/components/schemas/CompressionModelInfo'
+          type: array
+          title: Data
+      type: object
+      required:
+      - data
+      title: CompressionModelsResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    EstimateCostRequest:
+      properties:
+        compression_model:
+          type: string
+          title: Compression Model
+          description: Compression model to use
+          default: latte_v1
+        input_tokens:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Input Tokens
+          description: Number of input tokens
+        compression_ratio:
+          type: number
+          exclusiveMaximum: 1.0
+          exclusiveMinimum: 0.0
+          title: Compression Ratio
+          description: Target compression ratio (e.g., 0.3)
+          default: 0.5
+      type: object
+      required:
+      - input_tokens
+      title: EstimateCostRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Compresr Platform API API
+  version: 1.0.0
+tags:
+- name: Compresr Platform API
+paths:
+  /:
+    get:
+      summary: Root
+      description: Health check endpoint
+      operationId: root__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Compresr Platform API
+components:
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

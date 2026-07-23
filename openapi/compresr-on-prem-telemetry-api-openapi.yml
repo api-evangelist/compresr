@@ -1,0 +1,440 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin On-Prem Telemetry API
+  version: 1.0.0
+tags:
+- name: On-Prem Telemetry
+paths:
+  /api/v1/telemetry/register:
+    post:
+      tags:
+      - On-Prem Telemetry
+      summary: Register signing secret for HMAC verification
+      description: "Register an on-prem signing secret (`opm_xxx`) for HMAC verification.\n\n    Call once before sending telemetry (optional — the first batch auto-\n    registers). The secret is encrypted at rest. `cmp_` API keys are rejected;\n    mint an `opm_` credential in the dashboard under Settings -> On-Prem.\n\n    **Required Headers:**\n    - `X-API-Key`: Your Compresr API key\n\n    **Body:**\n    - `signing_secret`: On-prem signing secret (`opm_xxx`)\n    - `instance_id`: Optional instance identifier"
+      operationId: register_signing_secret_api_v1_telemetry_register_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterSigningSecretRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterSigningSecretResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/telemetry/batch:
+    post:
+      tags:
+      - On-Prem Telemetry
+      summary: Ingest telemetry batch from on-prem instance
+      description: "Receive and store a batch of telemetry events from an on-prem Compresr instance.\n    \n    **Required Headers:**\n    - `X-API-Key`: Compresr API key (authentication)\n    - `X-Compresr-Signature`: HMAC signature (integrity)\n    \n    **Optional Headers:**\n    - `X-Instance-ID`: On-prem instance identifier\n    \n    **First Request (auto-registration):**\n    Include `signing_secret` (`opm_xxx`) in the body - it will be registered\n    automatically. `cmp_` API keys are rejected; mint an `opm_` credential\n    in the dashboard under Settings -> On-Prem first.\n\n    **Signature Format:**\n    ```\n    t=timestamp,v1=HMAC-SHA256(timestamp + \".\" + JSON(payload), signing_secret)\n    ```\n    \n    **Event Types:**\n    - `compression`: Counted for billing\n    - `error`: Logged only\n    - `startup`/`shutdown`: Operational\n    \n    **Idempotency:**\n    Same batch_id within 24h returns success without reprocessing."
+      operationId: ingest_telemetry_batch_api_v1_telemetry_batch_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: x-instance-id
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: On-prem instance ID
+          title: X-Instance-Id
+        description: On-prem instance ID
+      - name: x-compresr-signature
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: HMAC signature
+          title: X-Compresr-Signature
+        description: HMAC signature
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TelemetryBatchRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryBatchResponse'
+        '401':
+          description: Invalid API key or signature
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryErrorResponse'
+        '400':
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Duplicate batch (idempotency)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/telemetry/health:
+    get:
+      tags:
+      - On-Prem Telemetry
+      summary: Telemetry endpoint health check
+      description: Simple health check for telemetry ingestion endpoint.
+      operationId: telemetry_health_api_v1_telemetry_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Telemetry Health Api V1 Telemetry Health Get
+components:
+  schemas:
+    RegisterSigningSecretResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          type: string
+          title: Message
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+      type: object
+      required:
+      - success
+      - message
+      title: RegisterSigningSecretResponse
+    TelemetryBatchRequest:
+      properties:
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Unique batch ID (UUID)
+        instance_id:
+          type: string
+          title: Instance Id
+          description: On-prem instance ID (UUID)
+        events:
+          items:
+            $ref: '#/components/schemas/TelemetryEvent'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Events
+          description: List of telemetry events (max 100 per batch)
+        identity:
+          anyOf:
+          - $ref: '#/components/schemas/IdentityManifest'
+          - type: 'null'
+          description: Signed on-prem identity manifest. Optional — older on-prem builds (< 1.1.0) don't send it. When present, the platform logs identity changes (instance_id or created_at moving) for audit. Future versions will block on mismatch.
+        signing_secret:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Signing Secret
+          description: Signing secret for HMAC verification (include on first request only)
+      additionalProperties: true
+      type: object
+      required:
+      - batch_id
+      - instance_id
+      - events
+      title: TelemetryBatchRequest
+    TelemetryBatchResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether batch was accepted
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Echo of batch ID
+        events_received:
+          type: integer
+          title: Events Received
+          description: Number of events received
+        events_stored:
+          type: integer
+          title: Events Stored
+          description: Number of events stored
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Additional message
+      type: object
+      required:
+      - success
+      - batch_id
+      - events_received
+      - events_stored
+      title: TelemetryBatchResponse
+    RegisterSigningSecretRequest:
+      properties:
+        signing_secret:
+          type: string
+          title: Signing Secret
+          description: On-prem signing secret (opm_xxx). Mint via dashboard -> Settings -> On-Prem. cmp_ API keys are rejected.
+        instance_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instance Id
+          description: Instance identifier
+      type: object
+      required:
+      - signing_secret
+      title: RegisterSigningSecretRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TelemetryErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Always false for errors
+          default: false
+        error:
+          type: string
+          title: Error
+          description: Error message
+        error_code:
+          type: string
+          title: Error Code
+          description: Error code for debugging
+      type: object
+      required:
+      - error
+      - error_code
+      title: TelemetryErrorResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    TelemetryEvent:
+      properties:
+        event_id:
+          type: string
+          title: Event Id
+          description: Unique event ID (UUID)
+        timestamp:
+          type: string
+          title: Timestamp
+          description: Event timestamp (ISO8601)
+        event_type:
+          type: string
+          title: Event Type
+          description: Event type (compression, error, startup, shutdown)
+        model_name:
+          type: string
+          title: Model Name
+          description: Compression model used
+        original_tokens:
+          type: integer
+          maximum: 1000000.0
+          minimum: 0.0
+          title: Original Tokens
+          description: Original token count
+          default: 0
+        compressed_tokens:
+          type: integer
+          maximum: 1000000.0
+          minimum: 0.0
+          title: Compressed Tokens
+          description: Compressed token count
+          default: 0
+        tokens_saved:
+          type: integer
+          maximum: 1000000.0
+          minimum: 0.0
+          title: Tokens Saved
+          description: Tokens saved (original - compressed)
+          default: 0
+        duration_ms:
+          type: integer
+          maximum: 3600000.0
+          minimum: 0.0
+          title: Duration Ms
+          description: Processing duration in milliseconds (max 1h)
+          default: 0
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+          description: Additional metadata (max 10KB, 50 keys, 3 levels deep)
+        event_hmac:
+          anyOf:
+          - type: string
+            pattern: ^[a-f0-9]{64}$
+          - type: 'null'
+          title: Event Hmac
+          description: Per-event HMAC-SHA256(api_key, canonical_event_bytes) computed by on-prem at insert time. Optional — older on-prem builds don't send it. The platform rejects events whose tag doesn't verify.
+      additionalProperties: true
+      type: object
+      required:
+      - event_id
+      - timestamp
+      - event_type
+      - model_name
+      title: TelemetryEvent
+      description: 'Single telemetry event from on-prem instance.
+
+
+        The optional ``event_hmac`` field is the per-event integrity tag computed
+
+        by the on-prem instance at insert time using HMAC-SHA256(api_key, canonical_event_bytes).
+
+        Older on-prem builds (< 1.1.0) don''t send it; newer builds always do. The
+
+        platform verifies it server-side and rejects events with a bad tag —
+
+        closing the in-flight SQLite tamper window.'
+    IdentityManifest:
+      properties:
+        instance_id:
+          type: string
+          title: Instance Id
+          description: UUID matching /data/identity.json
+        api_key_hash:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+          title: Api Key Hash
+          description: SHA-256 hex of the api_key the on-prem instance was first bound to
+        created_at:
+          type: string
+          title: Created At
+          description: ISO-8601 timestamp manifest was created
+      additionalProperties: true
+      type: object
+      required:
+      - instance_id
+      - api_key_hash
+      - created_at
+      title: IdentityManifest
+      description: 'On-prem identity manifest, sent in each upload for rebirth detection.
+
+
+        The on-prem instance persists this manifest in ``/data/identity.json``
+
+        HMAC-bound to the api_key on first authenticated request. Subsequent
+
+        uploads carry the same values. If we see a *new* ``instance_id`` or an
+
+        earlier ``created_at`` for the same api_key, it signals that the operator
+
+        deleted the local manifest — typically an attempt to reset a per-instance
+
+        grace period or quota.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

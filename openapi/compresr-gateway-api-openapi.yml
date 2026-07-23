@@ -1,0 +1,480 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Gateway API
+  version: 1.0.0
+tags:
+- name: Gateway
+paths:
+  /api/install:
+    get:
+      tags:
+      - Gateway
+      summary: Get Install Script
+      description: "Serve the Context-Gateway install script.\n\n- No authentication required\n- Rate limited to 60 requests/minute per IP\n- Tracks download for analytics (version + geo only)\n- Fetches install.sh from GitHub (cached for 5 minutes)\n\nUsage:\n    curl -fsSL https://compresr.ai/install | sh"
+      operationId: get_install_script_api_install_get
+      parameters:
+      - name: v
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          description: 'Gateway version (default: latest)'
+          title: V
+        description: 'Gateway version (default: latest)'
+      - name: req
+        in: query
+        required: true
+        schema:
+          title: Req
+      responses:
+        '200':
+          description: Install script
+          content:
+            application/json:
+              schema: {}
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/gateway/downloads:
+    get:
+      tags:
+      - Gateway
+      summary: Get Public Download Count
+      description: 'Get total Context-Gateway download count (public, no auth).
+
+
+        - Rate limited to 120 requests/minute per IP
+
+        - Used by frontend to display download count badge.
+
+        - Returns all-time total downloads with 5-minute caching.'
+      operationId: get_public_download_count_api_gateway_downloads_get
+      parameters:
+      - name: req
+        in: query
+        required: true
+        schema:
+          title: Req
+      responses:
+        '200':
+          description: Total download count
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Public Download Count Api Gateway Downloads Get
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/gateway/stats:
+    get:
+      tags:
+      - Gateway
+      summary: Get Gateway Stats
+      description: 'Get Context-Gateway install statistics.
+
+
+        **Requires admin authentication**
+
+
+        Returns aggregated stats:
+
+        - Total installs (all time)
+
+        - Installs by time period (day, week, month)
+
+        - Breakdown by OS
+
+        - Breakdown by version
+
+        - Top 10 countries'
+      operationId: get_gateway_stats_api_gateway_stats_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayInstallStatsResponse'
+        '401':
+          description: Unauthorized - requires API key
+        '403':
+          description: Forbidden - admin access required
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - HTTPBearer: []
+  /api/gateway/installs:
+    get:
+      tags:
+      - Gateway
+      summary: Get Recent Installs
+      description: 'Get recent Context-Gateway installs.
+
+
+        **Requires admin authentication**
+
+
+        Returns list of recent install records for admin dashboard.'
+      operationId: get_recent_installs_api_gateway_installs_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          description: Number of records to return
+          default: 50
+          title: Limit
+        description: Number of records to return
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayInstallListResponse'
+        '401':
+          description: Unauthorized - requires API key
+        '403':
+          description: Forbidden - admin access required
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/gateway/status:
+    get:
+      tags:
+      - Gateway
+      summary: Get Gateway Status
+      description: 'Get current usage status for Context-Gateway CLI display.
+
+
+        **Requires API key authentication** (any valid COMPRESR_API_KEY)
+
+
+        Returns lightweight status summary:
+
+        - Credits remaining (subscription + wallet combined)
+
+        - Usage percentage of monthly budget
+
+        - Tier information
+
+        - Request counts
+
+
+        Used by Context-Gateway to display a persistent status bar showing
+
+        the user''s balance and usage during operation.'
+      operationId: get_gateway_status_api_gateway_status_get
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      responses:
+        '200':
+          description: User's usage status for gateway display
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayStatusResponse'
+        '401':
+          description: Unauthorized - requires API key
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    GatewayInstallListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        installs:
+          items:
+            $ref: '#/components/schemas/GatewayInstallRecord'
+          type: array
+          title: Installs
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: GatewayInstallListResponse
+    GatewayStatusResult:
+      properties:
+        tier:
+          type: string
+          title: Tier
+          description: 'Rate-limit tier: tier1, tier2, tier3, tier4, tier5'
+          default: tier1
+        credits_remaining_usd:
+          type: number
+          title: Credits Remaining Usd
+          description: Total remaining credits (subscription + wallet) in USD
+          default: 0.0
+        credits_used_this_month:
+          type: number
+          title: Credits Used This Month
+          description: Credits used this billing month in USD
+          default: 0.0
+        monthly_budget_usd:
+          type: number
+          title: Monthly Budget Usd
+          description: Monthly budget/allocation in USD (0 = unlimited for admins)
+          default: 0.0
+        usage_percent:
+          type: number
+          title: Usage Percent
+          description: Percentage of monthly budget used (0-100)
+          default: 0.0
+        requests_today:
+          type: integer
+          title: Requests Today
+          description: Number of compression requests today
+          default: 0
+        requests_this_month:
+          type: integer
+          title: Requests This Month
+          description: Number of compression requests this billing month
+          default: 0
+        daily_request_limit:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Daily Request Limit
+          description: Daily request limit (None = unlimited)
+        is_admin:
+          type: boolean
+          title: Is Admin
+          description: Whether user has admin/unlimited access
+          default: false
+      type: object
+      title: GatewayStatusResult
+      description: 'Usage status for Context-Gateway CLI display.
+
+
+        Provides a lightweight summary for the gateway to display
+
+        balance and usage info to users during operation.'
+    GatewayInstallRecord:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version
+        country_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Code
+        region:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Region
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: City
+      type: object
+      required:
+      - id
+      - created_at
+      title: GatewayInstallRecord
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GatewayStatusResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/GatewayStatusResult'
+          - type: 'null'
+      type: object
+      title: GatewayStatusResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    GatewayInstallStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        period:
+          type: string
+          title: Period
+          description: Time period (last_hour, last_day, last_week, etc.)
+        period_start:
+          type: string
+          title: Period Start
+          description: Start of period (ISO)
+        period_end:
+          type: string
+          title: Period End
+          description: End of period (ISO)
+        total_installs:
+          type: integer
+          title: Total Installs
+          description: Total number of installs in period
+        by_version:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Version
+          description: Installs by version
+        top_countries:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Top Countries
+          description: Top countries
+      type: object
+      required:
+      - period
+      - period_start
+      - period_end
+      - total_installs
+      title: GatewayInstallStatsResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

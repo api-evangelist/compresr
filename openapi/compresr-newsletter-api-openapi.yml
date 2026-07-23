@@ -1,0 +1,419 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Newsletter API
+  version: 1.0.0
+tags:
+- name: Newsletter
+paths:
+  /api/newsletter/subscribe:
+    post:
+      tags:
+      - Newsletter
+      summary: Subscribe To Newsletter
+      description: Start a double-opt-in newsletter subscription.
+      operationId: subscribe_to_newsletter_api_newsletter_subscribe_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsletterSubscribeRequest'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsletterSubscribeResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/newsletter/confirm:
+    post:
+      tags:
+      - Newsletter
+      summary: Confirm Newsletter Subscription
+      description: Complete the double-opt-in newsletter subscription.
+      operationId: confirm_newsletter_subscription_api_newsletter_confirm_post
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Signed confirmation token from email
+          title: Token
+        description: Signed confirmation token from email
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsletterSubscribeResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too Many Requests
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/newsletter/unsubscribe:
+    post:
+      tags:
+      - Newsletter
+      summary: Unsubscribe From Newsletter
+      description: 'Unsubscribe from the newsletter using token.
+
+
+        - No authentication required
+
+        - Token is from the unsubscribe link in emails'
+      operationId: unsubscribe_from_newsletter_api_newsletter_unsubscribe_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsletterUnsubscribeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsletterUnsubscribeResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Newsletter
+      summary: Unsubscribe Via Link
+      description: 'Unsubscribe from the newsletter via GET request (for email links).
+
+
+        This endpoint allows one-click unsubscribe from email links.
+
+        Format: /newsletter/unsubscribe?token=<uuid>'
+      operationId: unsubscribe_via_link_api_newsletter_unsubscribe_get
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Unsubscribe token from email
+          title: Token
+        description: Unsubscribe token from email
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsletterUnsubscribeResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/newsletter/status:
+    get:
+      tags:
+      - Newsletter
+      summary: Get Subscription Status
+      description: 'Get subscription status by token.
+
+
+        Used by unsubscribe page to show current status.'
+      operationId: get_subscription_status_api_newsletter_status_get
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Unsubscribe token from email
+          title: Token
+        description: Unsubscribe token from email
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsletterStatusResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    NewsletterStatusResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        email:
+          type: string
+          title: Email
+        status:
+          type: string
+          title: Status
+        subscribed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Subscribed At
+        unsubscribed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Unsubscribed At
+      type: object
+      required:
+      - email
+      - status
+      title: NewsletterStatusResponse
+    NewsletterSubscribeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        email:
+          type: string
+          title: Email
+          description: Subscribed email address
+        already_subscribed:
+          type: boolean
+          title: Already Subscribed
+          description: Whether email was already subscribed
+          default: false
+      type: object
+      required:
+      - email
+      title: NewsletterSubscribeResponse
+    NewsletterUnsubscribeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        email:
+          type: string
+          title: Email
+          description: Unsubscribed email address
+      type: object
+      required:
+      - email
+      title: NewsletterUnsubscribeResponse
+    NewsletterUnsubscribeRequest:
+      properties:
+        token:
+          type: string
+          format: uuid
+          title: Token
+          description: Unsubscribe token from email link
+      type: object
+      required:
+      - token
+      title: NewsletterUnsubscribeRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    NewsletterSubscribeRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+          description: Email address to subscribe
+        source:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Source
+          description: Source of subscription
+          default: landing_page
+      type: object
+      required:
+      - email
+      title: NewsletterSubscribeRequest
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

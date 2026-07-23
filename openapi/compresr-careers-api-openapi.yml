@@ -1,0 +1,1548 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Careers API
+  version: 1.0.0
+tags:
+- name: Careers
+paths:
+  /api/jobs/admin:
+    get:
+      tags:
+      - Careers
+      summary: Admin List Jobs
+      description: List all jobs (includes drafts and closed). Requires Support or Admin.
+      operationId: admin_list_jobs_api_jobs_admin_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/JobStatus'
+          - type: 'null'
+          description: Filter by status
+          title: Status
+        description: Filter by status
+      - name: department
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by department
+          title: Department
+        description: Filter by department
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Search in title
+          title: Search
+        description: Search in title
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobAdminListResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Careers
+      summary: Admin Create Job
+      description: Create a new job posting. Requires Admin.
+      operationId: admin_create_job_api_jobs_admin_post
+      security:
+      - HTTPBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/admin/applications:
+    get:
+      tags:
+      - Careers
+      summary: Admin List Applications
+      description: List job applications with filters. Requires Support or Admin.
+      operationId: admin_list_applications_api_jobs_admin_applications_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: job_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Filter by job
+          title: Job Id
+        description: Filter by job
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ApplicationStatus'
+          - type: 'null'
+          description: Filter by status
+          title: Status
+        description: Filter by status
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Search in name or email
+          title: Search
+        description: Search in name or email
+      - name: date_from
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: ISO datetime lower bound
+          title: Date From
+        description: ISO datetime lower bound
+      - name: date_to
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: ISO datetime upper bound
+          title: Date To
+        description: ISO datetime upper bound
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobApplicationListResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/admin/applications/{application_id}/cv/download:
+    get:
+      tags:
+      - Careers
+      summary: Admin Download Cv
+      description: Stream the CV file for admin download. Requires Support or Admin.
+      operationId: admin_download_cv_api_jobs_admin_applications__application_id__cv_download_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Application Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/admin/applications/{application_id}/cv/signed-url:
+    get:
+      tags:
+      - Careers
+      summary: Admin Cv Signed Url
+      description: Return a short-lived Storage signed URL — for inline PDF preview.
+      operationId: admin_cv_signed_url_api_jobs_admin_applications__application_id__cv_signed_url_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Application Id
+      - name: ttl_seconds
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 3600
+          minimum: 60
+          default: 900
+          title: Ttl Seconds
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Admin Cv Signed Url Api Jobs Admin Applications  Application Id  Cv Signed Url Get
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/admin/applications/purge:
+    post:
+      tags:
+      - Careers
+      summary: Admin Purge Applications
+      description: 'Delete rejected/withdrawn applications older than `retention_days` days.
+
+
+        CV files in Storage are removed first so no orphans are left behind.
+
+        Rate-limited to admin (not support) since it''s destructive.'
+      operationId: admin_purge_applications_api_jobs_admin_applications_purge_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: retention_days
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 3650
+          minimum: 1
+          default: 180
+          title: Retention Days
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationsPurgeResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/admin/applications/export/xlsx:
+    get:
+      tags:
+      - Careers
+      summary: Admin Export Applications Xlsx
+      description: Download an XLSX workbook — one sheet per job.
+      operationId: admin_export_applications_xlsx_api_jobs_admin_applications_export_xlsx_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: job_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Job Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ApplicationStatus'
+          - type: 'null'
+          title: Status
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Search
+      - name: date_from
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Date From
+      - name: date_to
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Date To
+      - name: ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Comma-separated application UUIDs
+          title: Ids
+        description: Comma-separated application UUIDs
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/admin/applications/export/zip:
+    get:
+      tags:
+      - Careers
+      summary: Admin Export Applications Zip
+      description: 'Download a ZIP: applications.xlsx + cvs/<candidate>_<id>.<ext>.'
+      operationId: admin_export_applications_zip_api_jobs_admin_applications_export_zip_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: job_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Job Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ApplicationStatus'
+          - type: 'null'
+          title: Status
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Search
+      - name: date_from
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Date From
+      - name: date_to
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Date To
+      - name: ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Comma-separated application UUIDs
+          title: Ids
+        description: Comma-separated application UUIDs
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/admin/applications/{application_id}:
+    get:
+      tags:
+      - Careers
+      summary: Admin Get Application
+      description: Get a single application. Requires Support or Admin.
+      operationId: admin_get_application_api_jobs_admin_applications__application_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Application Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobApplication'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Careers
+      summary: Admin Update Application
+      description: Update application status or admin notes. Requires Admin.
+      operationId: admin_update_application_api_jobs_admin_applications__application_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Application Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobApplicationUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobApplication'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Careers
+      summary: Admin Delete Application
+      description: Delete an application (also removes its CV from Storage). Requires Admin.
+      operationId: admin_delete_application_api_jobs_admin_applications__application_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Application Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/admin/{job_id}:
+    get:
+      tags:
+      - Careers
+      summary: Admin Get Job
+      description: Get a job by id (any status). Requires Support or Admin.
+      operationId: admin_get_job_api_jobs_admin__job_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Careers
+      summary: Admin Update Job
+      description: Update a job (partial). Requires Admin.
+      operationId: admin_update_job_api_jobs_admin__job_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Careers
+      summary: Admin Delete Job
+      description: Delete a job (cascades to applications and their CVs). Requires Admin.
+      operationId: admin_delete_job_api_jobs_admin__job_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs:
+    get:
+      tags:
+      - Careers
+      summary: List Public Jobs
+      description: List published jobs. Public — no authentication required.
+      operationId: list_public_jobs_api_jobs_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/jobs/{slug}:
+    get:
+      tags:
+      - Careers
+      summary: Get Public Job
+      description: Get a single published job by slug. Public — no authentication required.
+      operationId: get_public_job_api_jobs__slug__get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobPublicResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/{slug}/apply:
+    post:
+      tags:
+      - Careers
+      summary: Apply To Job
+      description: 'Public application endpoint. Multipart form: fields + CV file.
+
+
+        - Rate-limited per IP: 5/hour + 20/day (prod only, no auth required)
+
+        - CV must be a PDF, max 10 MB
+
+        - Duplicate applications (same email + non-withdrawn) are rejected'
+      operationId: apply_to_job_api_jobs__slug__apply_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_apply_to_job_api_jobs__slug__apply_post'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobApplicationSubmitResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '429':
+          description: Rate limit exceeded
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    EmploymentType:
+      type: string
+      enum:
+      - full_time
+      - part_time
+      - contract
+      - intern
+      title: EmploymentType
+    JobCreate:
+      properties:
+        slug:
+          type: string
+          maxLength: 100
+          minLength: 2
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: Slug
+        title:
+          type: string
+          maxLength: 200
+          minLength: 2
+          title: Title
+        department:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Department
+        location:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Location
+        workplace_type:
+          $ref: '#/components/schemas/WorkplaceType'
+          default: onsite
+        employment_type:
+          $ref: '#/components/schemas/EmploymentType'
+          default: full_time
+        description:
+          type: string
+          maxLength: 50000
+          title: Description
+          default: ''
+        application_questions:
+          items:
+            $ref: '#/components/schemas/ApplicationQuestion'
+          type: array
+          title: Application Questions
+        status:
+          $ref: '#/components/schemas/JobStatus'
+          default: draft
+      type: object
+      required:
+      - slug
+      - title
+      - department
+      - location
+      title: JobCreate
+    ApplicationQuestionType:
+      type: string
+      enum:
+      - short_text
+      - long_text
+      - select
+      - multiselect
+      - url
+      - yes_no
+      title: ApplicationQuestionType
+    JobStatus:
+      type: string
+      enum:
+      - draft
+      - published
+      - closed
+      title: JobStatus
+    ApplicationQuestion:
+      properties:
+        id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          pattern: ^[a-z0-9_]+$
+          title: Id
+        type:
+          $ref: '#/components/schemas/ApplicationQuestionType'
+        label:
+          type: string
+          maxLength: 500
+          minLength: 1
+          title: Label
+        required:
+          type: boolean
+          title: Required
+          default: false
+        options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Options
+          description: For select/multiselect, the allowed choices.
+        help_text:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Help Text
+      type: object
+      required:
+      - id
+      - type
+      - label
+      title: ApplicationQuestion
+      description: Per-job custom application question (admin-defined).
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JobPublicResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        title:
+          type: string
+          title: Title
+        department:
+          type: string
+          title: Department
+        location:
+          type: string
+          title: Location
+        workplace_type:
+          $ref: '#/components/schemas/WorkplaceType'
+        employment_type:
+          $ref: '#/components/schemas/EmploymentType'
+        description:
+          type: string
+          title: Description
+          default: ''
+        application_questions:
+          items:
+            $ref: '#/components/schemas/ApplicationQuestion'
+          type: array
+          title: Application Questions
+        published_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Published At
+      type: object
+      required:
+      - id
+      - slug
+      - title
+      - department
+      - location
+      - workplace_type
+      - employment_type
+      title: JobPublicResponse
+      description: Public job view — safe to expose to anonymous visitors.
+    ApplicationStatus:
+      type: string
+      enum:
+      - new
+      - reviewing
+      - interviewing
+      - offer
+      - hired
+      - rejected
+      - withdrawn
+      title: ApplicationStatus
+    JobAdminListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        jobs:
+          items:
+            $ref: '#/components/schemas/Job'
+          type: array
+          title: Jobs
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: JobAdminListResponse
+    Job:
+      properties:
+        slug:
+          type: string
+          maxLength: 100
+          minLength: 2
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: Slug
+        title:
+          type: string
+          maxLength: 200
+          minLength: 2
+          title: Title
+        department:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Department
+        location:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Location
+        workplace_type:
+          $ref: '#/components/schemas/WorkplaceType'
+          default: onsite
+        employment_type:
+          $ref: '#/components/schemas/EmploymentType'
+          default: full_time
+        description:
+          type: string
+          maxLength: 50000
+          title: Description
+          default: ''
+        application_questions:
+          items:
+            $ref: '#/components/schemas/ApplicationQuestion'
+          type: array
+          title: Application Questions
+        id:
+          type: string
+          format: uuid
+          title: Id
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        published_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Published At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - slug
+      - title
+      - department
+      - location
+      - id
+      - status
+      - created_at
+      - updated_at
+      title: Job
+      description: Full job record — admin view (includes drafts + timestamps).
+    MessageResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
+    JobApplicationSubmitResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        email:
+          type: string
+          title: Email
+        job_slug:
+          type: string
+          title: Job Slug
+      type: object
+      required:
+      - email
+      - job_slug
+      title: JobApplicationSubmitResponse
+    Body_apply_to_job_api_jobs__slug__apply_post:
+      properties:
+        full_name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Full Name
+        email:
+          type: string
+          maxLength: 254
+          title: Email
+        linkedin_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin Url
+        custom_answers:
+          type: string
+          title: Custom Answers
+          default: '{}'
+        cv:
+          type: string
+          format: binary
+          title: Cv
+      type: object
+      required:
+      - full_name
+      - email
+      - cv
+      title: Body_apply_to_job_api_jobs__slug__apply_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    JobApplication:
+      properties:
+        full_name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Full Name
+        email:
+          type: string
+          format: email
+          title: Email
+        linkedin_url:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Linkedin Url
+        custom_answers:
+          additionalProperties: true
+          type: object
+          title: Custom Answers
+        id:
+          type: string
+          format: uuid
+          title: Id
+        job_id:
+          type: string
+          format: uuid
+          title: Job Id
+        cv_storage_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cv Storage Path
+        cv_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cv Filename
+        cv_mime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cv Mime
+        cv_size_bytes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Cv Size Bytes
+        status:
+          $ref: '#/components/schemas/ApplicationStatus'
+        admin_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Admin Notes
+        applied_at:
+          type: string
+          format: date-time
+          title: Applied At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - full_name
+      - email
+      - id
+      - job_id
+      - status
+      - applied_at
+      - updated_at
+      title: JobApplication
+    WorkplaceType:
+      type: string
+      enum:
+      - onsite
+      - remote
+      - hybrid
+      title: WorkplaceType
+    JobApplicationUpdate:
+      properties:
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/ApplicationStatus'
+          - type: 'null'
+        admin_notes:
+          anyOf:
+          - type: string
+            maxLength: 10000
+          - type: 'null'
+          title: Admin Notes
+      type: object
+      title: JobApplicationUpdate
+    JobListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        jobs:
+          items:
+            $ref: '#/components/schemas/JobPublicResponse'
+          type: array
+          title: Jobs
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: JobListResponse
+    ApplicationsPurgeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        retention_days:
+          type: integer
+          title: Retention Days
+        statuses_purged:
+          items:
+            type: string
+          type: array
+          title: Statuses Purged
+        scanned:
+          type: integer
+          title: Scanned
+        deleted:
+          type: integer
+          title: Deleted
+        cv_files_removed:
+          type: integer
+          title: Cv Files Removed
+        errors:
+          items:
+            type: string
+          type: array
+          title: Errors
+      type: object
+      required:
+      - retention_days
+      - statuses_purged
+      - scanned
+      - deleted
+      - cv_files_removed
+      title: ApplicationsPurgeResponse
+    JobUpdate:
+      properties:
+        slug:
+          anyOf:
+          - type: string
+            maxLength: 100
+            minLength: 2
+            pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          - type: 'null'
+          title: Slug
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 2
+          - type: 'null'
+          title: Title
+        department:
+          anyOf:
+          - type: string
+            maxLength: 100
+            minLength: 1
+          - type: 'null'
+          title: Department
+        location:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
+          title: Location
+        workplace_type:
+          anyOf:
+          - $ref: '#/components/schemas/WorkplaceType'
+          - type: 'null'
+        employment_type:
+          anyOf:
+          - $ref: '#/components/schemas/EmploymentType'
+          - type: 'null'
+        description:
+          anyOf:
+          - type: string
+            maxLength: 50000
+          - type: 'null'
+          title: Description
+        application_questions:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ApplicationQuestion'
+            type: array
+          - type: 'null'
+          title: Application Questions
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/JobStatus'
+          - type: 'null'
+      type: object
+      title: JobUpdate
+    JobApplicationListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        applications:
+          items:
+            $ref: '#/components/schemas/JobApplication'
+          type: array
+          title: Applications
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: JobApplicationListResponse
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

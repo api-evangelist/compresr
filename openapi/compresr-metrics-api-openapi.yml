@@ -1,0 +1,51 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Metrics API
+  version: 1.0.0
+tags:
+- name: Metrics
+paths:
+  /metrics:
+    get:
+      summary: Metrics
+      description: 'Prometheus-compatible metrics endpoint.
+
+
+        Returns metrics in Prometheus exposition format for scraping.
+
+
+        Security: Requires support/admin role to prevent information disclosure.'
+      operationId: metrics_metrics_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+      tags:
+      - Metrics
+  /metrics/json:
+    get:
+      summary: Metrics Json
+      description: 'Metrics as JSON for dashboards and debugging.
+
+
+        Security: Requires support/admin role to prevent information disclosure.'
+      operationId: metrics_json_metrics_json_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+      tags:
+      - Metrics
+components:
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

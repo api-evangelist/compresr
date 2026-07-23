@@ -1,0 +1,342 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Usage API
+  version: 1.0.0
+tags:
+- name: Usage
+paths:
+  /api/usage/stats:
+    get:
+      tags:
+      - Usage
+      summary: Get Usage Stats
+      description: Get comprehensive usage statistics with time series.
+      operationId: get_usage_stats_api_usage_stats_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: period
+        in: query
+        required: false
+        schema:
+          enum:
+          - last_day
+          - last_week
+          - last_month
+          - last_90_days
+          - last_year
+          - current_month
+          - custom
+          type: string
+          description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, current_month, custom'
+          default: last_day
+          title: Period
+        description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, current_month, custom'
+      - name: start_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Start date for custom period (YYYY-MM-DD)
+          title: Start Date
+        description: Start date for custom period (YYYY-MM-DD)
+      - name: end_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: End date for custom period (YYYY-MM-DD)
+          title: End Date
+        description: End date for custom period (YYYY-MM-DD)
+      - name: group_by
+        in: query
+        required: false
+        schema:
+          enum:
+          - hour
+          - day
+          type: string
+          description: 'Group by: hour or day'
+          default: day
+          title: Group By
+        description: 'Group by: hour or day'
+      - name: api_key_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by specific API key ID
+          title: Api Key Id
+        description: Filter by specific API key ID
+      - name: model
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by specific model
+          title: Model
+        description: Filter by specific model
+      - name: include_per_key
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: When true (and no api_key_id filter), include per-key breakdown in one response.
+          default: false
+          title: Include Per Key
+        description: When true (and no api_key_id filter), include per-key breakdown in one response.
+      - name: skip_cache
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Force-drain the Redis usage stream so pending events land in usage_logs before reading. Use when the user clicks refresh.
+          default: false
+          title: Skip Cache
+        description: Force-drain the Redis usage stream so pending events land in usage_logs before reading. Use when the user clicks refresh.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageStatsResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    TimeSeriesDataPoint:
+      properties:
+        timestamp:
+          type: string
+          title: Timestamp
+          description: ISO timestamp
+        requests:
+          type: integer
+          title: Requests
+          description: Number of requests
+          default: 0
+        input_tokens:
+          type: integer
+          title: Input Tokens
+          description: Original input tokens
+          default: 0
+        compressed_input_tokens:
+          type: integer
+          title: Compressed Input Tokens
+          description: Compressed input tokens
+          default: 0
+        output_tokens:
+          type: integer
+          title: Output Tokens
+          description: Output tokens
+          default: 0
+        cost_usd:
+          type: number
+          title: Cost Usd
+          description: Cost in USD
+          default: 0.0
+        savings_usd:
+          type: number
+          title: Savings Usd
+          description: Savings in USD
+          default: 0.0
+      type: object
+      required:
+      - timestamp
+      title: TimeSeriesDataPoint
+    UsageStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/UsageStatsResult'
+          - type: 'null'
+      type: object
+      title: UsageStatsResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UsageStatsResult:
+      properties:
+        period:
+          type: string
+          title: Period
+          description: Time period (last_day, last_week, etc.)
+        period_start:
+          type: string
+          title: Period Start
+          description: Start of period (ISO)
+        period_end:
+          type: string
+          title: Period End
+          description: End of period (ISO)
+        group_by:
+          type: string
+          title: Group By
+          description: 'Grouping: hour or day'
+        time_series:
+          items:
+            $ref: '#/components/schemas/TimeSeriesDataPoint'
+          type: array
+          title: Time Series
+          description: Time series data points
+        total_requests:
+          type: integer
+          title: Total Requests
+          description: Total number of requests
+          default: 0
+        total_input_tokens:
+          type: integer
+          title: Total Input Tokens
+          description: Total original input tokens
+          default: 0
+        total_compressed_input_tokens:
+          type: integer
+          title: Total Compressed Input Tokens
+          description: Total compressed input tokens
+          default: 0
+        total_output_tokens:
+          type: integer
+          title: Total Output Tokens
+          description: Total output tokens
+          default: 0
+        total_cost_usd:
+          type: number
+          title: Total Cost Usd
+          description: Total cost in USD
+          default: 0.0
+        total_savings_usd:
+          type: number
+          title: Total Savings Usd
+          description: Total savings in USD
+          default: 0.0
+        total_spent_usd:
+          type: number
+          title: Total Spent Usd
+          description: Total amount spent in USD
+          default: 0.0
+        api_key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Id
+          description: Filtered by API key ID
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Filtered by model
+        per_key_time_series:
+          anyOf:
+          - additionalProperties:
+              items:
+                $ref: '#/components/schemas/TimeSeriesDataPoint'
+              type: array
+            type: object
+          - type: 'null'
+          title: Per Key Time Series
+          description: Per-API-key time series, keyed by api_token_id. Set when include_per_key=true.
+      type: object
+      required:
+      - period
+      - period_start
+      - period_end
+      - group_by
+      title: UsageStatsResult
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

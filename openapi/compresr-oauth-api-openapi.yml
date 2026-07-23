@@ -1,0 +1,462 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin OAuth API
+  version: 1.0.0
+tags:
+- name: OAuth
+paths:
+  /oauth/authorize:
+    get:
+      tags:
+      - OAuth
+      summary: Authorize
+      description: 'Begin the authorization-code flow.
+
+
+        On success, redirect (302) to the frontend consent screen carrying the
+
+        opaque ``request_id``. On validation failure, return a 400 JSON error
+
+        rather than redirecting to an unvalidated URI.'
+      operationId: authorize_oauth_authorize_get
+      parameters:
+      - name: response_type
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Response Type
+      - name: client_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Client Id
+      - name: redirect_uri
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Redirect Uri
+      - name: code_challenge
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Code Challenge
+      - name: code_challenge_method
+        in: query
+        required: false
+        schema:
+          type: string
+          default: S256
+          title: Code Challenge Method
+      - name: state
+        in: query
+        required: true
+        schema:
+          type: string
+          title: State
+      - name: scope
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scope
+      - name: org
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Org
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/authorize/request/{request_id}:
+    get:
+      tags:
+      - OAuth
+      summary: Get Authorize Request
+      description: Return consent-screen render data for a pending authorization request.
+      operationId: get_authorize_request_oauth_authorize_request__request_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Request Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationRequestInfo'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/authorize/decision:
+    post:
+      tags:
+      - OAuth
+      summary: Authorize Decision
+      description: Record the user's approve/deny decision and return the loopback redirect.
+      operationId: authorize_decision_oauth_authorize_decision_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizationDecisionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationDecisionResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /oauth/token:
+    post:
+      tags:
+      - OAuth
+      summary: Token
+      description: 'RFC 6749 token endpoint. Dispatches on ``grant_type`` and returns a
+
+        ``TokenResponse`` on success or an RFC 6749 JSON error envelope on failure.'
+      operationId: token_oauth_token_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_token_oauth_token_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/device_authorization:
+    post:
+      tags:
+      - OAuth
+      summary: Device Authorization
+      description: RFC 8628 device authorization endpoint.
+      operationId: device_authorization_oauth_device_authorization_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_device_authorization_oauth_device_authorization_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceAuthorizationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/device/decision:
+    post:
+      tags:
+      - OAuth
+      summary: Device Decision
+      description: Record the user's approve/deny decision for a device authorization.
+      operationId: device_decision_oauth_device_decision_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceDecisionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDecisionResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    AuthorizationDecisionRequest:
+      properties:
+        request_id:
+          type: string
+          title: Request Id
+        approve:
+          type: boolean
+          title: Approve
+          default: true
+      type: object
+      required:
+      - request_id
+      title: AuthorizationDecisionRequest
+      description: User's approve/deny decision for an authorization request.
+    TokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: Bearer
+        expires_in:
+          type: integer
+          title: Expires In
+        scope:
+          type: string
+          title: Scope
+        org:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Org
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+      type: object
+      required:
+      - access_token
+      - expires_in
+      - scope
+      title: TokenResponse
+      description: RFC 6749 token endpoint success response.
+    DeviceDecisionResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - message
+      title: DeviceDecisionResponse
+      description: Result of a device authorization decision.
+    AuthorizationDecisionResponse:
+      properties:
+        redirect_uri:
+          type: string
+          title: Redirect Uri
+          description: Full loopback URL including code+state, or error=access_denied
+      type: object
+      required:
+      - redirect_uri
+      title: AuthorizationDecisionResponse
+      description: Full loopback redirect URL incl. code+state OR error=access_denied.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DeviceAuthorizationResponse:
+      properties:
+        device_code:
+          type: string
+          title: Device Code
+        user_code:
+          type: string
+          title: User Code
+        verification_uri:
+          type: string
+          title: Verification Uri
+        verification_uri_complete:
+          type: string
+          title: Verification Uri Complete
+        expires_in:
+          type: integer
+          title: Expires In
+        interval:
+          type: integer
+          title: Interval
+      type: object
+      required:
+      - device_code
+      - user_code
+      - verification_uri
+      - verification_uri_complete
+      - expires_in
+      - interval
+      title: DeviceAuthorizationResponse
+      description: RFC 8628 device authorization response.
+    Body_token_oauth_token_post:
+      properties:
+        grant_type:
+          type: string
+          title: Grant Type
+        code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Code
+        redirect_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Redirect Uri
+        client_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Client Id
+        code_verifier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Code Verifier
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        device_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Device Code
+      type: object
+      required:
+      - grant_type
+      title: Body_token_oauth_token_post
+    Body_device_authorization_oauth_device_authorization_post:
+      properties:
+        client_id:
+          type: string
+          title: Client Id
+        scope:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scope
+      type: object
+      required:
+      - client_id
+      title: Body_device_authorization_oauth_device_authorization_post
+    AuthorizationRequestInfo:
+      properties:
+        request_id:
+          type: string
+          title: Request Id
+        client_id:
+          type: string
+          title: Client Id
+        scope:
+          type: string
+          title: Scope
+        org:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Org
+        redirect_uri:
+          type: string
+          title: Redirect Uri
+      type: object
+      required:
+      - request_id
+      - client_id
+      - scope
+      - redirect_uri
+      title: AuthorizationRequestInfo
+      description: Consent-screen render data for a pending authorization request.
+    DeviceDecisionRequest:
+      properties:
+        user_code:
+          type: string
+          title: User Code
+        approve:
+          type: boolean
+          title: Approve
+          default: true
+      type: object
+      required:
+      - user_code
+      title: DeviceDecisionRequest
+      description: User's approve/deny decision for a device authorization.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

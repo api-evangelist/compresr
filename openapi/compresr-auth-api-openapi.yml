@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Auth API
+  version: 1.0.0
+tags:
+- name: Auth
+paths:
+  /api/auth/check-email:
+    post:
+      tags:
+      - Auth
+      summary: Check Email Exists
+      description: 'Check if an email already has a completed account.
+
+
+        Returns {"exists": true} only if the email is registered AND has a
+
+        user_profiles row (completed signup). Users mid-OTP-verification
+
+        won''t be blocked, so "Resend OTP" still works.'
+      operationId: check_email_exists_api_auth_check_email_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailCheckRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailCheckResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    EmailCheckRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+      type: object
+      required:
+      - email
+      title: EmailCheckRequest
+    EmailCheckResponse:
+      properties:
+        exists:
+          type: boolean
+          title: Exists
+      type: object
+      required:
+      - exists
+      title: EmailCheckResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

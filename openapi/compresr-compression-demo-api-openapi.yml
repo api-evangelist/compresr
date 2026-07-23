@@ -1,0 +1,343 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Compression-Demo API
+  version: 1.0.0
+tags:
+- name: Compression-Demo
+paths:
+  /api/demo/stream:
+    get:
+      tags:
+      - Compression-Demo
+      summary: Demo Stream
+      description: Stream a demo compression result over SSE (GET - small payloads). Requires login.
+      operationId: demo_stream_api_demo_stream_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: context
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 1000000
+          title: Context
+      - name: compression_model_name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: latte_v2
+          title: Compression Model Name
+      - name: question
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 4096
+          - type: 'null'
+          title: Question
+      - name: target_ratio
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Target Ratio
+      - name: coarse
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Coarse
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Compression-Demo
+      summary: Demo Stream Post
+      description: Stream a demo compression result over SSE (POST - large payloads). Requires login.
+      operationId: demo_stream_post_api_demo_stream_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemoStreamRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/demo/test-output:
+    post:
+      tags:
+      - Compression-Demo
+      summary: Demo Test Output
+      description: Stream an LLM answer using the compressed context (SSE). Requires login.
+      operationId: demo_test_output_api_demo_test_output_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemoTestOutputRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/demo/samples:
+    get:
+      tags:
+      - Compression-Demo
+      summary: Demo Samples
+      description: Get sample texts and available demo models.
+      operationId: demo_samples_api_demo_samples_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoDataResponse'
+  /api/demo/health:
+    get:
+      tags:
+      - Compression-Demo
+      summary: Demo Health
+      description: Health check for demo compression.
+      operationId: demo_health_api_demo_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Demo Health Api Demo Health Get
+  /api/demo/models:
+    get:
+      tags:
+      - Compression-Demo
+      summary: Demo Models
+      description: List available demo compression models.
+      operationId: demo_models_api_demo_models_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoDataResponse'
+components:
+  schemas:
+    DemoStreamRequest:
+      properties:
+        context:
+          type: string
+          maxLength: 1000000
+          minLength: 1
+          title: Context
+        compression_model_name:
+          type: string
+          title: Compression Model Name
+          default: latte_v2
+        question:
+          anyOf:
+          - type: string
+            maxLength: 4096
+          - type: 'null'
+          title: Question
+        target_ratio:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Target Ratio
+        coarse:
+          type: boolean
+          title: Coarse
+          default: true
+      type: object
+      required:
+      - context
+      title: DemoStreamRequest
+    SampleText:
+      properties:
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - name
+      - text
+      title: SampleText
+    DemoTestOutputRequest:
+      properties:
+        question:
+          type: string
+          maxLength: 4096
+          minLength: 1
+          title: Question
+        compressed_context:
+          type: string
+          maxLength: 1000000
+          minLength: 1
+          title: Compressed Context
+      type: object
+      required:
+      - question
+      - compressed_context
+      title: DemoTestOutputRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DemoCompressionModelOption:
+      properties:
+        value:
+          type: string
+          title: Value
+        label:
+          type: string
+          title: Label
+        description:
+          type: string
+          title: Description
+          default: ''
+        tier_scale:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier Scale
+      type: object
+      required:
+      - value
+      - label
+      title: DemoCompressionModelOption
+    DemoData:
+      properties:
+        sample_texts:
+          items:
+            $ref: '#/components/schemas/SampleText'
+          type: array
+          title: Sample Texts
+        compression_models:
+          items:
+            $ref: '#/components/schemas/DemoCompressionModelOption'
+          type: array
+          title: Compression Models
+          default: []
+      type: object
+      required:
+      - sample_texts
+      title: DemoData
+    DemoDataResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          $ref: '#/components/schemas/DemoData'
+      type: object
+      required:
+      - data
+      title: DemoDataResponse
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

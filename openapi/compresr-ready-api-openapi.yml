@@ -1,0 +1,32 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Ready API
+  version: 1.0.0
+tags:
+- name: Ready
+paths:
+  /ready:
+    get:
+      summary: Readiness
+      description: 'Readiness probe for Kubernetes/orchestrator.
+
+
+        Returns 200 only if the service can handle requests:
+
+        - Compression engine is initialized
+
+        - At least one model is available'
+      operationId: readiness_ready_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Ready
+components:
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,550 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Feature Requests API
+  version: 1.0.0
+tags:
+- name: Feature Requests
+paths:
+  /api/feature/request:
+    post:
+      tags:
+      - Feature Requests
+      summary: Submit Feature Request
+      description: 'Submit a feature request.
+
+
+        - No authentication required
+
+        - Validates email, subject, and description
+
+        - Stores request for admin review
+
+        - Rate limited: 5 requests per hour per IP'
+      operationId: submit_feature_request_api_feature_request_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeatureRequestCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureRequestResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/feature/admin/requests:
+    get:
+      tags:
+      - Feature Requests
+      summary: List Feature Requests
+      description: 'List all feature requests with filtering.
+
+
+        - Requires Support or Admin role
+
+        - Supports filtering by status and priority
+
+        - Supports search in email, subject, and description'
+      operationId: list_feature_requests_api_feature_admin_requests_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by status
+          title: Status
+        description: Filter by status
+      - name: priority
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by priority
+          title: Priority
+        description: Filter by priority
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Search in email, subject, or description
+          title: Search
+        description: Search in email, subject, or description
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Max results
+          default: 50
+          title: Limit
+        description: Max results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Pagination offset
+          default: 0
+          title: Offset
+        description: Pagination offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureRequestListResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/feature/admin/requests/{request_id}:
+    get:
+      tags:
+      - Feature Requests
+      summary: Get Feature Request
+      description: 'Get a single feature request by ID.
+
+
+        - Requires Support or Admin role'
+      operationId: get_feature_request_api_feature_admin_requests__request_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Request Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureRequest'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Feature Requests
+      summary: Update Feature Request
+      description: 'Update a feature request status, priority, or notes.
+
+
+        - Requires Admin role'
+      operationId: update_feature_request_api_feature_admin_requests__request_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Request Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeatureRequestUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureRequest'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Feature Requests
+      summary: Delete Feature Request
+      description: 'Delete a feature request.
+
+
+        - Requires Admin role
+
+        - This action is permanent'
+      operationId: delete_feature_request_api_feature_admin_requests__request_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Request Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    FeatureRequestPriority:
+      type: string
+      enum:
+      - low
+      - normal
+      - high
+      - critical
+      title: FeatureRequestPriority
+    FeatureRequestCreate:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+          description: Email address
+        subject:
+          type: string
+          maxLength: 255
+          minLength: 5
+          title: Subject
+          description: Feature request subject/title
+        description:
+          type: string
+          maxLength: 2000
+          minLength: 20
+          title: Description
+          description: Detailed description of the feature request
+      type: object
+      required:
+      - email
+      - subject
+      - description
+      title: FeatureRequestCreate
+    MessageResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
+    FeatureRequest:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          title: Email
+        subject:
+          type: string
+          title: Subject
+        description:
+          type: string
+          title: Description
+        status:
+          type: string
+          title: Status
+        priority:
+          type: string
+          title: Priority
+        admin_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Admin Notes
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+        reviewed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Reviewed At
+      type: object
+      required:
+      - id
+      - email
+      - subject
+      - description
+      - status
+      - priority
+      - created_at
+      - updated_at
+      title: FeatureRequest
+    FeatureRequestStatus:
+      type: string
+      enum:
+      - pending
+      - under_review
+      - planned
+      - in_progress
+      - completed
+      - declined
+      title: FeatureRequestStatus
+    FeatureRequestListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        requests:
+          items:
+            $ref: '#/components/schemas/FeatureRequest'
+          type: array
+          title: Requests
+          default: []
+        total:
+          type: integer
+          title: Total
+          default: 0
+        pending_count:
+          type: integer
+          title: Pending Count
+          default: 0
+        under_review_count:
+          type: integer
+          title: Under Review Count
+          default: 0
+        planned_count:
+          type: integer
+          title: Planned Count
+          default: 0
+        in_progress_count:
+          type: integer
+          title: In Progress Count
+          default: 0
+      type: object
+      title: FeatureRequestListResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FeatureRequestUpdate:
+      properties:
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/FeatureRequestStatus'
+          - type: 'null'
+          description: New status
+        priority:
+          anyOf:
+          - $ref: '#/components/schemas/FeatureRequestPriority'
+          - type: 'null'
+          description: Priority level
+        admin_notes:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Admin Notes
+          description: Internal admin notes
+      type: object
+      title: FeatureRequestUpdate
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    FeatureRequestResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+          description: Request ID (None on error)
+        email:
+          type: string
+          title: Email
+          description: Submitted email
+        subject:
+          type: string
+          title: Subject
+          description: Feature subject
+      type: object
+      required:
+      - email
+      - subject
+      title: FeatureRequestResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

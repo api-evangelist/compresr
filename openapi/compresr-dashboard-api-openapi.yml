@@ -1,0 +1,499 @@
+openapi: 3.1.0
+info:
+  title: Compresr Platform Admin Dashboard API
+  version: 1.0.0
+tags:
+- name: Dashboard
+paths:
+  /api/dashboard/stats:
+    get:
+      tags:
+      - Dashboard
+      summary: Get Dashboard Stats
+      description: 'Get dashboard statistics for authenticated user.
+
+
+        Returns comprehensive dashboard data including:
+
+        - Current balance
+
+        - Usage statistics
+
+        - API key summaries
+
+        - Recent activity
+
+
+        Query params:
+
+        - skip_cache: Force fresh data from database, bypassing Redis cache'
+      operationId: get_dashboard_stats_api_dashboard_stats_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: skip_cache
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Force refresh, bypassing cache
+          default: false
+          title: Skip Cache
+        description: Force refresh, bypassing cache
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardStatsResponse'
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AccountType:
+      type: string
+      enum:
+      - user
+      - enterprise
+      title: AccountType
+      description: 'Account type: determines billing mode and allowed API key scopes.
+
+
+        - USER: Prepaid wallet billing, can create user-scope keys
+
+        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
+    DashboardStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/DashboardStats'
+          - type: 'null'
+      type: object
+      title: DashboardStatsResponse
+    EnterpriseKeyUsage:
+      properties:
+        api_key_id:
+          type: string
+          title: Api Key Id
+          description: API key UUID
+        api_key_name:
+          type: string
+          title: Api Key Name
+          description: API key name
+          default: Enterprise Key
+        scope:
+          $ref: '#/components/schemas/APIKeyScope'
+          description: Key scope
+          default: enterprise
+        billing_mode:
+          type: string
+          const: postpaid
+          title: Billing Mode
+          description: Billing mode (postpaid)
+          default: postpaid
+        current_balance_usd:
+          type: number
+          title: Current Balance Usd
+          description: Current balance/debt (USD)
+          default: 0.0
+        current_month_usage_usd:
+          type: number
+          title: Current Month Usage Usd
+          description: Current month usage (USD)
+          default: 0.0
+        credit_limit_usd:
+          type: number
+          title: Credit Limit Usd
+          description: Credit limit (USD)
+          default: 10000.0
+        credit_remaining_usd:
+          type: number
+          title: Credit Remaining Usd
+          description: Remaining credit (USD)
+          default: 0.0
+        monthly_budget_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Monthly Budget Usd
+          description: Monthly spending budget
+        budget_utilization_percent:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Utilization Percent
+          description: Budget usage percentage
+        is_over_budget:
+          type: boolean
+          title: Is Over Budget
+          description: Whether over budget
+          default: false
+        total_requests:
+          type: integer
+          title: Total Requests
+          description: Total requests (lifetime)
+          default: 0
+        current_month_requests:
+          type: integer
+          title: Current Month Requests
+          description: Requests in the current billing month
+          default: 0
+        last_used_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Used At
+          description: Last used timestamp
+      type: object
+      required:
+      - api_key_id
+      title: EnterpriseKeyUsage
+      description: 'Usage summary for enterprise (postpaid) API keys.
+
+
+        Enterprise keys use a different billing model:
+
+        - Prepaid (regular): User pays upfront, balance deducted from user_wallets
+
+        - Postpaid (enterprise): Usage accumulated on key, invoiced monthly
+
+
+        For postpaid keys, current_balance_usd is negative (representing debt/usage).
+
+        Monthly usage resets at the start of each month and is stored in history for invoicing.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TierName:
+      type: string
+      enum:
+      - tier1
+      - tier2
+      - tier3
+      - tier4
+      - tier5
+      title: TierName
+    ApiKeyUsageSummary:
+      properties:
+        api_key_id:
+          type: string
+          title: Api Key Id
+          description: API key UUID
+        api_key_name:
+          type: string
+          title: Api Key Name
+          description: API key name
+        requests_this_month:
+          type: integer
+          title: Requests This Month
+          description: Requests made this month (resets monthly)
+          default: 0
+        money_used_this_month:
+          type: number
+          title: Money Used This Month
+          description: Money used via this key this month (USD)
+          default: 0.0
+        budget_limit:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Limit
+          description: Budget limit for this key (USD)
+        budget_remaining:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Remaining
+          description: Budget remaining for this key (USD)
+      type: object
+      required:
+      - api_key_id
+      - api_key_name
+      title: ApiKeyUsageSummary
+      description: 'Summary of usage for a single API key (dashboard view).
+
+
+        Note: requests_this_month uses current_month_requests from DB which resets monthly.'
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    DashboardStats:
+      properties:
+        total_uploaded_money:
+          type: number
+          title: Total Uploaded Money
+          description: Total money uploaded to account (USD)
+          default: 0.0
+        total_used_money:
+          type: number
+          title: Total Used Money
+          description: Total money consumed via API usage (USD)
+          default: 0.0
+        wallet_balance_usd:
+          type: number
+          title: Wallet Balance Usd
+          description: Wallet balance from Stripe deposits (USD)
+          default: 0.0
+        total_available_usd:
+          type: number
+          title: Total Available Usd
+          description: Total spendable balance (wallet_balance_usd)
+          default: 0.0
+        usage_percentage:
+          type: number
+          title: Usage Percentage
+          description: Percentage of uploaded money used
+          default: 0.0
+        monthly_budget:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Monthly Budget
+          description: User's monthly budget limit (USD, None for admin/unlimited)
+        budget_used_this_month:
+          type: number
+          title: Budget Used This Month
+          description: Money used this month (USD)
+          default: 0.0
+        budget_remaining_this_month:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Remaining This Month
+          description: Budget remaining this month (USD, None for unlimited)
+        budget_percentage:
+          type: number
+          title: Budget Percentage
+          description: Percentage of monthly budget used
+          default: 0.0
+        spend_this_month:
+          type: number
+          title: Spend This Month
+          description: Total money spent this month (USD)
+          default: 0.0
+        total_api_calls:
+          type: integer
+          title: Total Api Calls
+          description: Total API calls (all time)
+          default: 0
+        api_calls_this_month:
+          type: integer
+          title: Api Calls This Month
+          description: API calls in current month
+          default: 0
+        active_api_keys:
+          type: integer
+          title: Active Api Keys
+          description: Number of active API keys
+          default: 0
+        cloud_calls_this_month:
+          type: integer
+          title: Cloud Calls This Month
+          description: API calls this month sourced from cloud SDK / direct API
+          default: 0
+        onprem_calls_this_month:
+          type: integer
+          title: Onprem Calls This Month
+          description: API calls this month sourced from on-prem instances
+          default: 0
+        days_until_month_reset:
+          type: integer
+          title: Days Until Month Reset
+          description: Days until current month ends
+          default: 0
+        current_month:
+          type: string
+          title: Current Month
+          description: Current month (YYYY-MM format)
+          default: ''
+        avg_compression_ratio:
+          type: number
+          title: Avg Compression Ratio
+          description: Average compression ratio (last 30 days)
+          default: 0.0
+        total_tokens_saved:
+          type: integer
+          title: Total Tokens Saved
+          description: Total tokens saved (all time)
+          default: 0
+        tokens_saved_this_month:
+          type: integer
+          title: Tokens Saved This Month
+          description: Tokens saved this month
+          default: 0
+        total_input_tokens_this_month:
+          type: integer
+          title: Total Input Tokens This Month
+          description: Total input tokens processed this month
+          default: 0
+        tier:
+          $ref: '#/components/schemas/TierName'
+          description: Current rate-limit tier (tier1, tier2, etc.)
+          default: tier1
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+          description: 'Account type: user (prepaid wallet) or enterprise (postpaid invoicing)'
+          default: user
+        is_admin:
+          type: boolean
+          title: Is Admin
+          description: Whether user is admin (infinite usage)
+          default: false
+        account_created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Created At
+          description: Account creation date
+        api_key_usage:
+          items:
+            $ref: '#/components/schemas/ApiKeyUsageSummary'
+          type: array
+          title: Api Key Usage
+          description: Usage breakdown per API key
+        enterprise_keys:
+          items:
+            $ref: '#/components/schemas/EnterpriseKeyUsage'
+          type: array
+          title: Enterprise Keys
+          description: Usage for enterprise (postpaid) API keys
+        has_unpaid_invoices:
+          type: boolean
+          title: Has Unpaid Invoices
+          description: Whether user has any unpaid enterprise invoices
+          default: false
+        unpaid_invoice_amount_usd:
+          type: number
+          title: Unpaid Invoice Amount Usd
+          description: Total amount of unpaid enterprise invoices (USD)
+          default: 0.0
+        top_models:
+          items:
+            $ref: '#/components/schemas/ModelStatsItem'
+          type: array
+          title: Top Models
+          description: Top 3 most used models with usage stats
+      type: object
+      title: DashboardStats
+    ModelStatsItem:
+      properties:
+        model:
+          type: string
+          title: Model
+          description: Model name
+        requests:
+          type: integer
+          title: Requests
+          description: Number of requests
+          default: 0
+        input_tokens:
+          type: integer
+          title: Input Tokens
+          description: Original input tokens
+          default: 0
+        compressed_input_tokens:
+          type: integer
+          title: Compressed Input Tokens
+          description: Compressed input tokens
+          default: 0
+        output_tokens:
+          type: integer
+          title: Output Tokens
+          description: Output tokens
+          default: 0
+        cost_usd:
+          type: number
+          title: Cost Usd
+          description: Cost in USD
+          default: 0.0
+      type: object
+      required:
+      - model
+      title: ModelStatsItem
+    APIKeyScope:
+      type: string
+      enum:
+      - demo
+      - user
+      - enterprise
+      title: APIKeyScope
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
