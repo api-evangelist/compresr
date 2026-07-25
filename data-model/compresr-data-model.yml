@@ -1,0 +1,71 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/compresr-openapi-original.json
+note: >-
+  Entity graph derived from OpenAPI component schemas and id-reference fields. Compresr
+  is a compute API (compression) with an account/billing control plane; the central
+  runtime object is the stateless CompressionResult, and the persistent entities are
+  User/Profile, ApiKey, and the billing objects.
+entities:
+- name: User
+  aka: Profile
+  schemas: [Profile, APIKeyScope]
+  key_fields: [id, email, role]
+  description: Account holder; created via /api/profile/create, read at /api/profile/me.
+- name: ApiKey
+  schemas: [APIKeyResult, APIKeyResponse, APIKeyCreateRequest, APIKeyStatus, APIKeyScope]
+  key_fields: [key_id, prefix(cmp_), scope, status, budget, expiry]
+  scope_enum: [demo, user, enterprise]
+  status_enum: [pending, active, expired, declined, revoked]
+  description: Credential used for X-API-Key auth; carries a scope, status, monthly budget, and optional expiry.
+- name: CompressionResult
+  schemas: [CompressionResult]
+  key_fields: [original_tokens, compressed_tokens, target_compression_ratio, actual_compression_ratio, tokens_saved, duration_ms, compressed_context]
+  description: Stateless output of a compress call (question-specific / tool-output / history / tool-discovery).
+- name: CompressionModel
+  schemas: [CompressionModelInfo, CompressionModelsResponse]
+  members: [latte_v1, latte_v2, toc_latte_v1, toc_latte_v2, hcc_latte_v1, hcc_latte_v2, tdc_latte_v1, tdc_latte_v2]
+  description: Named compression models exposed on the public API.
+- name: BillingTier
+  schemas: [billing/tiers]
+  members: [tier1, tier2, tier3, tier4, tier5]
+  key_fields: [name, min_monthly_tokens, max_api_keys, rate_limits.rpm, rate_limits.tpm, rate_limits.rpd]
+- name: Invoice
+  schemas: [Invoice, InvoiceListResponse, InvoiceStatus, InvoiceType, InvoicePaymentRequest]
+  key_fields: [id, status, type, amount]
+- name: Transaction
+  schemas: [billing/transactions, MoneyUploadRequest]
+  key_fields: [id, amount, idempotency_key]
+- name: UsageStats
+  schemas: [usage/stats, ApiKeyUsageSummary]
+  key_fields: [tokens, requests, period]
+- name: Job
+  schemas: [Job, JobAdminListResponse]
+  key_fields: [id, slug]
+  description: Careers/job postings surface (/api/jobs).
+relationships:
+- from: ApiKey
+  type: belongs_to
+  to: User
+  via: user_id
+- from: User
+  type: has_many
+  to: ApiKey
+- from: UsageStats
+  type: belongs_to
+  to: ApiKey
+  via: api_key_id
+- from: Invoice
+  type: belongs_to
+  to: User
+- from: Transaction
+  type: belongs_to
+  to: User
+- from: ApiKey
+  type: has_one
+  to: BillingTier
+  via: tier (derived from min_monthly_tokens)
+- from: CompressionResult
+  type: produced_by
+  to: CompressionModel
+  via: compression_model_name

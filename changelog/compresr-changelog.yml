@@ -1,0 +1,21 @@
+generated: '2026-07-18'
+method: searched
+source: https://compresr.ai/changelog
+feed: https://compresr.ai/changelog/feed.xml
+scheme: dated-release-notes
+current_version:
+  api: '1.0.0'   # OpenAPI info.version (Compresr Platform API)
+  python_sdk: 2.8.2
+  typescript_sdk: 1.7.0
+last_updated: '2026-06-03'
+entries:
+- title: Compresr Changelog
+  date: '2026-06-03'
+  summary: Release notes for the Compresr SDK and API surface.
+  breaking: []
+  additions: []
+notes: >-
+  Compresr publishes a dated product/API changelog with an Atom feed at
+  /changelog/feed.xml. As of 2026-07-18 the machine feed exposes a single umbrella
+  entry (updated 2026-06-03); the human page at /changelog is the source of truth for
+  granular dated entries. Recent-window capture only.

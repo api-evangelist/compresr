@@ -1,0 +1,40 @@
+generated: '2026-07-18'
+method: searched
+source: https://compresr.ai/docs/authentication
+free_credits:
+  amount_usd: 10
+  card_required: false
+  source: https://compresr.ai/agents.md
+key_model:
+  prefix: cmp_
+  scopes:
+  - demo
+  - user
+  - enterprise
+  demo_key:
+    description: >-
+      A demo-scoped key exercises free/demo endpoints; using it on a paid endpoint
+      returns 403 with code scope_error (ScopeError in the SDKs).
+    info_endpoint: GET /api/api-keys/demo-key-info
+demo_surface:
+  description: >-
+    Public demo endpoints let you try compression without a full account, returning
+    canned/sample outputs and streaming demos.
+  endpoints:
+  - GET  /api/demo/samples        # sample texts to compress
+  - GET  /api/demo/models         # models available in demo
+  - POST /api/demo/test-output    # demo compression
+  - GET  /api/demo/stream         # SSE demo stream
+  - POST /api/demo/stream
+  - GET  /api/demo/health
+empty_input_behaviour:
+  context_empty_string: returns an empty result with no billing
+insecure_transport_guard:
+  description: >-
+    Both SDKs refuse to start against a non-HTTPS base_url (CompresrError
+    code=insecure_base_url). Override with COMPRESR_ALLOW_INSECURE=1. Loopback hosts
+    (localhost, 127.0.0.1) are exempt.
+notes: >-
+  Compresr has no test-vs-live key split or magic test-card values (it is not a
+  payments provider); the sandbox surface is the $10 no-card free credit, demo-scoped
+  keys, and the public /api/demo/* endpoints. No fabricated test values.

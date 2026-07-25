@@ -1,0 +1,35 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: openapi/compresr-openapi-original.json
+note: >-
+  No official hosted/remote MCP server was found on Compresr's public surface as of
+  2026-07-18 (no mcp.compresr.ai, no entry in the docs or SDK). This is a DERIVED
+  candidate tool set mapping the marquee public compression operations to MCP tools so
+  the provider can be evaluated for agent-readiness. Not an official Compresr server.
+server:
+  name: compresr
+  transport: http
+  url: null
+tools:
+- name: compress_question_specific
+  description: Compress a long context down to the spans relevant to a query (latte_v1/latte_v2).
+  source_operation: openapi/compresr-openapi-original.json#compress_query_specific_api_compress_question_specific__post
+- name: compress_question_specific_batch
+  description: Batch-compress up to 100 (context, query) rows in one call.
+  source_operation: openapi/compresr-openapi-original.json#compress_query_specific_batch_api_compress_question_specific_batch_post
+- name: compress_tool_output
+  description: Query-aware compression of noisy tool/function results before they re-enter a prompt.
+  source_operation: openapi/compresr-openapi-original.json#compress_tool_output_api_compress_tool_output__post
+- name: compress_history
+  description: Compress growing conversation history to stay inside the context window.
+  source_operation: openapi/compresr-openapi-original.json#compress_history_api_compress_history__post
+- name: compress_tool_discovery
+  description: Select the relevant tools from a list for a given query.
+  source_operation: openapi/compresr-openapi-original.json#compress_tool_discovery_api_compress_tool_discovery__post
+- name: list_compression_models
+  description: List available compression models and their tiers.
+  source_operation: openapi/compresr-openapi-original.json#list_compression_models_api_compress_models_get
+- name: estimate_cost
+  description: Estimate the cost of a compression call before running it.
+  source_operation: openapi/compresr-openapi-original.json#estimate cost (/api/pricing/estimate-cost)

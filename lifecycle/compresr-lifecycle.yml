@@ -1,0 +1,31 @@
+generated: '2026-07-18'
+method: searched
+source: https://compresr.ai/docs/api-reference/conventions
+versioning:
+  scheme: implicit-uri-prefix
+  current: /api (no explicit /v1 segment)
+  policy: >-
+    Versioned in the URL prefix once a breaking change is introduced. Today routes live
+    under /api with no /v1 segment and clients should not depend on one. When a v2
+    surface ships it is served alongside v1 from a versioned prefix, and v1 continues to
+    operate for a documented deprecation window.
+  docs: https://compresr.ai/docs/api-reference/conventions#versioning
+deprecation:
+  policy: deprecation window on breaking changes (announced via the changelog)
+  sunset_header: false
+  docs: https://compresr.ai/docs/api-reference/conventions#versioning
+model_lifecycle:
+  latte_v1: stable (battle-tested)
+  latte_v2: beta (default recommendation; drop-in superset of latte_v1)
+changelog:
+  human: https://compresr.ai/changelog
+  feed: https://compresr.ai/changelog/feed.xml
+  ref: changelog/compresr-changelog.yml
+status_page:
+  documented_reference: https://status.compresr.ai
+  resolves: false
+  note: >-
+    The errors doc references a status page at https://status.compresr.ai, but that
+    host does not currently resolve in DNS (checked 2026-07-18). No StatusPage pointer
+    is wired until it is live.
+deprecated_operations: []

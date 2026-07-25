@@ -1,0 +1,54 @@
+generated: '2026-07-18'
+method: searched
+source: https://api.compresr.ai/api/billing/tiers
+docs: https://compresr.ai/docs/api-reference/rate-limits
+model: tier-based per-API-key; enforced per-minute and per-day; separate request and token quotas
+enforcement:
+  status: 429 Too Many Requests
+  header: Retry-After (seconds)
+  signal_headers:
+  - X-RateLimit-Limit-Minute
+  - X-RateLimit-Remaining-Minute
+  - X-RateLimit-Limit-Day
+  - X-RateLimit-Remaining-Day
+  - X-RateLimit-Tier
+tiers:
+- tier: tier1
+  min_monthly_tokens: 0
+  max_api_keys: 2
+  limit_count: 60      # requests per minute
+  rpm: 60
+  tpm: 250000
+  rpd: 5000
+- tier: tier2
+  min_monthly_tokens: 1000000
+  max_api_keys: 4
+  limit_count: 120
+  rpm: 120
+  tpm: 500000
+  rpd: 10000
+- tier: tier3
+  min_monthly_tokens: 5000000
+  max_api_keys: 8
+  limit_count: 250
+  rpm: 250
+  tpm: 1000000
+  rpd: 50000
+- tier: tier4
+  min_monthly_tokens: 25000000
+  max_api_keys: 16
+  limit_count: 500
+  rpm: 500
+  tpm: 2000000
+  rpd: 100000
+- tier: tier5
+  min_monthly_tokens: 100000000
+  max_api_keys: 32
+  limit_count: 1000
+  rpm: 1000
+  tpm: 4000000
+  rpd: 5000000
+notes: >-
+  Numbers are live from GET /api/billing/tiers (base scale). Faster models consume a
+  higher tier_scale (latte_v2 = x2, some x5) which multiplies effective throughput per
+  the scale_limits table on the same endpoint.

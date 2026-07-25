@@ -1,0 +1,65 @@
+generated: '2026-07-18'
+method: searched
+source: https://compresr.ai/docs/api-reference/conventions
+base_url: https://api.compresr.ai
+mount_prefix: /api
+authentication:
+  style: api-key-header
+  header: X-API-Key
+  key_prefix: cmp_
+  transport: HTTPS only (plain HTTP rejected at the edge)
+  ref: authentication/compresr-authentication.yml
+content_type:
+  request: application/json
+  response: application/json
+  streaming: text/event-stream  # paths ending in /stream (SSE)
+field_casing:
+  wire: snake_case          # compression_model_name, target_compression_ratio
+  typescript_sdk: camelCase # translated on the wire by the SDK
+response_envelope:
+  shape: "{ success: bool, data: object|null, error: object|null }"
+  discriminant: success
+  error_fields: [error.code, error.message]
+  ref: errors/compresr-error-codes.yml
+  note: streaming endpoints return SSE, not this envelope
+idempotency:
+  supported: true
+  mechanisms:
+  - name: idempotency_key
+    scope: billing money-upload (POST /api/billing/upload)
+    header_or_field: field (request body, string, max 128 chars)
+    purpose: prevent double-credits on retry
+    source: openapi/compresr-openapi-original.json#MoneyUploadRequest.idempotency_key
+  - name: batch_id
+    scope: batch/telemetry submission
+    retention: 24h
+    behaviour: same batch_id within 24h returns the original result; a conflicting duplicate returns 409 (duplicate_batch)
+    source: openapi/compresr-openapi-original.json
+  - name: revoke
+    scope: API key revoke (DELETE /api/api-keys/{key_id})
+    behaviour: idempotent — 200 whether the key was ACTIVE or already revoked
+    source: openapi/compresr-openapi-original.json
+pagination:
+  style: none-documented
+  note: >-
+    The public compression endpoints are stateless single/batch/stream calls; list
+    endpoints (api-keys, history, admin) return arrays in data without a documented
+    cursor/offset pagination contract.
+batching:
+  endpoints: [/api/compress/question-specific/batch, and sibling /batch routes]
+  max_items: 100  # inputs array; over 100 => 422 validation_error
+rate_limit_signaling:
+  headers:
+  - X-RateLimit-Limit-Minute
+  - X-RateLimit-Remaining-Minute
+  - X-RateLimit-Limit-Day
+  - X-RateLimit-Remaining-Day
+  - X-RateLimit-Tier
+  - Retry-After   # 429 only
+  ref: rate-limits/compresr-rate-limits.yml
+versioning:
+  scheme: implicit — routes under /api with no explicit /v1 segment today
+  future: a versioned prefix ships alongside on the first breaking change, with a deprecation window
+  ref: lifecycle/compresr-lifecycle.yml
+request_tracing:
+  documented: false

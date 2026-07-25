@@ -1,0 +1,84 @@
+generated: '2026-07-18'
+method: searched
+source: https://compresr.ai/docs/api-reference/errors
+format: custom-envelope
+envelope:
+  fields:
+    success: boolean — always false on error
+    error.code: stable machine-readable code (switch on this)
+    error.message: human-readable, wording may change (log code, not message)
+  example: |
+    {"success": false, "data": null,
+     "error": {"code": "invalid_api_key",
+               "message": "The provided API key does not exist or has been revoked."}}
+  note: >-
+    Errors do NOT use RFC 9457 application/problem+json — they use the shared
+    { success, data, error } envelope. One exception: omitting the X-API-Key header
+    entirely returns 422 with FastAPI's default {"detail":[...]} envelope, not this shape.
+retry_policy:
+  retry_on: [429, 500, 503]
+  never_retry: [400, 401, 403, 404, 422]
+  honor_header: Retry-After
+codes:
+- status: 400
+  code: invalid_request
+  title: Bad request
+  cause: Body is not valid JSON or does not match the expected shape.
+  remediation: Fix the request before retrying; identical retries fail identically.
+- status: 401
+  code: missing_api_key
+  title: Missing API key
+  cause: No X-API-Key header present.
+  remediation: Send the X-API-Key header with a valid cmp_ key.
+- status: 401
+  code: invalid_api_key
+  title: Invalid API key
+  cause: Header present but the key does not exist or was revoked.
+  remediation: Issue a fresh key in the dashboard and update your secret store.
+- status: 401
+  code: expired_api_key
+  title: Expired API key
+  cause: The key's expiry timestamp is in the past.
+  remediation: Create a new key; expired keys never reactivate.
+- status: 403
+  code: forbidden
+  title: Forbidden
+  cause: Key authenticates but lacks access to this resource/tier.
+  remediation: Upgrade tier or contact support.
+- status: 403
+  code: scope_error
+  title: Wrong key scope
+  cause: Wrong-scope key (e.g. a demo key used on a paid endpoint).
+  remediation: Use a user/enterprise-scoped key for paid endpoints.
+- status: 422
+  code: validation_error
+  title: Validation failed
+  cause: Empty query, target_compression_ratio outside 0–200, inputs array over 100 items, or missing compression_model_name.
+  remediation: Fix the field named in error.message and retry.
+- status: 429
+  code: rate_limit_exceeded
+  title: Rate limit exceeded
+  cause: Per-minute or per-day request/token budget for the tier is exhausted.
+  remediation: Exponential backoff respecting Retry-After as a floor; move to a higher tier for sustained load.
+- status: 500
+  code: internal_error
+  title: Internal server error
+  cause: Unexpected server-side failure.
+  remediation: Retry once after a short delay; check status if it persists.
+- status: 503
+  code: service_unavailable
+  title: Service unavailable
+  cause: Upstream compression service circuit breaker is open (deliberate load shedding).
+  remediation: Honour Retry-After; do not hammer the endpoint.
+- status: 409
+  code: duplicate_batch
+  title: Duplicate batch
+  cause: A telemetry/compression batch was submitted with a batch_id already seen within the 24h idempotency window.
+  remediation: The original result is returned/cached; do not resubmit with the same batch_id expecting a new run.
+  source_operation: openapi/compresr-openapi-original.json
+sdk_exceptions:
+- CompresrError
+- AuthenticationError
+- RateLimitError
+- ValidationError
+- ScopeError

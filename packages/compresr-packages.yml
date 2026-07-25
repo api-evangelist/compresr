@@ -1,0 +1,31 @@
+generated: '2026-07-18'
+method: searched
+source: https://compresr.ai/docs (registries verified on pypi.org and registry.npmjs.org)
+packages:
+- language: python
+  registry: pypi
+  name: compresr
+  url: https://pypi.org/project/compresr/
+  install: pip install compresr
+  version: 2.8.2
+  requires_python: '>=3.9'
+  summary: Python SDK for Compresr — intelligent prompt/context compression service.
+  repository: https://github.com/Compresr-ai/Compresr-SDK
+  official: true
+  provides_cli: compresr-sdk
+- language: typescript
+  registry: npm
+  name: "@compresr/sdk"
+  url: https://www.npmjs.com/package/@compresr/sdk
+  install: npm install @compresr/sdk
+  version: 1.7.0
+  summary: TypeScript SDK for Compresr — context compression to reduce LLM API costs by 30–70%.
+  repository: https://github.com/Compresr-ai/Compresr-SDK
+  official: true
+  provides_cli: compresr-sdk
+notes: >-
+  Both SDKs are first-party (published under the Compresr-ai GitHub org, referenced
+  from the docs). Each ships a `compresr-sdk` CLI binary (login/logout) — see
+  cli/compresr-cli.yml. The legacy `compresr[langchain]` and `compresr[agents]`
+  Python extras still resolve as no-op aliases; the base install ships every
+  integration.

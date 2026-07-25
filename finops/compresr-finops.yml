@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: https://api.compresr.ai/api/pricing/compression-models
+unit: input tokens
+currency: USD
+metering:
+  billed_on: input tokens of the context submitted
+  price_per_1m_input_tokens: 0.10
+  models: [latte_v1, latte_v2]
+  empty_context: no billing (empty string returns empty result)
+cost_controls:
+- per_key_monthly_budget: settable at key creation; exhausted budget returns 402 Payment Required
+- key_expiry: optional per-key expiry date
+- cost_estimate_endpoint: POST /api/pricing/estimate-cost
+value_metric:
+  description: >-
+    Compresr is itself a FinOps lever for LLM spend — it reduces downstream model input
+    tokens by 30–70% (per the SDK), so cost is measured against tokens_saved on each
+    CompressionResult (original_tokens - compressed_tokens).
+free_tier:
+  credits_usd: 10
+  card_required: false

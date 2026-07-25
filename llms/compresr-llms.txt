@@ -1,0 +1,42 @@
+# Compresr
+
+> Compresr is an LLM context-compression API: send long context plus the query you want answered, get back a shorter context that keeps the answer-bearing spans and drops the rest. Public model: latte_v1 (query-specific). Python SDK, TypeScript SDK, or hosted HTTP API.
+
+Every page below links to its Markdown twin (`<path>.md`), the plain-text surface an LLM or answer engine should read. The human-readable pages live at the same path without the `.md` suffix.
+
+## Docs
+
+- [Introduction](https://compresr.ai/docs/introduction.md): What Compresr is and where it fits in an LLM stack.
+- [Quick Start](https://compresr.ai/docs/quick-start.md): Make your first compression call in minutes.
+- [Authentication](https://compresr.ai/docs/authentication.md): API keys and how to authenticate requests.
+- [Python SDK](https://compresr.ai/docs/sdks/python.md): Install and compress with the Python client.
+- [TypeScript SDK](https://compresr.ai/docs/sdks/typescript.md): Install and compress with the TypeScript client.
+- [cURL](https://compresr.ai/docs/sdks/curl.md): Call the hosted HTTP API directly with cURL.
+- [Models](https://compresr.ai/docs/api-reference/models.md): The public models latte_v1 and latte_v2 and their parameters.
+- [Conventions](https://compresr.ai/docs/api-reference/conventions.md): Request/response shapes and shared conventions.
+- [Rate Limits](https://compresr.ai/docs/api-reference/rate-limits.md): Per-tier request and token limits.
+- [Errors](https://compresr.ai/docs/api-reference/errors.md): Error codes and how to handle them.
+
+## Product
+
+- [Changelog](https://compresr.ai/changelog.md): Product and API updates over time.
+- [About](https://compresr.ai/about.md): Compresr Inc., Y Combinator W26, four EPFL-trained founders in San Francisco, California and Europe (Switzerland).
+
+## Compare
+
+- [vs. LLMLingua](https://compresr.ai/compare/llmlingua.md): Hosted, query-aware, on-prem-ready alternative to LLMLingua research code.
+- [vs. Prompt Caching](https://compresr.ai/compare/prompt-caching.md): Why compression and caching are complementary, not rivals.
+- [Prompt compression tools compared](https://compresr.ai/compare/prompt-compression-tools.md): LLMLingua-2, LongLLMLingua, scaledown, Token Company, and Compresr.
+
+## Glossary
+
+- [Glossary](https://compresr.ai/glossary.md): LLM context-compression vocabulary, defined for humans and machines.
+
+## Agents
+
+- [agents.md](https://compresr.ai/agents.md): Agent skill file — curl it to install and use the Compresr SDK end to end.
+
+## Optional
+
+- [Machine overview](https://compresr.ai/machine): The structured entity card an answer engine can cite for "what is Compresr".
+- [Full docs corpus](https://compresr.ai/llms-full.txt): Every doc concatenated as Markdown in one fetch.

@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: https://api.compresr.ai/api/pricing/compression-models
+docs: https://compresr.ai/pricing
+pricing_model: usage-based (per input token) with tiered rate limits; $10 free credits, no card
+free_credits_usd: 10
+plans:
+- name: latte_v1
+  display_name: Latte V1
+  min_tier: free
+  input_price_per_1m_tokens_usd: 0.10
+  description: Query-specific compression — up to 200x for RAG, search, and Q&A pipelines.
+- name: latte_v2
+  display_name: Latte V2
+  min_tier: free
+  input_price_per_1m_tokens_usd: 0.10
+  description: Faster query-specific compression — up to 5x faster than latte_v1 at the same quality.
+tiers_ref: rate-limits/compresr-rate-limits.yml
+notes: >-
+  Pricing is live from GET /api/pricing/compression-models: both public models bill at
+  $0.10 per 1M input tokens with a free minimum tier. Higher billing tiers (tier1–tier5)
+  gate rate limits and max API keys, keyed off monthly token volume.

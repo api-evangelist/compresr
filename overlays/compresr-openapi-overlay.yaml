@@ -1,0 +1,26 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Compresr Platform API
+  version: 1.0.0
+extends: openapi/compresr-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-18'
+    x-api-evangelist-provider: compresr
+    x-authentication: X-API-Key header (cmp_ keys); OAuth 2.0 (PKCE + device flow) for CLI/dashboard login
+    x-error-format: custom-envelope ({ success, data, error }) — not RFC 9457
+    x-idempotency: idempotency_key on billing upload; batch_id 24h window; idempotent key-revoke
+- target: $.servers
+  update:
+  - url: https://api.compresr.ai
+    description: Production (added by API Evangelist — the harvested spec ships no servers[])
+- target: $.info
+  update:
+    x-rate-limit-headers:
+    - X-RateLimit-Limit-Minute
+    - X-RateLimit-Remaining-Minute
+    - X-RateLimit-Limit-Day
+    - X-RateLimit-Remaining-Day
+    - X-RateLimit-Tier
+    - Retry-After

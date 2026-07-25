@@ -1,22 +1,613 @@
 aid: compresr
 name: Compresr
-description: Compresr is a company surfaced as a portfolio company of y-combinator and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Compresr is an LLM context-compression API. You send the long context you would
+  otherwise pass to a model plus the query you want answered, and Compresr returns a
+  shorter context that keeps the answer-bearing spans and drops the rest — fewer input
+  tokens, lower cost, a longer effective context window, and faster inference. It sits
+  in front of whatever LLM stack you already use and replaces nothing. The public API
+  exposes query-specific compression models (latte_v1 and the faster latte_v2) plus
+  tool-output, conversation-history, and tool-discovery variants, over a hosted HTTP
+  API with Python and TypeScript SDKs, first-party framework integrations (LangChain,
+  LangGraph, LlamaIndex, LiteLLM), and per-key tiered rate limits. Compresr Inc. is a
+  Y Combinator W26 company built by four EPFL-trained researchers in San Francisco,
+  California and Switzerland.
 url: https://raw.githubusercontent.com/api-evangelist/compresr/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://compresr.ai/logo.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - y-combinator
-x-tier: stub
+x-tier: enriched
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
-- Company
-apis: []
+- LLM
+- Context Compression
+- Prompt Engineering
+- RAG
+- AI Infrastructure
+- Developer Tools
+- Agents
+- Tokens
+- API
+- Y Combinator
+apis:
+- aid: compresr:compresr-admin-api
+  name: Compresr Admin API
+  description: The Admin API from Compresr — 18 operation(s) for admin.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Admin
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-admin-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-admin-whitelist-api
+  name: Compresr Admin - Whitelist API
+  description: The Admin - Whitelist API from Compresr — 4 operation(s) for admin - whitelist.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Admin - Whitelist
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-admin-whitelist-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-api-keys-api
+  name: Compresr API Keys API
+  description: The API Keys API from Compresr — 4 operation(s) for api keys.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - API Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-api-keys-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-auth-api
+  name: Compresr Auth API
+  description: The Auth API from Compresr — 1 operation(s) for auth.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-auth-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-billing-api
+  name: Compresr Billing API
+  description: The Billing API from Compresr — 10 operation(s) for billing.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Billing
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-billing-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-careers-api
+  name: Compresr Careers API
+  description: The Careers API from Compresr — 12 operation(s) for careers.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Careers
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-careers-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-compresr-platform-api-api
+  name: Compresr Compresr Platform API API
+  description: The Compresr Platform API API from Compresr — 1 operation(s) for compresr platform api.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Compresr Platform API
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-compresr-platform-api-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-compression-agentic-api
+  name: Compresr Compression-Agentic API
+  description: The Compression-Agentic API from Compresr — 18 operation(s) for compression-agentic.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Compression-Agentic
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-compression-agentic-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-compression-api
+  name: Compresr Compression API
+  description: The Compression API from Compresr — 6 operation(s) for compression.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Compression
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-compression-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-compression-demo-api
+  name: Compresr Compression-Demo API
+  description: The Compression-Demo API from Compresr — 5 operation(s) for compression-demo.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Compression-Demo
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-compression-demo-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-compression-models-api
+  name: Compresr Compression-Models API
+  description: The Compression-Models API from Compresr — 2 operation(s) for compression-models.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Compression-Models
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-compression-models-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-dashboard-api
+  name: Compresr Dashboard API
+  description: The Dashboard API from Compresr — 1 operation(s) for dashboard.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Dashboard
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-dashboard-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-feature-requests-api
+  name: Compresr Feature Requests API
+  description: The Feature Requests API from Compresr — 3 operation(s) for feature requests.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Feature Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-feature-requests-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-gateway-api
+  name: Compresr Gateway API
+  description: The Gateway API from Compresr — 5 operation(s) for gateway.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Gateway
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-gateway-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-health-api
+  name: Compresr Health API
+  description: The Health API from Compresr — 3 operation(s) for health.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-health-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-inference-api
+  name: Compresr Inference API
+  description: The Inference API from Compresr — 1 operation(s) for inference.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Inference
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-inference-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-logs-api
+  name: Compresr Logs API
+  description: The Logs API from Compresr — 1 operation(s) for logs.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-logs-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-metrics-api
+  name: Compresr Metrics API
+  description: The Metrics API from Compresr — 2 operation(s) for metrics.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Metrics
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-metrics-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-newsletter-api
+  name: Compresr Newsletter API
+  description: The Newsletter API from Compresr — 4 operation(s) for newsletter.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Newsletter
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-newsletter-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-oauth-api
+  name: Compresr OAuth API
+  description: The OAuth API from Compresr — 6 operation(s) for oauth.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-oauth-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-oauth-authorization-api
+  name: Compresr OAuth Authorization API
+  description: The OAuth Authorization API from Compresr — 3 operation(s) for oauth authorization.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - OAuth Authorization
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-oauth-authorization-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-on-prem-api
+  name: Compresr On-Prem API
+  description: The On-Prem API from Compresr — 1 operation(s) for on-prem.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - On-Prem
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-on-prem-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-on-prem-telemetry-api
+  name: Compresr On-Prem Telemetry API
+  description: The On-Prem Telemetry API from Compresr — 3 operation(s) for on-prem telemetry.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - On-Prem Telemetry
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-on-prem-telemetry-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-pricing-api
+  name: Compresr Pricing API
+  description: The Pricing API from Compresr — 2 operation(s) for pricing.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Pricing
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-pricing-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-profile-api
+  name: Compresr Profile API
+  description: The Profile API from Compresr — 6 operation(s) for profile.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Profile
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-profile-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-ready-api
+  name: Compresr Ready API
+  description: The Ready API from Compresr — 1 operation(s) for ready.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Ready
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-ready-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-usage-api
+  name: Compresr Usage API
+  description: The Usage API from Compresr — 1 operation(s) for usage.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-usage-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+common:
+- type: DeveloperPortal
+  url: https://compresr.ai/docs
+- type: Documentation
+  url: https://compresr.ai/docs
+- type: APIReference
+  url: https://compresr.ai/docs/api-reference/conventions
+- type: GettingStarted
+  url: https://compresr.ai/docs/quick-start
+- type: Pricing
+  url: https://compresr.ai/pricing
+- type: SignUp
+  url: https://compresr.ai/dashboard
+- type: TermsOfService
+  url: https://compresr.ai/terms
+- type: PrivacyPolicy
+  url: https://compresr.ai/privacy
+- type: Support
+  url: https://compresr.ai/contact
+- type: GitHubOrganization
+  url: https://github.com/Compresr-ai
+- type: ChangeLog
+  url: https://compresr.ai/changelog
+- type: LLMsTxt
+  url: llms/compresr-llms.txt
+- type: Authentication
+  url: authentication/compresr-authentication.yml
+- type: OpenAPI
+  url: openapi/compresr-openapi-original.json
+- type: Packages
+  url: packages/compresr-packages.yml
+- type: SDKs
+  url: packages/compresr-packages.yml
+- type: CLI
+  url: cli/compresr-cli.yml
+- type: MCPServer
+  url: mcp/compresr-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Conventions
+  url: conventions/compresr-conventions.yml
+- type: Idempotency
+  url: conventions/compresr-conventions.yml
+- type: ErrorCatalog
+  url: errors/compresr-error-codes.yml
+- type: Lifecycle
+  url: lifecycle/compresr-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/compresr-lifecycle.yml
+- type: Conformance
+  url: conformance/compresr-conformance.yml
+- type: DataModel
+  url: data-model/compresr-data-model.yml
+- type: Sandbox
+  url: sandbox/compresr-sandbox.yml
+- type: DomainSecurity
+  url: security/compresr-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/compresr-agentic-access.yml
+- type: Overlay
+  url: overlays/compresr-openapi-overlay.yaml
+- type: RateLimits
+  url: rate-limits/compresr-rate-limits.yml
+- type: Plans
+  url: plans/compresr-plans.yml
+- type: FinOps
+  url: finops/compresr-finops.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

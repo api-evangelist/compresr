@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: searched
+source: https://compresr.ai/docs/authentication
+name: compresr-sdk
+description: >-
+  The compresr-sdk CLI ships inside both first-party SDKs (Python `compresr` and
+  TypeScript `@compresr/sdk`). It manages local credentials for the OAuth login flow;
+  the binary is catalogued in packages/compresr-packages.yml.
+install:
+- method: pip
+  command: pip install compresr
+  provides: compresr-sdk
+- method: npm
+  command: npm install @compresr/sdk
+  provides: compresr-sdk
+commands:
+- name: login
+  command: compresr-sdk login
+  description: Opens a browser OAuth flow and writes credentials to the local file (INI for Python at ~/.compresr/credentials, JSON for TS at ~/.compresr/credentials.json).
+- name: logout
+  command: compresr-sdk logout
+  description: Clears the local credentials file AND best-effort revokes the key server-side via POST /api/authorize/logout.
+credential_resolution:
+  python: explicit api_key= -> COMPRESR_API_KEY env -> INI at ~/.compresr/credentials (profile via COMPRESR_PROFILE)
+  typescript: explicit apiKey -> process.env.COMPRESR_API_KEY (file pickup opt-in via @compresr/sdk/auth reading ~/.compresr/credentials.json)
+notes: >-
+  Deleting the local credentials file by hand only removes the local copy — the key
+  stays ACTIVE server-side. Use `compresr-sdk logout` to revoke it.
