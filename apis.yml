@@ -567,7 +567,7 @@ common:
 - type: Authentication
   url: authentication/compresr-authentication.yml
 - type: OpenAPI
-  url: openapi/compresr-openapi-original.json
+  url: openapi/_original/compresr-openapi-original.json
 - type: Packages
   url: packages/compresr-packages.yml
 - type: SDKs
