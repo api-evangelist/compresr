@@ -1,0 +1,373 @@
+{
+  "item": [
+    {
+      "id": "6e50ee6a-21f9-44d5-a69f-419dcf254b40",
+      "name": "Pricing",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9a28bff1-0e33-4fe2-b3a6-cfea3554549f",
+          "name": "Get Compression Models",
+          "request": {
+            "name": "Get Compression Models",
+            "description": {
+              "content": "Get our compression model(s) with pricing info (cached).\n\nUsed by frontend to display our pricing (e.g., latte_v1 @ $0.10/1M tokens).\n\nReturns:\n- List of compression models with:\n  - name: Model name (e.g., \"latte_v1\")\n  - display_name: Human-readable name\n  - description: Model description\n  - input_price_per_1m: Our price per 1M input tokens",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "pricing",
+                "compression-models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "391e2066-c018-4d77-82d4-1393c23b17a8",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "pricing",
+                    "compression-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"string\",\n      \"display_name\": \"string\",\n      \"description\": \"string\",\n      \"input_price_per_1m\": 3603.4589558879306,\n      \"min_tier\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"display_name\": \"string\",\n      \"description\": \"string\",\n      \"input_price_per_1m\": 9163.510216671988,\n      \"min_tier\": \"string\"\n    }\n  ],\n  \"success\": true,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a50573f5-9156-4776-892f-a712f8d002e5",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "pricing",
+                    "compression-models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 3889,\n  \"field\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3c030e9d-a3e5-421c-8af1-d8c9e4a4b7a9",
+          "name": "Estimate Compression Cost",
+          "request": {
+            "name": "Estimate Compression Cost",
+            "description": {
+              "content": "Estimate the cost of using our compression service.\n\nUsed by frontend pricing calculator.\n\nUser provides:\n- Compression model\n- Number of input tokens\n- Desired compression ratio\n\nReturns cost breakdown.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "pricing",
+                "estimate-cost"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input_tokens\": \"<integer>\",\n  \"compression_model\": \"latte_v1\",\n  \"compression_ratio\": 0.5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "391957d0-5fd9-4d11-8129-aa0e95fc8a50",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "pricing",
+                    "estimate-cost"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input_tokens\": \"<integer>\",\n  \"compression_model\": \"latte_v1\",\n  \"compression_ratio\": 0.5\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"input_tokens\": 7711,\n    \"compressed_tokens\": 7412,\n    \"tokens_saved\": 7356,\n    \"compression_ratio\": 0.9920647907035435,\n    \"processing_cost_usd\": 8176.212153500632,\n    \"model\": \"string\",\n    \"input_price_per_1m\": 2624.081725804831\n  },\n  \"success\": true,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e76add9-afa3-40bd-91cf-3e66dfd45ae9",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "pricing",
+                    "estimate-cost"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input_tokens\": \"<integer>\",\n  \"compression_model\": \"latte_v1\",\n  \"compression_ratio\": 0.5\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 3889,\n  \"field\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b41f3f5b-515f-41fb-b749-51fd29304391",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "pricing",
+                    "estimate-cost"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input_tokens\": \"<integer>\",\n  \"compression_model\": \"latte_v1\",\n  \"compression_ratio\": 0.5\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fd63076e-c3e1-4c5a-9bdc-882c4f9e96b5",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "pricing",
+                    "estimate-cost"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input_tokens\": \"<integer>\",\n  \"compression_model\": \"latte_v1\",\n  \"compression_ratio\": 0.5\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 3889,\n  \"field\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "effaf734-985a-4794-8f1f-3253b720c908",
+    "name": "Compresr Platform Admin Pricing API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin On-Prem Telemetry API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "On-Prem Telemetry",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register signing secret for HMAC verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/telemetry/register",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Register an on-prem signing secret (`opm_xxx`) for HMAC verification.\n\n    Call once before sending telemetry (optional — the first batch auto-\n    registers). The secret is encrypted at rest. `cmp_` API keys are rejected;\n    mint an `opm_` credential in the dashboard under Settings -> On-Prem.\n\n    **Required Headers:**\n    - `X-API-Key`: Your Compresr API key\n\n    **Body:**\n    - `signing_secret`: On-prem signing secret (`opm_xxx`)\n    - `instance_id`: Optional instance identifier"
+        },
+        {
+          "info": {
+            "name": "Ingest telemetry batch from on-prem instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/telemetry/batch",
+            "headers": [
+              {
+                "name": "x-instance-id",
+                "value": ""
+              },
+              {
+                "name": "x-compresr-signature",
+                "value": ""
+              },
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Receive and store a batch of telemetry events from an on-prem Compresr instance.\n    \n    **Required Headers:**\n    - `X-API-Key`: Compresr API key (authentication)\n    - `X-Compresr-Signature`: HMAC signature (integrity)\n    \n    **Optional Headers:**\n    - `X-Instance-ID`: On-prem instance identifier\n    \n    **First Request (auto-registration):**\n    Include `signing_secret` (`opm_xxx`) in the body - it will be registered\n    automatically. `cmp_` API keys are rejected; mint an `opm_` credent"
+        },
+        {
+          "info": {
+            "name": "Telemetry endpoint health check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/telemetry/health"
+          },
+          "docs": "Simple health check for telemetry ingestion endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

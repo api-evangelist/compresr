@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin On-Prem API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "On-Prem",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Validate Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/onprem/validate-key",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Validate Key"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

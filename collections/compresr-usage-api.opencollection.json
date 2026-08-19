@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Usage API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Usage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Usage Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/usage/stats",
+            "params": [
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Time period: last_day, last_week, last_month, last_90_days, last_year, current_month, custom"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for custom period (YYYY-MM-DD)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for custom period (YYYY-MM-DD)"
+              },
+              {
+                "name": "group_by",
+                "value": "",
+                "type": "query",
+                "description": "Group by: hour or day"
+              },
+              {
+                "name": "api_key_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by specific API key ID"
+              },
+              {
+                "name": "model",
+                "value": "",
+                "type": "query",
+                "description": "Filter by specific model"
+              },
+              {
+                "name": "include_per_key",
+                "value": "",
+                "type": "query",
+                "description": "When true (and no api_key_id filter), include per-key breakdown in one response."
+              },
+              {
+                "name": "skip_cache",
+                "value": "",
+                "type": "query",
+                "description": "Force-drain the Redis usage stream so pending events land in usage_logs before reading. Use when the user clicks refresh."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get comprehensive usage statistics with time series."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

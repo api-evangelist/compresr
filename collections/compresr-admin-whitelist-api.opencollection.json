@@ -1,0 +1,115 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Admin - Whitelist API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Admin - Whitelist",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Whitelist",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/whitelist",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return every whitelist rule, newest first, with per-rule detected-user counts."
+        },
+        {
+          "info": {
+            "name": "Add Whitelist",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/whitelist",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add a whitelist rule. 409-equivalent if the pattern already exists."
+        },
+        {
+          "info": {
+            "name": "Whitelist Matches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/whitelist/:rule_id/matches",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the users currently matched by a specific whitelist rule.\n\nData source is the cached Supabase auth email map + platform user_profiles\nfor full names, so the query is cheap even with many rules on the page."
+        },
+        {
+          "info": {
+            "name": "Delete Whitelist",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/admin/whitelist/:rule_id",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove a whitelist rule by id."
+        },
+        {
+          "info": {
+            "name": "Preview Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/whitelist/preview",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Test an email against the current ruleset without side effects.\n\nUseful for admins verifying a rule before onboarding a customer."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

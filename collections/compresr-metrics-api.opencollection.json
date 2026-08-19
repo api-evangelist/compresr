@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Metrics API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/metrics",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Prometheus-compatible metrics endpoint.\n\nReturns metrics in Prometheus exposition format for scraping.\n\nSecurity: Requires support/admin role to prevent information disclosure."
+        },
+        {
+          "info": {
+            "name": "Metrics Json",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/metrics/json",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Metrics as JSON for dashboards and debugging.\n\nSecurity: Requires support/admin role to prevent information disclosure."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

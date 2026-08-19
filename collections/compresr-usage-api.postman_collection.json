@@ -1,0 +1,438 @@
+{
+  "item": [
+    {
+      "id": "a51ae5b3-e595-4a13-aecf-b54bc25f3f19",
+      "name": "Usage",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "635d224a-1afe-4318-a99d-cda3b723919f",
+          "name": "Get Usage Stats",
+          "request": {
+            "name": "Get Usage Stats",
+            "description": {
+              "content": "Get comprehensive usage statistics with time series.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "usage",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "period",
+                  "value": "last_day",
+                  "description": "Time period: last_day, last_week, last_month, last_90_days, last_year, current_month, custom"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<string>",
+                  "description": "Start date for custom period (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<string>",
+                  "description": "End date for custom period (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "group_by",
+                  "value": "day",
+                  "description": "Group by: hour or day"
+                },
+                {
+                  "disabled": false,
+                  "key": "api_key_id",
+                  "value": "<string>",
+                  "description": "Filter by specific API key ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "model",
+                  "value": "<string>",
+                  "description": "Filter by specific model"
+                },
+                {
+                  "disabled": false,
+                  "key": "include_per_key",
+                  "value": "false",
+                  "description": "When true (and no api_key_id filter), include per-key breakdown in one response."
+                },
+                {
+                  "disabled": false,
+                  "key": "skip_cache",
+                  "value": "false",
+                  "description": "Force-drain the Redis usage stream so pending events land in usage_logs before reading. Use when the user clicks refresh."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2ab86be3-5c52-4b3a-9197-2d306eb2d0b3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "usage",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "last_day"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "day"
+                    },
+                    {
+                      "key": "api_key_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "model",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include_per_key",
+                      "value": "false"
+                    },
+                    {
+                      "key": "skip_cache",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"data\": {\n    \"period\": \"string\",\n    \"period_start\": \"string\",\n    \"period_end\": \"string\",\n    \"group_by\": \"string\",\n    \"time_series\": [\n      {\n        \"timestamp\": \"string\",\n        \"requests\": 0,\n        \"input_tokens\": 0,\n        \"compressed_input_tokens\": 0,\n        \"output_tokens\": 0,\n        \"cost_usd\": 0,\n        \"savings_usd\": 0\n      },\n      {\n        \"timestamp\": \"string\",\n        \"requests\": 0,\n        \"input_tokens\": 0,\n        \"compressed_input_tokens\": 0,\n        \"output_tokens\": 0,\n        \"cost_usd\": 0,\n        \"savings_usd\": 0\n      }\n    ],\n    \"total_requests\": 0,\n    \"total_input_tokens\": 0,\n    \"total_compressed_input_tokens\": 0,\n    \"total_output_tokens\": 0,\n    \"total_cost_usd\": 0,\n    \"total_savings_usd\": 0,\n    \"total_spent_usd\": 0,\n    \"api_key_id\": \"string\",\n    \"model\": \"string\",\n    \"per_key_time_series\": {\n      \"key_0\": [\n        {\n          \"timestamp\": \"string\",\n          \"requests\": 0,\n          \"input_tokens\": 0,\n          \"compressed_input_tokens\": 0,\n          \"output_tokens\": 0,\n          \"cost_usd\": 0,\n          \"savings_usd\": 0\n        },\n        {\n          \"timestamp\": \"string\",\n          \"requests\": 0,\n          \"input_tokens\": 0,\n          \"compressed_input_tokens\": 0,\n          \"output_tokens\": 0,\n          \"cost_usd\": 0,\n          \"savings_usd\": 0\n        }\n      ],\n      \"key_1\": [\n        {\n          \"timestamp\": \"string\",\n          \"requests\": 0,\n          \"input_tokens\": 0,\n          \"compressed_input_tokens\": 0,\n          \"output_tokens\": 0,\n          \"cost_usd\": 0,\n          \"savings_usd\": 0\n        },\n        {\n          \"timestamp\": \"string\",\n          \"requests\": 0,\n          \"input_tokens\": 0,\n          \"compressed_input_tokens\": 0,\n          \"output_tokens\": 0,\n          \"cost_usd\": 0,\n          \"savings_usd\": 0\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de4ac49b-17e6-41f7-bc73-c82d3fc60c43",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "usage",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "last_day"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "day"
+                    },
+                    {
+                      "key": "api_key_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "model",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include_per_key",
+                      "value": "false"
+                    },
+                    {
+                      "key": "skip_cache",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 3763,\n  \"field\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28449244-6f21-4da8-ab26-68e264d1b7d2",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "usage",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "last_day"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "day"
+                    },
+                    {
+                      "key": "api_key_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "model",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include_per_key",
+                      "value": "false"
+                    },
+                    {
+                      "key": "skip_cache",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f9e7ab66-3593-4a34-9723-7675f2768131",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "usage",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "last_day"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "day"
+                    },
+                    {
+                      "key": "api_key_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "model",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include_per_key",
+                      "value": "false"
+                    },
+                    {
+                      "key": "skip_cache",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 3763,\n  \"field\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e226315e-e6bb-48b6-9534-08ecb97c88d7",
+    "name": "Compresr Platform Admin Usage API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

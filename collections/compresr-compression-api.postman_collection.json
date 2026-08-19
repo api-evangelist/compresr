@@ -1,0 +1,930 @@
+{
+  "item": [
+    {
+      "id": "d30e9ba5-0841-4985-8d30-889bd5d2dccc",
+      "name": "Compression",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "776a2862-4a5e-4461-adb4-339d904b1d96",
+          "name": "Compress Query Specific",
+          "request": {
+            "name": "Compress Query Specific",
+            "description": {
+              "content": "Compress single context with question-aware filtering.\n\nFor multiple context+query pairs, use the /batch endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "compress",
+                "question-specific",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"compression_model_name\": \"<string>\",\n  \"query\": \"<string>\",\n  \"context\": \"<string>\",\n  \"target_compression_ratio\": \"<number>\",\n  \"coarse\": true,\n  \"heuristic_chunking\": false,\n  \"disable_placeholders\": false,\n  \"dynamic\": false,\n  \"dynamic_min_ratio\": \"<number>\",\n  \"dynamic_max_ratio\": \"<number>\",\n  \"source\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e585a0d1-a12e-4864-b990-3ec8a3601286",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compression_model_name\": \"<string>\",\n  \"query\": \"<string>\",\n  \"context\": \"<string>\",\n  \"target_compression_ratio\": \"<number>\",\n  \"coarse\": true,\n  \"heuristic_chunking\": false,\n  \"disable_placeholders\": false,\n  \"dynamic\": false,\n  \"dynamic_min_ratio\": \"<number>\",\n  \"dynamic_max_ratio\": \"<number>\",\n  \"source\": \"gateway:openai\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"data\": {\n    \"original_tokens\": 1646,\n    \"compressed_tokens\": 6748,\n    \"actual_compression_ratio\": 3533.950974086436,\n    \"tokens_saved\": 9777,\n    \"duration_ms\": 6689,\n    \"compressed_context\": \"string\",\n    \"target_compression_ratio\": 5919.400563560757\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e94ecb4-5f28-48fa-b589-d296fa9143c5",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compression_model_name\": \"<string>\",\n  \"query\": \"<string>\",\n  \"context\": \"<string>\",\n  \"target_compression_ratio\": \"<number>\",\n  \"coarse\": true,\n  \"heuristic_chunking\": false,\n  \"disable_placeholders\": false,\n  \"dynamic\": false,\n  \"dynamic_min_ratio\": \"<number>\",\n  \"dynamic_max_ratio\": \"<number>\",\n  \"source\": \"gateway:openai\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1fa3ffe5-d08c-474b-a300-55a37a226756",
+          "name": "Compress Query Specific Batch",
+          "request": {
+            "name": "Compress Query Specific Batch",
+            "description": {
+              "content": "Batch compress multiple contexts with queries.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "compress",
+                "question-specific",
+                "batch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"inputs\": [\n    {\n      \"query\": \"<string>\",\n      \"context\": \"<string>\"\n    }\n  ],\n  \"compression_model_name\": \"<string>\",\n  \"target_compression_ratio\": \"<number>\",\n  \"coarse\": true,\n  \"dynamic\": false,\n  \"dynamic_min_ratio\": \"<number>\",\n  \"dynamic_max_ratio\": \"<number>\",\n  \"source\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "830ffb68-7946-4a46-b137-faba5d1c6c71",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"inputs\": [\n    {\n      \"query\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"compression_model_name\": \"<string>\",\n  \"target_compression_ratio\": \"<number>\",\n  \"coarse\": true,\n  \"dynamic\": false,\n  \"dynamic_min_ratio\": \"<number>\",\n  \"dynamic_max_ratio\": \"<number>\",\n  \"source\": \"integration:hermes\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"data\": {\n    \"total_original_tokens\": 0,\n    \"total_compressed_tokens\": 0,\n    \"total_tokens_saved\": 0,\n    \"average_compression_ratio\": 0,\n    \"count\": 0,\n    \"results\": [\n      {\n        \"original_tokens\": 5006,\n        \"compressed_tokens\": 4967,\n        \"actual_compression_ratio\": 515.8043835669846,\n        \"tokens_saved\": 7031,\n        \"duration_ms\": 1005,\n        \"compressed_context\": \"string\",\n        \"target_compression_ratio\": 7458.975120242708\n      },\n      {\n        \"original_tokens\": 2905,\n        \"compressed_tokens\": 8267,\n        \"actual_compression_ratio\": 950.1004550584879,\n        \"tokens_saved\": 1042,\n        \"duration_ms\": 7604,\n        \"compressed_context\": \"string\",\n        \"target_compression_ratio\": 2106.2243843252213\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a21acee-e2bb-4eb9-a388-4665173d677c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"inputs\": [\n    {\n      \"query\": \"string\",\n      \"context\": \"string\"\n    }\n  ],\n  \"compression_model_name\": \"<string>\",\n  \"target_compression_ratio\": \"<number>\",\n  \"coarse\": true,\n  \"dynamic\": false,\n  \"dynamic_min_ratio\": \"<number>\",\n  \"dynamic_max_ratio\": \"<number>\",\n  \"source\": \"integration:hermes\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "288ad1f5-ce9e-4369-a95c-9d2be186f2e8",
+          "name": "Compress Query Specific Stream",
+          "request": {
+            "name": "Compress Query Specific Stream",
+            "description": {
+              "content": "Stream question-specific compression result over SSE.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "compress",
+                "question-specific",
+                "stream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"compression_model_name\": \"<string>\",\n  \"query\": \"<string>\",\n  \"context\": \"<string>\",\n  \"target_compression_ratio\": \"<number>\",\n  \"coarse\": true,\n  \"heuristic_chunking\": false,\n  \"disable_placeholders\": false,\n  \"dynamic\": false,\n  \"dynamic_min_ratio\": \"<number>\",\n  \"dynamic_max_ratio\": \"<number>\",\n  \"source\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e2247d1c-f7e0-4fbc-89e8-29987403259f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compression_model_name\": \"<string>\",\n  \"query\": \"<string>\",\n  \"context\": \"<string>\",\n  \"target_compression_ratio\": \"<number>\",\n  \"coarse\": true,\n  \"heuristic_chunking\": false,\n  \"disable_placeholders\": false,\n  \"dynamic\": false,\n  \"dynamic_min_ratio\": \"<number>\",\n  \"dynamic_max_ratio\": \"<number>\",\n  \"source\": \"gateway:openai\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91db3a2c-ecd1-41d1-add9-d89a498d90c2",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compression_model_name\": \"<string>\",\n  \"query\": \"<string>\",\n  \"context\": \"<string>\",\n  \"target_compression_ratio\": \"<number>\",\n  \"coarse\": true,\n  \"heuristic_chunking\": false,\n  \"disable_placeholders\": false,\n  \"dynamic\": false,\n  \"dynamic_min_ratio\": \"<number>\",\n  \"dynamic_max_ratio\": \"<number>\",\n  \"source\": \"gateway:openai\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ae6184cc-56b8-42ec-b245-eaad6d16b5b8",
+          "name": "Health Query Specific",
+          "request": {
+            "name": "Health Query Specific",
+            "description": {
+              "content": "Health check for question-specific compression.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "compress",
+                "question-specific",
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "71a542ea-58ab-4219-ac2b-8b81a20e0c1c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"compression_server\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "56cd3960-a0f9-427e-a0ba-689b61c466b7",
+          "name": "Models Query Specific",
+          "request": {
+            "name": "Models Query Specific",
+            "description": {
+              "content": "List available question-specific compression models (admin-only hidden for non-admins).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "compress",
+                "question-specific",
+                "models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "key": "X-API-Key",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "17d6a8fc-820c-492e-94ae-5250bd1256b7",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-API-Key",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"sample_texts\": [\n      {\n        \"name\": \"string\",\n        \"text\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"text\": \"string\"\n      }\n    ]\n  },\n  \"success\": true,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e0dbe23-737d-4881-9918-990a83d96b21",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-API-Key",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7b86d03-f850-4139-9038-0e44f07615ad",
+          "name": "Model Query Specific",
+          "request": {
+            "name": "Model Query Specific",
+            "description": {
+              "content": "Get details for a specific question-specific compression model.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "compress",
+                "question-specific",
+                "models",
+                ":model_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "key": "X-API-Key",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d28bb340-a61b-4fea-af9d-246b3fc08e2e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    "models",
+                    ":model_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-API-Key",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"sample_texts\": [\n      {\n        \"name\": \"string\",\n        \"text\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"text\": \"string\"\n      }\n    ]\n  },\n  \"success\": true,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ebba8255-2745-4a08-8b59-f70f3f3f23fa",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compress",
+                    "question-specific",
+                    "models",
+                    ":model_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "X-API-Key",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e7ccf717-3ca0-4df4-8a5d-50065b694ffd",
+    "name": "Compresr Platform Admin Compression API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

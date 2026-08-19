@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin API Keys API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "API Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Api Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/api-keys",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all API keys for current user (excludes demo-scoped keys).\n\nAlso returns a `revoked_summary` aggregate so the frontend can show\n\"N revoked keys\" info without listing each revoked row in the dropdown."
+        },
+        {
+          "info": {
+            "name": "Create Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/api-keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new API key.\n\n- **name**: Display name for the key\n- **scope**: API key scope (user or enterprise; demo is admin-only)\n- **daily_limit**: Optional daily request limit (NULL = unlimited)\n- **expires_at**: Optional expiration date (NULL = 30 days from now)\n\n**Enterprise keys (scope=enterprise):**\n- Require admin approval before activation\n- Use postpaid billing (monthly invoicing)\n- Require company_name and request_message\n- Get Business subscription access + unlimited rate limits\n\n**Impo"
+        },
+        {
+          "info": {
+            "name": "Get Demo Key Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/api-keys/demo-key-info",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get demo key information (remaining requests, etc.) without exposing the key."
+        },
+        {
+          "info": {
+            "name": "Revoke Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/api-keys/:key_id/revoke",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Revoke an API key (soft delete).\n\n- **key_id**: Key UUID to revoke"
+        },
+        {
+          "info": {
+            "name": "Get Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/api-keys/:key_id",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a specific API key's details.\n\n- **key_id**: Key UUID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

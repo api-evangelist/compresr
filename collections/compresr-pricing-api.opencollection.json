@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Pricing API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pricing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Compression Models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/pricing/compression-models"
+          },
+          "docs": "Get our compression model(s) with pricing info (cached).\n\nUsed by frontend to display our pricing (e.g., latte_v1 @ $0.10/1M tokens).\n\nReturns:\n- List of compression models with:\n  - name: Model name (e.g., \"latte_v1\")\n  - display_name: Human-readable name\n  - description: Model description\n  - input_price_per_1m: Our price per 1M input tokens"
+        },
+        {
+          "info": {
+            "name": "Estimate Compression Cost",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/pricing/estimate-cost",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Estimate the cost of using our compression service.\n\nUsed by frontend pricing calculator.\n\nUser provides:\n- Compression model\n- Number of input tokens\n- Desired compression ratio\n\nReturns cost breakdown."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

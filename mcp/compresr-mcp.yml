@@ -2,11 +2,10 @@ generated: '2026-07-18'
 method: derived
 status: candidate
 source: openapi/compresr-openapi-original.json
-note: >-
-  No official hosted/remote MCP server was found on Compresr's public surface as of
-  2026-07-18 (no mcp.compresr.ai, no entry in the docs or SDK). This is a DERIVED
-  candidate tool set mapping the marquee public compression operations to MCP tools so
-  the provider can be evaluated for agent-readiness. Not an official Compresr server.
+note: No official hosted/remote MCP server was found on Compresr's public surface as of 2026-07-18 (no
+  mcp.compresr.ai, no entry in the docs or SDK). This is a DERIVED candidate tool set mapping the marquee
+  public compression operations to MCP tools so the provider can be evaluated for agent-readiness. Not
+  an official Compresr server.
 server:
   name: compresr
   transport: http
@@ -33,3 +32,9 @@ tools:
 - name: estimate_cost
   description: Estimate the cost of a compression call before running it.
   source_operation: openapi/compresr-openapi-original.json#estimate cost (/api/pricing/estimate-cost)
+deployment:
+  mode: none
+  verified: derived
+  tools: 7
+  checked: '2026-08-12'
+  source: catalog MCP census

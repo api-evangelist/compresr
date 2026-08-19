@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Newsletter API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Newsletter",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Subscribe To Newsletter",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/newsletter/subscribe",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start a double-opt-in newsletter subscription."
+        },
+        {
+          "info": {
+            "name": "Confirm Newsletter Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/newsletter/confirm",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "Signed confirmation token from email"
+              }
+            ]
+          },
+          "docs": "Complete the double-opt-in newsletter subscription."
+        },
+        {
+          "info": {
+            "name": "Unsubscribe Via Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/newsletter/unsubscribe",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "Unsubscribe token from email"
+              }
+            ]
+          },
+          "docs": "Unsubscribe from the newsletter via GET request (for email links).\n\nThis endpoint allows one-click unsubscribe from email links.\nFormat: /newsletter/unsubscribe?token=<uuid>"
+        },
+        {
+          "info": {
+            "name": "Unsubscribe From Newsletter",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/newsletter/unsubscribe",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Unsubscribe from the newsletter using token.\n\n- No authentication required\n- Token is from the unsubscribe link in emails"
+        },
+        {
+          "info": {
+            "name": "Get Subscription Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/newsletter/status",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "Unsubscribe token from email"
+              }
+            ]
+          },
+          "docs": "Get subscription status by token.\n\nUsed by unsubscribe page to show current status."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

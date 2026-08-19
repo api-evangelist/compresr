@@ -1,0 +1,115 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Gateway API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Gateway",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Install Script",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/install",
+            "params": [
+              {
+                "name": "v",
+                "value": "",
+                "type": "query",
+                "description": "Gateway version (default: latest)"
+              },
+              {
+                "name": "req",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Serve the Context-Gateway install script.\n\n- No authentication required\n- Rate limited to 60 requests/minute per IP\n- Tracks download for analytics (version + geo only)\n- Fetches install.sh from GitHub (cached for 5 minutes)\n\nUsage:\n    curl -fsSL https://compresr.ai/install | sh"
+        },
+        {
+          "info": {
+            "name": "Get Public Download Count",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/gateway/downloads",
+            "params": [
+              {
+                "name": "req",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get total Context-Gateway download count (public, no auth).\n\n- Rate limited to 120 requests/minute per IP\n- Used by frontend to display download count badge.\n- Returns all-time total downloads with 5-minute caching."
+        },
+        {
+          "info": {
+            "name": "Get Gateway Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/gateway/stats",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Context-Gateway install statistics.\n\n**Requires admin authentication**\n\nReturns aggregated stats:\n- Total installs (all time)\n- Installs by time period (day, week, month)\n- Breakdown by OS\n- Breakdown by version\n- Top 10 countries"
+        },
+        {
+          "info": {
+            "name": "Get Recent Installs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/gateway/installs",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get recent Context-Gateway installs.\n\n**Requires admin authentication**\n\nReturns list of recent install records for admin dashboard."
+        },
+        {
+          "info": {
+            "name": "Get Gateway Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/gateway/status",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get current usage status for Context-Gateway CLI display.\n\n**Requires API key authentication** (any valid COMPRESR_API_KEY)\n\nReturns lightweight status summary:\n- Credits remaining (subscription + wallet combined)\n- Usage percentage of monthly budget\n- Tier information\n- Request counts\n\nUsed by Context-Gateway to display a persistent status bar showing\nthe user's balance and usage during operation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

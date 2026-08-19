@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Dashboard API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dashboard",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Dashboard Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/dashboard/stats",
+            "params": [
+              {
+                "name": "skip_cache",
+                "value": "",
+                "type": "query",
+                "description": "Force refresh, bypassing cache"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get dashboard statistics for authenticated user.\n\nReturns comprehensive dashboard data including:\n- Current balance\n- Usage statistics\n- API key summaries\n- Recent activity\n\nQuery params:\n- skip_cache: Force fresh data from database, bypassing Redis cache"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

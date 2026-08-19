@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin OAuth Authorization API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OAuth Authorization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Cli Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/authorize/cli-token",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get or create the user's CLI Key for Context Gateway CLI.\n\nKey scope matches user's account_type (user=prepaid, enterprise=postpaid).\nSEC-001: key_plain is not stored, so existing keys are rotated."
+        },
+        {
+          "info": {
+            "name": "Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/authorize/logout",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Revoke the calling API key. Idempotent — 200 whether the key was ACTIVE or already gone."
+        },
+        {
+          "info": {
+            "name": "Ws Callback",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/authorize/ws-callback",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deliver a CLI key to a waiting WebSocket session.\n\nCalled by the frontend after the user authorizes in the browser.\nGets or rotates the user's CLI Key (scope matches account_type),\nthen pushes it over the WebSocket to the CLI."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

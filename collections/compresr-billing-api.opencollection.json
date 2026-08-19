@@ -1,0 +1,262 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Billing API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Checkout Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/billing/create-checkout-session",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create Stripe Checkout session for adding funds. Returns hosted-page URL."
+        },
+        {
+          "info": {
+            "name": "Upload Money",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/billing/upload",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "[ADMIN ONLY] Manually credit a user account.\n\nSEC-004: This endpoint is restricted to admins only. Normal users credit\ntheir balance via the Stripe checkout flow, which is verified by webhook."
+        },
+        {
+          "info": {
+            "name": "Get Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/billing/transactions",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get transaction history with optional filters.\n\nQuery params:\n    - limit: Max results (default 50)\n    - start_date: Filter from date (ISO format: 2025-01-01)\n    - end_date: Filter to date (ISO format: 2025-12-31)"
+        },
+        {
+          "info": {
+            "name": "Get Receipts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/billing/receipts",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Stripe invoice receipts with PDF download links.\n\nThese are formal Stripe invoices from payment_receipts — distinct from\nthe per-charge receipt_url available in transactions.metadata.\nCached 5 minutes (receipts rarely change)."
+        },
+        {
+          "info": {
+            "name": "Get Tiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/billing/tiers"
+          },
+          "docs": "Return tier configs and per-scale rate-limit matrices."
+        },
+        {
+          "info": {
+            "name": "Get Invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/billing/invoices",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status: paid, pending, draft, failed"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get enterprise invoice history. Prepaid top-ups are on GET /billing/transactions."
+        },
+        {
+          "info": {
+            "name": "Create Invoice Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/billing/invoices/pay",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create Stripe Checkout session to pay a pending enterprise invoice."
+        },
+        {
+          "info": {
+            "name": "Set Enterprise Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/billing/enterprise/budget",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set or update a monthly budget for an enterprise API key.\n\nBudget is a soft cap (alerts only); hard limit is admin-set credit_limit_usd.\nPass monthly_budget_usd=null to remove the budget (unlimited spending)."
+        },
+        {
+          "info": {
+            "name": "Remove Enterprise Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/billing/enterprise/budget/:api_key_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "api_key_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove the monthly budget for an enterprise API key (sets to unlimited)."
+        },
+        {
+          "info": {
+            "name": "Stripe Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/billing/webhooks/stripe"
+          },
+          "docs": "Handle Stripe webhooks (checkout.session.completed, payment_intent.succeeded).\n\nRecords transaction + updates balance when Stripe payment completes.\n\nSECURITY:\n- Validates Stripe signature before processing\n- Uses database UNIQUE constraint on stripe_payment_intent_id\n  to prevent race condition double-crediting\n\nHandles:\n- checkout.session.completed: When Checkout Session payment succeeds\n- payment_intent.succeeded: When direct PaymentIntent succeeds\n- payment_intent.payment_failed: Logs failed"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

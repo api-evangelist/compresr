@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Compression API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Compression",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Compress Query Specific",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/compress/question-specific/",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Compress single context with question-aware filtering.\n\nFor multiple context+query pairs, use the /batch endpoint."
+        },
+        {
+          "info": {
+            "name": "Compress Query Specific Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/compress/question-specific/batch",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Batch compress multiple contexts with queries."
+        },
+        {
+          "info": {
+            "name": "Compress Query Specific Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/compress/question-specific/stream",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Stream question-specific compression result over SSE."
+        },
+        {
+          "info": {
+            "name": "Health Query Specific",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/compress/question-specific/health"
+          },
+          "docs": "Health check for question-specific compression."
+        },
+        {
+          "info": {
+            "name": "Models Query Specific",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/compress/question-specific/models",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List available question-specific compression models (admin-only hidden for non-admins)."
+        },
+        {
+          "info": {
+            "name": "Model Query Specific",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/compress/question-specific/models/:model_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "model_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get details for a specific question-specific compression model."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

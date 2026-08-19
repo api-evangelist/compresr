@@ -1,0 +1,234 @@
+{
+  "item": [
+    {
+      "id": "ffa56771-8a09-454c-bc37-211c60e3e0bc",
+      "name": "Dashboard",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "43753ef2-f429-4970-b03d-ac9fc9ecfd4b",
+          "name": "Get Dashboard Stats",
+          "request": {
+            "name": "Get Dashboard Stats",
+            "description": {
+              "content": "Get dashboard statistics for authenticated user.\n\nReturns comprehensive dashboard data including:\n- Current balance\n- Usage statistics\n- API key summaries\n- Recent activity\n\nQuery params:\n- skip_cache: Force fresh data from database, bypassing Redis cache",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "dashboard",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "skip_cache",
+                  "value": "false",
+                  "description": "Force refresh, bypassing cache"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7bcf045d-f64c-48b1-8d5d-6e57f3d5b3aa",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "dashboard",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "skip_cache",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"data\": {\n    \"total_uploaded_money\": 0,\n    \"total_used_money\": 0,\n    \"wallet_balance_usd\": 0,\n    \"total_available_usd\": 0,\n    \"usage_percentage\": 0,\n    \"monthly_budget\": 8361.884073696778,\n    \"budget_used_this_month\": 0,\n    \"budget_remaining_this_month\": 8222.691520940529,\n    \"budget_percentage\": 0,\n    \"spend_this_month\": 0,\n    \"total_api_calls\": 0,\n    \"api_calls_this_month\": 0,\n    \"active_api_keys\": 0,\n    \"cloud_calls_this_month\": 0,\n    \"onprem_calls_this_month\": 0,\n    \"days_until_month_reset\": 0,\n    \"current_month\": \"\",\n    \"avg_compression_ratio\": 0,\n    \"total_tokens_saved\": 0,\n    \"tokens_saved_this_month\": 0,\n    \"total_input_tokens_this_month\": 0,\n    \"tier\": \"tier1\",\n    \"account_type\": \"user\",\n    \"is_admin\": false,\n    \"account_created_at\": \"string\",\n    \"api_key_usage\": [\n      {\n        \"api_key_id\": \"string\",\n        \"api_key_name\": \"string\",\n        \"requests_this_month\": 0,\n        \"money_used_this_month\": 0,\n        \"budget_limit\": 8878.019712937275,\n        \"budget_remaining\": 7234.169553895918\n      },\n      {\n        \"api_key_id\": \"string\",\n        \"api_key_name\": \"string\",\n        \"requests_this_month\": 0,\n        \"money_used_this_month\": 0,\n        \"budget_limit\": 6953.963910754605,\n        \"budget_remaining\": 3280.45588779977\n      }\n    ],\n    \"enterprise_keys\": [\n      {\n        \"api_key_id\": \"string\",\n        \"api_key_name\": \"Enterprise Key\",\n        \"scope\": \"enterprise\",\n        \"billing_mode\": \"postpaid\",\n        \"current_balance_usd\": 0,\n        \"current_month_usage_usd\": 0,\n        \"credit_limit_usd\": 10000,\n        \"credit_remaining_usd\": 0,\n        \"monthly_budget_usd\": 7045.092438121772,\n        \"budget_utilization_percent\": 661.077359954787,\n        \"is_over_budget\": false,\n        \"total_requests\": 0,\n        \"current_month_requests\": 0,\n        \"last_used_at\": \"string\"\n      },\n      {\n        \"api_key_id\": \"string\",\n        \"api_key_name\": \"Enterprise Key\",\n        \"scope\": \"enterprise\",\n        \"billing_mode\": \"postpaid\",\n        \"current_balance_usd\": 0,\n        \"current_month_usage_usd\": 0,\n        \"credit_limit_usd\": 10000,\n        \"credit_remaining_usd\": 0,\n        \"monthly_budget_usd\": 1988.6984923072225,\n        \"budget_utilization_percent\": 9639.923859016733,\n        \"is_over_budget\": false,\n        \"total_requests\": 0,\n        \"current_month_requests\": 0,\n        \"last_used_at\": \"string\"\n      }\n    ],\n    \"has_unpaid_invoices\": false,\n    \"unpaid_invoice_amount_usd\": 0,\n    \"top_models\": [\n      {\n        \"model\": \"string\",\n        \"requests\": 0,\n        \"input_tokens\": 0,\n        \"compressed_input_tokens\": 0,\n        \"output_tokens\": 0,\n        \"cost_usd\": 0\n      },\n      {\n        \"model\": \"string\",\n        \"requests\": 0,\n        \"input_tokens\": 0,\n        \"compressed_input_tokens\": 0,\n        \"output_tokens\": 0,\n        \"cost_usd\": 0\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4dcffedd-ceef-4b63-8d8b-985d080ba976",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "dashboard",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "skip_cache",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49e6911a-5806-4a82-8246-5bd65f07b988",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "dashboard",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "skip_cache",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 6350,\n  \"field\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ebbd3290-a697-4724-bfc2-8f4a001b0b72",
+    "name": "Compresr Platform Admin Dashboard API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

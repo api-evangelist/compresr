@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Ready API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ready",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Readiness",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ready"
+          },
+          "docs": "Readiness probe for Kubernetes/orchestrator.\n\nReturns 200 only if the service can handle requests:\n- Compression engine is initialized\n- At least one model is available"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

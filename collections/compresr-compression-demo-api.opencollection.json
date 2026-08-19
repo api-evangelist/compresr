@@ -1,0 +1,149 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Compression-Demo API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Compression-Demo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Demo Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/demo/stream",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "context",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "compression_model_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "question",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "target_ratio",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "coarse",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Stream a demo compression result over SSE (GET - small payloads). Requires login."
+        },
+        {
+          "info": {
+            "name": "Demo Stream Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/demo/stream",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Stream a demo compression result over SSE (POST - large payloads). Requires login."
+        },
+        {
+          "info": {
+            "name": "Demo Test Output",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/demo/test-output",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Stream an LLM answer using the compressed context (SSE). Requires login."
+        },
+        {
+          "info": {
+            "name": "Demo Samples",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/demo/samples"
+          },
+          "docs": "Get sample texts and available demo models."
+        },
+        {
+          "info": {
+            "name": "Demo Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/demo/health"
+          },
+          "docs": "Health check for demo compression."
+        },
+        {
+          "info": {
+            "name": "Demo Models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/demo/models"
+          },
+          "docs": "List available demo compression models."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

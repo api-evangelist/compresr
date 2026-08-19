@@ -1,0 +1,693 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Admin",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/users",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "tier",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "plan",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "has_enterprise_key",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "balance_min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "balance_max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort_order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "skip_emails",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "include_admins",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "include_pilots",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all users with filtering and sorting.\n\nUses UserListRequest schema for query parameters.\nSet skip_emails=true (default) for faster response in list views."
+        },
+        {
+          "info": {
+            "name": "Sync Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/users/sync",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Force sync users data from database.\n\nClears all backend caches (email cache), flushes Redis usage stream to DB,\nand fetches fresh user data.\nUse this when you need to see the latest data that may be stale due to caching."
+        },
+        {
+          "info": {
+            "name": "Get User By Email",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/users/by-email/:email",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get user details by email address."
+        },
+        {
+          "info": {
+            "name": "Get User Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/users/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get detailed user information."
+        },
+        {
+          "info": {
+            "name": "Update User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/admin/users/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update user profile information."
+        },
+        {
+          "info": {
+            "name": "Delete User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/admin/users/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "reason",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a user account with data retention.\n\nFor enterprise accounts with unpaid invoices, returns 409 with billing details.\nA final invoice is auto-generated for unbilled current-month usage.\nDeletion proceeds only after all invoices are paid."
+        },
+        {
+          "info": {
+            "name": "Get User Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/users/:user_id/analytics",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get comprehensive analytics for a specific user.\n\nIncludes:\n- Profile information\n- Financial summary (spending, credits, budget)\n- API usage statistics (calls, tokens, compression)\n- API keys list\n- Usage breakdown by model and request type"
+        },
+        {
+          "info": {
+            "name": "Get Audit Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/audit",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "action",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get audit logs.\n\nUses AuditLogsRequest schema for query parameters."
+        },
+        {
+          "info": {
+            "name": "Get Admin Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/stats",
+            "params": [
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Time period: last_day, last_week, last_month, last_90_days, last_year, custom"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for custom period (ISO format: YYYY-MM-DD)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for custom period (ISO format: YYYY-MM-DD)"
+              },
+              {
+                "name": "api_key_types",
+                "value": "",
+                "type": "query",
+                "description": "Filter by API key types (comma-separated): demo, completion, compress, or None for all"
+              },
+              {
+                "name": "compression_models",
+                "value": "",
+                "type": "query",
+                "description": "Filter by compression models (comma-separated, e.g., americano, latte) or None for all"
+              },
+              {
+                "name": "tiers",
+                "value": "",
+                "type": "query",
+                "description": "Filter by customer tiers (comma-separated, e.g., tier1, tier2, tier3) or None for all"
+              },
+              {
+                "name": "skip_cache",
+                "value": "",
+                "type": "query",
+                "description": "Invalidate cache and fetch fresh from DB. (Legacy alias: refresh)"
+              },
+              {
+                "name": "refresh",
+                "value": "",
+                "type": "query",
+                "description": "DEPRECATED — use skip_cache. Kept for backward compatibility."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get platform statistics for admin dashboard.\n\n- **period**: Time period (last_day, last_week, last_month, last_90_days, last_year, custom)\n- **start_date**: Start date for custom period (YYYY-MM-DD)\n- **end_date**: End date for custom period (YYYY-MM-DD)\n- **api_key_types**: Filter by API key types (comma-separated: demo, completion, compress)\n- **compression_models**: Filter by compression models (comma-separated)\n- **tiers**: Filter by customer tiers (comma-separated: tier1, tier2, tier3, tier"
+        },
+        {
+          "info": {
+            "name": "Get Daily Active Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/active-users",
+            "params": [
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "Date to get active users for (YYYY-MM-DD)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the list of users who were active on a specific date.\n\nReturns user names, emails, and request counts for the given day."
+        },
+        {
+          "info": {
+            "name": "Get Active Users Count",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/active-users-count",
+            "params": [
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Time period: last_day, last_week, last_month, last_90_days, last_year, custom"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for custom period (ISO format: YYYY-MM-DD)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for custom period (ISO format: YYYY-MM-DD)"
+              },
+              {
+                "name": "tiers",
+                "value": "",
+                "type": "query",
+                "description": "Filter by customer tiers (comma-separated, e.g., tier1, tier2, tier3) or None for all"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Distinct active users over the selected period (deduplicated across days).\n\nLightweight companion to /admin/stats for the Daily Active Users card, whose\nheadline must show true distinct users in the period rather than a sum of\nper-day counts (which double-counts users active on multiple days)."
+        },
+        {
+          "info": {
+            "name": "Get Newsletter Subscribers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/newsletter/subscribers",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status: active, unsubscribed"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all newsletter subscribers (admin only).\n\n- **status**: Filter by subscription status (active/unsubscribed)"
+        },
+        {
+          "info": {
+            "name": "Delete Newsletter Subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/admin/newsletter/subscribers/:subscriber_id",
+            "params": [
+              {
+                "name": "subscriber_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a newsletter subscriber permanently."
+        },
+        {
+          "info": {
+            "name": "Get Download Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/downloads/stats",
+            "params": [
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Time period: last_day, last_week, last_month, last_90_days, last_year, custom"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for custom period (ISO format: YYYY-MM-DD)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for custom period (ISO format: YYYY-MM-DD)"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter by source: gateway, sdk_pypi, extension_vscode (or None for all)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get product download statistics for admin dashboard.\n\nTracks downloads of all Compresr products:\n- **gateway**: Context-Gateway CLI installs\n- **sdk_pypi**: Python SDK downloads (PyPI)\n- **extension_vscode**: VS Code extension installs\n\nFilters:\n- **period**: Time period (last_day, last_week, etc.)\n- **source**: Filter by specific product source"
+        },
+        {
+          "info": {
+            "name": "Get Enterprise Billing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/enterprise/billing",
+            "params": [
+              {
+                "name": "include_admins",
+                "value": "",
+                "type": "query",
+                "description": "Include internal/admin-owned enterprise keys"
+              },
+              {
+                "name": "include_pilots",
+                "value": "",
+                "type": "query",
+                "description": "Include pilot accounts (e.g. Thomson Reuters, Character)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get enterprise billing dashboard data.\n\nReturns all enterprise keys with their billing details:\n- Summary cards: total paid, unpaid, current month usage\n- List of enterprise keys with invoices\n\nAdmin/pilot accounts are excluded by default (same rule as the admin users\nlist); flip include_admins / include_pilots to bring them back in."
+        },
+        {
+          "info": {
+            "name": "List Pending Enterprise Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/enterprise/pending",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all pending enterprise keys awaiting admin approval.\n\nReturns enterprise keys with status='pending' that need admin review.\nIncludes user info, company name, request message, and expected usage."
+        },
+        {
+          "info": {
+            "name": "Approve Enterprise Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/admin/enterprise/:key_id/approve",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Approve a pending enterprise key (Admin only).\n\nOnce approved:\n- Key status changes to 'active'\n- User can start using the key with postpaid billing\n- Credit limit is set (default or custom)\n\nOptionally override the credit limit."
+        },
+        {
+          "info": {
+            "name": "Decline Enterprise Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/admin/enterprise/:key_id/decline",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Decline a pending enterprise key (Admin only).\n\nOnce declined:\n- Key status changes to 'declined'\n- User is notified with the decline reason\n- Key cannot be used\n\nProvide a decline_reason to explain why."
+        },
+        {
+          "info": {
+            "name": "Get Excluded Patterns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/settings/excluded-patterns",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all excluded email patterns grouped by source.\n\nReturns patterns from:\n- **patterns**: Editable patterns stored in DB (managed here)\n- **hardcoded**: Built-in patterns (e.g. \"compresr.ai\") -- cannot be removed\n- **env_patterns**: Patterns from STATS_EXCLUDED_EMAIL_PATTERNS env var -- read-only"
+        },
+        {
+          "info": {
+            "name": "Add Excluded Pattern",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/settings/excluded-patterns",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add a new excluded email pattern (Admin only).\n\nPatterns are matched as substrings against user emails and names.\nExamples: \"@test.com\", \"staging\", \"internal\"."
+        },
+        {
+          "info": {
+            "name": "Remove Excluded Pattern",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/admin/settings/excluded-patterns",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove an excluded email pattern (Admin only).\n\nCannot remove built-in patterns like \"compresr.ai\"."
+        },
+        {
+          "info": {
+            "name": "Get Pilot Patterns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/settings/pilot-patterns",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get pilot-account patterns (revenue excluded, usage kept), grouped by source."
+        },
+        {
+          "info": {
+            "name": "Add Pilot Pattern",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/settings/pilot-patterns",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add a pilot-account pattern (Admin only). Matches emails/names as substrings."
+        },
+        {
+          "info": {
+            "name": "Remove Pilot Pattern",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/admin/settings/pilot-patterns",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove a pilot-account pattern (Admin only). Cannot remove built-in pilots."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Compresr Platform Admin Health API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          },
+          "docs": "Health check endpoint for ALB.\n\nCRITICAL: Must respond within 5 seconds (ALB timeout).\nRedis checks are optional - failure should not fail the health check."
+        },
+        {
+          "info": {
+            "name": "Deep Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health/deep",
+            "params": [
+              {
+                "name": "include_stripe",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "include_compression",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deep health check with dependency status.\n\nUse for monitoring dashboards and debugging.\nNOT for ALB health checks (too slow).\n\nQuery params:\n    include_stripe: Include Stripe API check\n    include_compression: Include compression service check"
+        },
+        {
+          "info": {
+            "name": "Circuit Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health/circuits",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Circuit breaker status for all services.\n\nUse for monitoring circuit breaker states and detecting\nfailing downstream services.\n\nSecurity: Requires support/admin role to prevent information disclosure."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
