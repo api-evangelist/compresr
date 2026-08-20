@@ -45,6 +45,16 @@ tags:
 - Developer Tools
 - Agents
 - Tokens
+- Y Combinator
+tags_raw:
+- LLM
+- Context Compression
+- Prompt Engineering
+- RAG
+- AI Infrastructure
+- Developer Tools
+- Agents
+- Tokens
 - API
 - Y Combinator
 apis:
@@ -90,6 +100,8 @@ apis:
   humanURL: https://compresr.ai/docs
   baseURL: https://api.compresr.ai
   tags:
+  - APIKeys
+  tags_raw:
   - API Keys
   properties:
   - type: OpenAPI
@@ -108,6 +120,8 @@ apis:
   humanURL: https://compresr.ai/docs
   baseURL: https://api.compresr.ai
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -396,6 +410,8 @@ apis:
   humanURL: https://compresr.ai/docs
   baseURL: https://api.compresr.ai
   tags:
+  - Authentication
+  tags_raw:
   - OAuth
   properties:
   - type: OpenAPI
