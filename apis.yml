@@ -568,6 +568,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Website
+  url: https://www.compresr.ai/
 - type: CapabilityMap
   url: capabilities/compresr-capability-edges.yml
   name: Compresr Business Capability Map
