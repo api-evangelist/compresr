@@ -1,17 +1,14 @@
 aid: compresr
 name: Compresr
-description: >-
-  Compresr is an LLM context-compression API. You send the long context you would
-  otherwise pass to a model plus the query you want answered, and Compresr returns a
-  shorter context that keeps the answer-bearing spans and drops the rest — fewer input
-  tokens, lower cost, a longer effective context window, and faster inference. It sits
-  in front of whatever LLM stack you already use and replaces nothing. The public API
-  exposes query-specific compression models (latte_v1 and the faster latte_v2) plus
-  tool-output, conversation-history, and tool-discovery variants, over a hosted HTTP
-  API with Python and TypeScript SDKs, first-party framework integrations (LangChain,
-  LangGraph, LlamaIndex, LiteLLM), and per-key tiered rate limits. Compresr Inc. is a
-  Y Combinator W26 company built by four EPFL-trained researchers in San Francisco,
-  California and Switzerland.
+description: Compresr is an LLM context-compression API. You send the long context you would otherwise
+  pass to a model plus the query you want answered, and Compresr returns a shorter context that keeps
+  the answer-bearing spans and drops the rest — fewer input tokens, lower cost, a longer effective context
+  window, and faster inference. It sits in front of whatever LLM stack you already use and replaces nothing.
+  The public API exposes query-specific compression models (latte_v1 and the faster latte_v2) plus tool-output,
+  conversation-history, and tool-discovery variants, over a hosted HTTP API with Python and TypeScript
+  SDKs, first-party framework integrations (LangChain, LangGraph, LlamaIndex, LiteLLM), and per-key tiered
+  rate limits. Compresr Inc. is a Y Combinator W26 company built by four EPFL-trained researchers in San
+  Francisco, California and Switzerland.
 url: https://raw.githubusercontent.com/api-evangelist/compresr/refs/heads/main/apis.yml
 deliveryModel:
   model: saas
@@ -47,7 +44,7 @@ x-tier: enriched
 x-tier-reason: portfolio-lead
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-09-16'
 tags:
 - LLM
 - Context Compression
@@ -183,7 +180,7 @@ apis:
   - type: Authentication
     url: https://compresr.ai/docs/authentication
 - aid: compresr:compresr-compresr-platform-api-api
-  name: Compresr Compresr Platform API API
+  name: Compresr Platform API
   description: The Compresr Platform API API from Compresr — 1 operation(s) for compresr platform api.
   humanURL: https://compresr.ai/docs
   baseURL: https://api.compresr.ai
@@ -609,7 +606,10 @@ common:
   url: cli/compresr-cli.yml
 - type: X-MCPServerCandidate
   url: mcp/compresr-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+    — a tool list derived from the published API contracts, not an existing server. The scorer already
+    read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+    surfaces with a server that does not exist.'
 - type: AgentSkill
   url: skills/_index.yml
 - type: Conventions
