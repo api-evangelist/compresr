@@ -413,26 +413,6 @@ apis:
     url: https://compresr.ai/docs/quick-start
   - type: Authentication
     url: https://compresr.ai/docs/authentication
-- aid: compresr:compresr-oauth-api
-  name: Compresr OAuth API
-  description: The OAuth API from Compresr — 6 operation(s) for oauth.
-  humanURL: https://compresr.ai/docs
-  baseURL: https://api.compresr.ai
-  tags:
-  - Authentication
-  tags_raw:
-  - OAuth
-  properties:
-  - type: OpenAPI
-    url: openapi/compresr-oauth-api-openapi.yml
-  - type: Documentation
-    url: https://compresr.ai/docs
-  - type: APIReference
-    url: https://compresr.ai/docs/api-reference/conventions
-  - type: GettingStarted
-    url: https://compresr.ai/docs/quick-start
-  - type: Authentication
-    url: https://compresr.ai/docs/authentication
 - aid: compresr:compresr-oauth-authorization-api
   name: Compresr OAuth Authorization API
   description: The OAuth Authorization API from Compresr — 3 operation(s) for oauth authorization.
@@ -551,6 +531,24 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/compresr-usage-api-openapi.yml
+  - type: Documentation
+    url: https://compresr.ai/docs
+  - type: APIReference
+    url: https://compresr.ai/docs/api-reference/conventions
+  - type: GettingStarted
+    url: https://compresr.ai/docs/quick-start
+  - type: Authentication
+    url: https://compresr.ai/docs/authentication
+- aid: compresr:compresr-oauth-api
+  name: Compresr O Auth API
+  description: The OAuth API from Compresr — 6 operation(s) for oauth.
+  humanURL: https://compresr.ai/docs
+  baseURL: https://api.compresr.ai
+  tags:
+  - OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/compresr-oauth-api-openapi.yml
   - type: Documentation
     url: https://compresr.ai/docs
   - type: APIReference
