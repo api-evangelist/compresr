@@ -275,6 +275,8 @@ apis:
   humanURL: https://compresr.ai/docs
   baseURL: https://api.compresr.ai
   tags:
+  - Dashboards
+  tags_raw:
   - Dashboard
   properties:
   - type: OpenAPI
@@ -311,6 +313,8 @@ apis:
   humanURL: https://compresr.ai/docs
   baseURL: https://api.compresr.ai
   tags:
+  - Gateways
+  tags_raw:
   - Gateway
   properties:
   - type: OpenAPI
@@ -401,6 +405,8 @@ apis:
   humanURL: https://compresr.ai/docs
   baseURL: https://api.compresr.ai
   tags:
+  - Newsletters
+  tags_raw:
   - Newsletter
   properties:
   - type: OpenAPI
@@ -491,6 +497,8 @@ apis:
   humanURL: https://compresr.ai/docs
   baseURL: https://api.compresr.ai
   tags:
+  - Profiles
+  tags_raw:
   - Profile
   properties:
   - type: OpenAPI
@@ -545,6 +553,8 @@ apis:
   humanURL: https://compresr.ai/docs
   baseURL: https://api.compresr.ai
   tags:
+  - Authentication
+  tags_raw:
   - OAuth
   properties:
   - type: OpenAPI
