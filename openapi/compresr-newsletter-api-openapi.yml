@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Compresr Platform Admin Newsletter API
+  title: Compresr Platform Newsletter API
   version: 1.0.0
 tags:
 - name: Newsletter
@@ -154,7 +154,7 @@ paths:
 
         This endpoint allows one-click unsubscribe from email links.
 
-        Format: /newsletter/unsubscribe?token=<uuid>'
+        Format: /newsletter/unsubscribe?token='
       operationId: unsubscribe_via_link_api_newsletter_unsubscribe_get
       parameters:
       - name: token
@@ -244,6 +244,26 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    NewsletterUnsubscribeRequest:
+      properties:
+        token:
+          type: string
+          format: uuid
+          title: Token
+          description: Unsubscribe token from email link
+      type: object
+      required:
+      - token
+      title: NewsletterUnsubscribeRequest
     NewsletterStatusResponse:
       properties:
         success:
@@ -278,60 +298,6 @@ components:
       - email
       - status
       title: NewsletterStatusResponse
-    NewsletterSubscribeResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        email:
-          type: string
-          title: Email
-          description: Subscribed email address
-        already_subscribed:
-          type: boolean
-          title: Already Subscribed
-          description: Whether email was already subscribed
-          default: false
-      type: object
-      required:
-      - email
-      title: NewsletterSubscribeResponse
-    NewsletterUnsubscribeResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        email:
-          type: string
-          title: Email
-          description: Unsubscribed email address
-      type: object
-      required:
-      - email
-      title: NewsletterUnsubscribeResponse
-    NewsletterUnsubscribeRequest:
-      properties:
-        token:
-          type: string
-          format: uuid
-          title: Token
-          description: Unsubscribe token from email link
-      type: object
-      required:
-      - token
-      title: NewsletterUnsubscribeRequest
     ValidationError:
       properties:
         loc:
@@ -353,25 +319,6 @@ components:
       - msg
       - type
       title: ValidationError
-    NewsletterSubscribeRequest:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-          description: Email address to subscribe
-        source:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Source
-          description: Source of subscription
-          default: landing_page
-      type: object
-      required:
-      - email
-      title: NewsletterSubscribeRequest
     ErrorResponse:
       properties:
         success:
@@ -404,15 +351,68 @@ components:
       - error
       - code
       title: ErrorResponse
-    HTTPValidationError:
+    NewsletterSubscribeRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        email:
+          type: string
+          format: email
+          title: Email
+          description: Email address to subscribe
+        source:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Source
+          description: Source of subscription
+          default: landing_page
       type: object
-      title: HTTPValidationError
+      required:
+      - email
+      title: NewsletterSubscribeRequest
+    NewsletterUnsubscribeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        email:
+          type: string
+          title: Email
+          description: Unsubscribed email address
+      type: object
+      required:
+      - email
+      title: NewsletterUnsubscribeResponse
+    NewsletterSubscribeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        email:
+          type: string
+          title: Email
+          description: Subscribed email address
+        already_subscribed:
+          type: boolean
+          title: Already Subscribed
+          description: Whether email was already subscribed
+          default: false
+      type: object
+      required:
+      - email
+      title: NewsletterSubscribeResponse
   securitySchemes:
     HTTPBearer:
       type: http

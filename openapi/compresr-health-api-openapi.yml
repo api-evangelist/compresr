@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Compresr Platform Admin Health API
+  title: Compresr Platform Health API
   version: 1.0.0
 tags:
 - name: Health
@@ -26,7 +26,19 @@ paths:
   /health/deep:
     get:
       summary: Deep Health
-      description: "Deep health check with dependency status.\n\nUse for monitoring dashboards and debugging.\nNOT for ALB health checks (too slow).\n\nQuery params:\n    include_stripe: Include Stripe API check\n    include_compression: Include compression service check"
+      description: 'Deep health check with dependency status.
+
+
+        Use for monitoring dashboards and debugging.
+
+        NOT for ALB health checks (too slow).
+
+
+        Query params:
+
+        include_stripe: Include Stripe API check
+
+        include_compression: Include compression service check'
       operationId: deep_health_health_deep_get
       security:
       - HTTPBearer: []
@@ -84,6 +96,15 @@ paths:
       - Health
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -105,15 +126,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

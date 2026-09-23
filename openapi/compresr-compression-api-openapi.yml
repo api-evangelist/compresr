@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Compresr Platform Admin Compression API
+  title: Compresr Platform Compression API
   version: 1.0.0
 tags:
 - name: Compression
@@ -190,106 +190,37 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CompressionResult:
+    HTTPValidationError:
       properties:
-        original_tokens:
-          type: integer
-          title: Original Tokens
-          description: Token count of original context
-        compressed_tokens:
-          type: integer
-          title: Compressed Tokens
-          description: Token count after compression
-        target_compression_ratio:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DemoCompressionModelOption:
+      properties:
+        value:
+          type: string
+          title: Value
+        label:
+          type: string
+          title: Label
+        description:
+          type: string
+          title: Description
+          default: ''
+        tier_scale:
           anyOf:
-          - type: number
+          - type: string
           - type: 'null'
-          title: Target Compression Ratio
-          description: User-requested compression ratio (if provided)
-        actual_compression_ratio:
-          type: number
-          title: Actual Compression Ratio
-          description: Actual achieved compression ratio (0-1)
-        tokens_saved:
-          type: integer
-          title: Tokens Saved
-          description: Number of tokens saved
-        duration_ms:
-          type: integer
-          title: Duration Ms
-          description: Processing time in milliseconds
-        compressed_context:
-          type: string
-          title: Compressed Context
-          description: Compressed context text
+          title: Tier Scale
       type: object
       required:
-      - original_tokens
-      - compressed_tokens
-      - actual_compression_ratio
-      - tokens_saved
-      - duration_ms
-      - compressed_context
-      title: CompressionResult
-      description: 'Canonical single-context compression result.
-
-
-        Used by query-specific routes, demo, and agentic responses.'
-    SampleText:
-      properties:
-        name:
-          type: string
-          title: Name
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - name
-      - text
-      title: SampleText
-    Source:
-      type: string
-      enum:
-      - demo
-      - extension
-      - sdk:python
-      - sdk:typescript
-      - sdk:curl
-      - gateway:unknown
-      - gateway:anthropic
-      - gateway:openai
-      - gateway:gemini
-      - integration:litellm
-      - integration:hermes
-      title: Source
-      description: 'Source of an API request.
-
-
-        Format: source[:detail]
-
-        - demo, extension: no detail needed
-
-        - sdk:python, sdk:typescript, sdk:curl
-
-        - gateway:anthropic, gateway:openai, gateway:gemini
-
-        - integration:litellm, integration:hermes'
-    HealthResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: Service status
-        compression_server:
-          type: boolean
-          title: Compression Server
-          description: Whether compression server is available
-      type: object
-      required:
-      - status
-      - compression_server
-      title: HealthResponse
+      - value
+      - label
+      title: DemoCompressionModelOption
     QuerySpecificCompressionBatchResult:
       properties:
         total_original_tokens:
@@ -319,83 +250,6 @@ components:
           title: Results
       type: object
       title: QuerySpecificCompressionBatchResult
-    QuerySpecificCompressionResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/CompressionResult'
-          - type: 'null'
-      type: object
-      title: QuerySpecificCompressionResponse
-    DemoCompressionModelOption:
-      properties:
-        value:
-          type: string
-          title: Value
-        label:
-          type: string
-          title: Label
-        description:
-          type: string
-          title: Description
-          default: ''
-        tier_scale:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier Scale
-      type: object
-      required:
-      - value
-      - label
-      title: DemoCompressionModelOption
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DemoDataResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          $ref: '#/components/schemas/DemoData'
-      type: object
-      required:
-      - data
-      title: DemoDataResponse
     QuerySpecificCompressionRequest:
       properties:
         context:
@@ -471,6 +325,108 @@ components:
         Use /batch endpoint for multiple context+query pairs.
 
         Backbone: GemFilter'
+    DemoData:
+      properties:
+        sample_texts:
+          items:
+            $ref: '#/components/schemas/SampleText'
+          type: array
+          title: Sample Texts
+        compression_models:
+          items:
+            $ref: '#/components/schemas/DemoCompressionModelOption'
+          type: array
+          title: Compression Models
+          default: []
+      type: object
+      required:
+      - sample_texts
+      title: DemoData
+    QuerySpecificCompressionResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/CompressionResult'
+          - type: 'null'
+      type: object
+      title: QuerySpecificCompressionResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SampleText:
+      properties:
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - name
+      - text
+      title: SampleText
+    QuerySpecificCompressionBatchInput:
+      properties:
+        context:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Context
+          description: Context text to compress. If null or empty, the corresponding result has compressed_context='' with zero tokens and is not billed.
+        query:
+          type: string
+          minLength: 1
+          title: Query
+          description: Query for this context (REQUIRED)
+      type: object
+      required:
+      - query
+      title: QuerySpecificCompressionBatchInput
+    DemoDataResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          $ref: '#/components/schemas/DemoData'
+      type: object
+      required:
+      - data
+      title: DemoDataResponse
     QuerySpecificCompressionBatchRequest:
       properties:
         inputs:
@@ -533,40 +489,93 @@ components:
         Each input has its own context and query. Use this when you need different
 
         queries for different contexts.'
-    QuerySpecificCompressionBatchInput:
+    Source:
+      type: string
+      enum:
+      - demo
+      - extension
+      - sdk:python
+      - sdk:typescript
+      - sdk:curl
+      - gateway:unknown
+      - gateway:anthropic
+      - gateway:openai
+      - gateway:gemini
+      - integration:litellm
+      - integration:hermes
+      title: Source
+      description: 'Source of an API request.
+
+
+        Format: source[:detail]
+
+        - demo, extension: no detail needed
+
+        - sdk:python, sdk:typescript, sdk:curl
+
+        - gateway:anthropic, gateway:openai, gateway:gemini
+
+        - integration:litellm, integration:hermes'
+    HealthResponse:
       properties:
-        context:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Context
-          description: Context text to compress. If null or empty, the corresponding result has compressed_context='' with zero tokens and is not billed.
-        query:
+        status:
           type: string
-          minLength: 1
-          title: Query
-          description: Query for this context (REQUIRED)
+          title: Status
+          description: Service status
+        compression_server:
+          type: boolean
+          title: Compression Server
+          description: Whether compression server is available
       type: object
       required:
-      - query
-      title: QuerySpecificCompressionBatchInput
-    DemoData:
+      - status
+      - compression_server
+      title: HealthResponse
+    CompressionResult:
       properties:
-        sample_texts:
-          items:
-            $ref: '#/components/schemas/SampleText'
-          type: array
-          title: Sample Texts
-        compression_models:
-          items:
-            $ref: '#/components/schemas/DemoCompressionModelOption'
-          type: array
-          title: Compression Models
-          default: []
+        original_tokens:
+          type: integer
+          title: Original Tokens
+          description: Token count of original context
+        compressed_tokens:
+          type: integer
+          title: Compressed Tokens
+          description: Token count after compression
+        target_compression_ratio:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Target Compression Ratio
+          description: User-requested compression ratio (if provided)
+        actual_compression_ratio:
+          type: number
+          title: Actual Compression Ratio
+          description: Actual achieved compression ratio (0-1)
+        tokens_saved:
+          type: integer
+          title: Tokens Saved
+          description: Number of tokens saved
+        duration_ms:
+          type: integer
+          title: Duration Ms
+          description: Processing time in milliseconds
+        compressed_context:
+          type: string
+          title: Compressed Context
+          description: Compressed context text
       type: object
       required:
-      - sample_texts
-      title: DemoData
+      - original_tokens
+      - compressed_tokens
+      - actual_compression_ratio
+      - tokens_saved
+      - duration_ms
+      - compressed_context
+      title: CompressionResult
+      description: 'Canonical single-context compression result.
+
+
+        Used by query-specific routes, demo, and agentic responses.'
     QuerySpecificCompressionBatchResponse:
       properties:
         success:
@@ -584,15 +593,6 @@ components:
           - type: 'null'
       type: object
       title: QuerySpecificCompressionBatchResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

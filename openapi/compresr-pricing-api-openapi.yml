@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Compresr Platform Admin Pricing API
+  title: Compresr Platform Pricing API
   version: 1.0.0
 tags:
 - name: Pricing
@@ -10,7 +10,23 @@ paths:
       tags:
       - Pricing
       summary: Get Compression Models
-      description: "Get our compression model(s) with pricing info (cached).\n\nUsed by frontend to display our pricing (e.g., latte_v1 @ $0.10/1M tokens).\n\nReturns:\n- List of compression models with:\n  - name: Model name (e.g., \"latte_v1\")\n  - display_name: Human-readable name\n  - description: Model description\n  - input_price_per_1m: Our price per 1M input tokens"
+      description: 'Get our compression model(s) with pricing info (cached).
+
+
+        Used by frontend to display our pricing (e.g., latte_v1 @ $0.10/1M tokens).
+
+
+        Returns:
+
+        - List of compression models with:
+
+        - name: Model name (e.g., "latte_v1")
+
+        - display_name: Human-readable name
+
+        - description: Model description
+
+        - input_price_per_1m: Our price per 1M input tokens'
       operationId: get_compression_models_api_pricing_compression_models_get
       responses:
         '200':
@@ -80,37 +96,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CompressionModelInfo:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-          description: Model name (e.g., 'latte_v1')
-        display_name:
-          type: string
-          title: Display Name
-          description: Human-readable name
-        description:
-          type: string
-          title: Description
-          description: Description of the compression technology
-        input_price_per_1m:
-          type: number
-          title: Input Price Per 1M
-          description: Our price per 1M input tokens
-        min_tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Min Tier
-          description: Minimum subscription tier required
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      - display_name
-      - description
-      - input_price_per_1m
-      title: CompressionModelInfo
+      title: HTTPValidationError
     EstimateCostResponse:
       properties:
         success:
@@ -149,6 +143,38 @@ components:
       - msg
       - type
       title: ValidationError
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
     CostBreakdown:
       properties:
         input_tokens:
@@ -196,58 +222,6 @@ components:
       - model
       - input_price_per_1m
       title: CostBreakdown
-    CompressionModelsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          items:
-            $ref: '#/components/schemas/CompressionModelInfo'
-          type: array
-          title: Data
-      type: object
-      required:
-      - data
-      title: CompressionModelsResponse
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
     EstimateCostRequest:
       properties:
         compression_model:
@@ -271,15 +245,57 @@ components:
       required:
       - input_tokens
       title: EstimateCostRequest
-    HTTPValidationError:
+    CompressionModelInfo:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          title: Name
+          description: Model name (e.g., 'latte_v1')
+        display_name:
+          type: string
+          title: Display Name
+          description: Human-readable name
+        description:
+          type: string
+          title: Description
+          description: Description of the compression technology
+        input_price_per_1m:
+          type: number
+          title: Input Price Per 1M
+          description: Our price per 1M input tokens
+        min_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Min Tier
+          description: Minimum subscription tier required
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      - display_name
+      - description
+      - input_price_per_1m
+      title: CompressionModelInfo
+    CompressionModelsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          items:
+            $ref: '#/components/schemas/CompressionModelInfo'
+          type: array
+          title: Data
+      type: object
+      required:
+      - data
+      title: CompressionModelsResponse
   securitySchemes:
     HTTPBearer:
       type: http

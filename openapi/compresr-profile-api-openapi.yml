@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Compresr Platform Admin Profile API
+  title: Compresr Platform Profile API
   version: 1.0.0
 tags:
 - name: Profile
@@ -210,65 +210,65 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    AccountType:
-      type: string
-      enum:
-      - user
-      - enterprise
-      title: AccountType
-      description: 'Account type: determines billing mode and allowed API key scopes.
-
-
-        - USER: Prepaid wallet billing, can create user-scope keys
-
-        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
-    RoleResponse:
+    ValidationError:
       properties:
-        role:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Role
-          description: 'User role: user, admin, support'
-        is_admin:
-          type: boolean
-          title: Is Admin
-          description: Whether user is admin or support
-        account_type:
+          title: Message
+        type:
           type: string
-          title: Account Type
-          description: 'Account type: user or enterprise'
+          title: Error Type
       type: object
       required:
-      - role
-      - is_admin
-      - account_type
-      title: RoleResponse
-    ProfileCreateRequest:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
       properties:
-        account_type:
-          anyOf:
-          - $ref: '#/components/schemas/AccountType'
-          - type: 'null'
-          description: 'Account type selected at onboarding: ''user'' (prepaid) or ''enterprise'' (postpaid)'
-      additionalProperties: false
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      title: ProfileCreateRequest
-    DeleteAccountResponse:
+      title: HTTPValidationError
+    RateLimits:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/DeleteAccountInfo'
-          - type: 'null'
+        tier:
+          $ref: '#/components/schemas/TierName'
+          description: Tier name
+        rpm:
+          type: integer
+          title: Rpm
+          description: Requests per minute (-1 = unlimited)
+        tpm:
+          type: integer
+          title: Tpm
+          description: Tokens per minute (-1 = unlimited)
+        rpd:
+          type: integer
+          title: Rpd
+          description: Requests per day (-1 = unlimited)
+        max_api_keys:
+          type: integer
+          title: Max Api Keys
+          description: Max API keys (-1 = unlimited)
       type: object
-      title: DeleteAccountResponse
+      required:
+      - tier
+      - rpm
+      - tpm
+      - rpd
+      - max_api_keys
+      title: RateLimits
     Profile:
       properties:
         user_id:
@@ -357,80 +357,95 @@ components:
         Note: Enterprise status is determined by active enterprise API tokens,
 
         not the plan column (which is no longer used).'
-    MessageResponse:
+    DeleteAccountInfo:
+      properties:
+        can_delete:
+          type: boolean
+          title: Can Delete
+          default: true
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+        pending_balance:
+          type: number
+          title: Pending Balance
+          default: 0.0
+        pending_reports:
+          type: integer
+          title: Pending Reports
+          default: 0
+      type: object
+      title: DeleteAccountInfo
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    TierName:
+      type: string
+      enum:
+      - tier1
+      - tier2
+      - tier3
+      - tier4
+      - tier5
+      title: TierName
+    ProfileResponse:
       properties:
         success:
           type: boolean
           title: Success
           default: true
         message:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/Profile'
+          - type: 'null'
       type: object
-      required:
-      - message
-      title: MessageResponse
-    RateLimits:
+      title: ProfileResponse
+    ProfileCreateRequest:
       properties:
-        tier:
-          $ref: '#/components/schemas/TierName'
-          description: Tier name
-        rpm:
-          type: integer
-          title: Rpm
-          description: Requests per minute (-1 = unlimited)
-        tpm:
-          type: integer
-          title: Tpm
-          description: Tokens per minute (-1 = unlimited)
-        rpd:
-          type: integer
-          title: Rpd
-          description: Requests per day (-1 = unlimited)
-        max_api_keys:
-          type: integer
-          title: Max Api Keys
-          description: Max API keys (-1 = unlimited)
+        account_type:
+          anyOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+          description: 'Account type selected at onboarding: ''user'' (prepaid) or ''enterprise'' (postpaid)'
+      additionalProperties: false
       type: object
-      required:
-      - tier
-      - rpm
-      - tpm
-      - rpd
-      - max_api_keys
-      title: RateLimits
-    DeleteAccountRequest:
-      properties:
-        confirmation:
-          type: string
-          const: DELETE
-          title: Confirmation
-          description: Must be 'DELETE' to confirm
-      type: object
-      required:
-      - confirmation
-      title: DeleteAccountRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: ProfileCreateRequest
     ProfileUpdateResponse:
       properties:
         success:
@@ -448,15 +463,36 @@ components:
           - type: 'null'
       type: object
       title: ProfileUpdateResponse
-    TierName:
-      type: string
-      enum:
-      - tier1
-      - tier2
-      - tier3
-      - tier4
-      - tier5
-      title: TierName
+    DeleteAccountResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/DeleteAccountInfo'
+          - type: 'null'
+      type: object
+      title: DeleteAccountResponse
+    MessageResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
     ProfileUpdateRequest:
       properties:
         full_name:
@@ -503,6 +539,17 @@ components:
         Note: subscription-related fields (extra_usage_*) are now in user_subscriptions
 
         but can still be updated via this endpoint for convenience.'
+    DeleteAccountRequest:
+      properties:
+        confirmation:
+          type: string
+          const: DELETE
+          title: Confirmation
+          description: Must be 'DELETE' to confirm
+      type: object
+      required:
+      - confirmation
+      title: DeleteAccountRequest
     RateLimitsResponse:
       properties:
         success:
@@ -520,85 +567,38 @@ components:
           - type: 'null'
       type: object
       title: RateLimitsResponse
-    ErrorResponse:
+    RoleResponse:
       properties:
-        success:
+        role:
+          type: string
+          title: Role
+          description: 'User role: user, admin, support'
+        is_admin:
           type: boolean
-          title: Success
-          default: false
-        error:
+          title: Is Admin
+          description: Whether user is admin or support
+        account_type:
           type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
+          title: Account Type
+          description: 'Account type: user or enterprise'
       type: object
       required:
-      - error
-      - code
-      title: ErrorResponse
-    ProfileResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/Profile'
-          - type: 'null'
-      type: object
-      title: ProfileResponse
-    DeleteAccountInfo:
-      properties:
-        can_delete:
-          type: boolean
-          title: Can Delete
-          default: true
-        reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reason
-        pending_balance:
-          type: number
-          title: Pending Balance
-          default: 0.0
-        pending_reports:
-          type: integer
-          title: Pending Reports
-          default: 0
-      type: object
-      title: DeleteAccountInfo
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - role
+      - is_admin
+      - account_type
+      title: RoleResponse
+    AccountType:
+      type: string
+      enum:
+      - user
+      - enterprise
+      title: AccountType
+      description: 'Account type: determines billing mode and allowed API key scopes.
+
+
+        - USER: Prepaid wallet billing, can create user-scope keys
+
+        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
   securitySchemes:
     HTTPBearer:
       type: http

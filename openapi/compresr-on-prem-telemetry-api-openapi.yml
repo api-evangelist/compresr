@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Compresr Platform Admin On-Prem Telemetry API
+  title: Compresr Platform On-Prem Telemetry API
   version: 1.0.0
 tags:
 - name: On-Prem Telemetry
@@ -10,7 +10,26 @@ paths:
       tags:
       - On-Prem Telemetry
       summary: Register signing secret for HMAC verification
-      description: "Register an on-prem signing secret (`opm_xxx`) for HMAC verification.\n\n    Call once before sending telemetry (optional — the first batch auto-\n    registers). The secret is encrypted at rest. `cmp_` API keys are rejected;\n    mint an `opm_` credential in the dashboard under Settings -> On-Prem.\n\n    **Required Headers:**\n    - `X-API-Key`: Your Compresr API key\n\n    **Body:**\n    - `signing_secret`: On-prem signing secret (`opm_xxx`)\n    - `instance_id`: Optional instance identifier"
+      description: 'Register an on-prem signing secret (`opm_xxx`) for HMAC verification.
+
+
+        Call once before sending telemetry (optional — the first batch auto-
+
+        registers). The secret is encrypted at rest. `cmp_` API keys are rejected;
+
+        mint an `opm_` credential in the dashboard under Settings -> On-Prem.
+
+
+        **Required Headers:**
+
+        - `X-API-Key`: Your Compresr API key
+
+
+        **Body:**
+
+        - `signing_secret`: On-prem signing secret (`opm_xxx`)
+
+        - `instance_id`: Optional instance identifier'
       operationId: register_signing_secret_api_v1_telemetry_register_post
       security:
       - HTTPBearer: []
@@ -45,7 +64,51 @@ paths:
       tags:
       - On-Prem Telemetry
       summary: Ingest telemetry batch from on-prem instance
-      description: "Receive and store a batch of telemetry events from an on-prem Compresr instance.\n    \n    **Required Headers:**\n    - `X-API-Key`: Compresr API key (authentication)\n    - `X-Compresr-Signature`: HMAC signature (integrity)\n    \n    **Optional Headers:**\n    - `X-Instance-ID`: On-prem instance identifier\n    \n    **First Request (auto-registration):**\n    Include `signing_secret` (`opm_xxx`) in the body - it will be registered\n    automatically. `cmp_` API keys are rejected; mint an `opm_` credential\n    in the dashboard under Settings -> On-Prem first.\n\n    **Signature Format:**\n    ```\n    t=timestamp,v1=HMAC-SHA256(timestamp + \".\" + JSON(payload), signing_secret)\n    ```\n    \n    **Event Types:**\n    - `compression`: Counted for billing\n    - `error`: Logged only\n    - `startup`/`shutdown`: Operational\n    \n    **Idempotency:**\n    Same batch_id within 24h returns success without reprocessing."
+      description: 'Receive and store a batch of telemetry events from an on-prem Compresr instance.
+
+
+        **Required Headers:**
+
+        - `X-API-Key`: Compresr API key (authentication)
+
+        - `X-Compresr-Signature`: HMAC signature (integrity)
+
+
+        **Optional Headers:**
+
+        - `X-Instance-ID`: On-prem instance identifier
+
+
+        **First Request (auto-registration):**
+
+        Include `signing_secret` (`opm_xxx`) in the body - it will be registered
+
+        automatically. `cmp_` API keys are rejected; mint an `opm_` credential
+
+        in the dashboard under Settings -> On-Prem first.
+
+
+        **Signature Format:**
+
+        ```
+
+        t=timestamp,v1=HMAC-SHA256(timestamp + "." + JSON(payload), signing_secret)
+
+        ```
+
+
+        **Event Types:**
+
+        - `compression`: Counted for billing
+
+        - `error`: Logged only
+
+        - `startup`/`shutdown`: Operational
+
+
+        **Idempotency:**
+
+        Same batch_id within 24h returns success without reprocessing.'
       operationId: ingest_telemetry_batch_api_v1_telemetry_batch_post
       security:
       - HTTPBearer: []
@@ -137,6 +200,98 @@ paths:
                 title: Response Telemetry Health Api V1 Telemetry Health Get
 components:
   schemas:
+    RegisterSigningSecretRequest:
+      properties:
+        signing_secret:
+          type: string
+          title: Signing Secret
+          description: On-prem signing secret (opm_xxx). Mint via dashboard -> Settings -> On-Prem. cmp_ API keys are rejected.
+        instance_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instance Id
+          description: Instance identifier
+      type: object
+      required:
+      - signing_secret
+      title: RegisterSigningSecretRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    IdentityManifest:
+      properties:
+        instance_id:
+          type: string
+          title: Instance Id
+          description: UUID matching /data/identity.json
+        api_key_hash:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+          title: Api Key Hash
+          description: SHA-256 hex of the api_key the on-prem instance was first bound to
+        created_at:
+          type: string
+          title: Created At
+          description: ISO-8601 timestamp manifest was created
+      additionalProperties: true
+      type: object
+      required:
+      - instance_id
+      - api_key_hash
+      - created_at
+      title: IdentityManifest
+      description: 'On-prem identity manifest, sent in each upload for rebirth detection.
+
+
+        The on-prem instance persists this manifest in ``/data/identity.json``
+
+        HMAC-bound to the api_key on first authenticated request. Subsequent
+
+        uploads carry the same values. If we see a *new* ``instance_id`` or an
+
+        earlier ``created_at`` for the same api_key, it signals that the operator
+
+        deleted the local manifest — typically an attempt to reset a per-instance
+
+        grace period or quota.'
+    TelemetryBatchResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether batch was accepted
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Echo of batch ID
+        events_received:
+          type: integer
+          title: Events Received
+          description: Number of events received
+        events_stored:
+          type: integer
+          title: Events Stored
+          description: Number of events stored
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Additional message
+      type: object
+      required:
+      - success
+      - batch_id
+      - events_received
+      - events_stored
+      title: TelemetryBatchResponse
     RegisterSigningSecretResponse:
       properties:
         success:
@@ -191,53 +346,6 @@ components:
       - instance_id
       - events
       title: TelemetryBatchRequest
-    TelemetryBatchResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether batch was accepted
-        batch_id:
-          type: string
-          title: Batch Id
-          description: Echo of batch ID
-        events_received:
-          type: integer
-          title: Events Received
-          description: Number of events received
-        events_stored:
-          type: integer
-          title: Events Stored
-          description: Number of events stored
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Additional message
-      type: object
-      required:
-      - success
-      - batch_id
-      - events_received
-      - events_stored
-      title: TelemetryBatchResponse
-    RegisterSigningSecretRequest:
-      properties:
-        signing_secret:
-          type: string
-          title: Signing Secret
-          description: On-prem signing secret (opm_xxx). Mint via dashboard -> Settings -> On-Prem. cmp_ API keys are rejected.
-        instance_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Instance Id
-          description: Instance identifier
-      type: object
-      required:
-      - signing_secret
-      title: RegisterSigningSecretRequest
     ValidationError:
       properties:
         loc:
@@ -259,26 +367,6 @@ components:
       - msg
       - type
       title: ValidationError
-    TelemetryErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Always false for errors
-          default: false
-        error:
-          type: string
-          title: Error
-          description: Error message
-        error_code:
-          type: string
-          title: Error Code
-          description: Error code for debugging
-      type: object
-      required:
-      - error
-      - error_code
-      title: TelemetryErrorResponse
     ErrorResponse:
       properties:
         success:
@@ -389,51 +477,26 @@ components:
         platform verifies it server-side and rejects events with a bad tag —
 
         closing the in-flight SQLite tamper window.'
-    IdentityManifest:
+    TelemetryErrorResponse:
       properties:
-        instance_id:
+        success:
+          type: boolean
+          title: Success
+          description: Always false for errors
+          default: false
+        error:
           type: string
-          title: Instance Id
-          description: UUID matching /data/identity.json
-        api_key_hash:
+          title: Error
+          description: Error message
+        error_code:
           type: string
-          pattern: ^[a-f0-9]{64}$
-          title: Api Key Hash
-          description: SHA-256 hex of the api_key the on-prem instance was first bound to
-        created_at:
-          type: string
-          title: Created At
-          description: ISO-8601 timestamp manifest was created
-      additionalProperties: true
+          title: Error Code
+          description: Error code for debugging
       type: object
       required:
-      - instance_id
-      - api_key_hash
-      - created_at
-      title: IdentityManifest
-      description: 'On-prem identity manifest, sent in each upload for rebirth detection.
-
-
-        The on-prem instance persists this manifest in ``/data/identity.json``
-
-        HMAC-bound to the api_key on first authenticated request. Subsequent
-
-        uploads carry the same values. If we see a *new* ``instance_id`` or an
-
-        earlier ``created_at`` for the same api_key, it signals that the operator
-
-        deleted the local manifest — typically an attempt to reset a per-instance
-
-        grace period or quota.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - error
+      - error_code
+      title: TelemetryErrorResponse
   securitySchemes:
     HTTPBearer:
       type: http

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Compresr Platform Admin Compression-Demo API
+  title: Compresr Platform Compression Demo API
   version: 1.0.0
 tags:
 - name: Compression-Demo
@@ -191,6 +191,15 @@ paths:
                 $ref: '#/components/schemas/DemoDataResponse'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     DemoStreamRequest:
       properties:
         context:
@@ -221,66 +230,6 @@ components:
       required:
       - context
       title: DemoStreamRequest
-    SampleText:
-      properties:
-        name:
-          type: string
-          title: Name
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - name
-      - text
-      title: SampleText
-    DemoTestOutputRequest:
-      properties:
-        question:
-          type: string
-          maxLength: 4096
-          minLength: 1
-          title: Question
-        compressed_context:
-          type: string
-          maxLength: 1000000
-          minLength: 1
-          title: Compressed Context
-      type: object
-      required:
-      - question
-      - compressed_context
-      title: DemoTestOutputRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     DemoCompressionModelOption:
       properties:
         value:
@@ -320,6 +269,40 @@ components:
       required:
       - sample_texts
       title: DemoData
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SampleText:
+      properties:
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - name
+      - text
+      title: SampleText
     DemoDataResponse:
       properties:
         success:
@@ -337,6 +320,23 @@ components:
       required:
       - data
       title: DemoDataResponse
+    DemoTestOutputRequest:
+      properties:
+        question:
+          type: string
+          maxLength: 4096
+          minLength: 1
+          title: Question
+        compressed_context:
+          type: string
+          maxLength: 1000000
+          minLength: 1
+          title: Compressed Context
+      type: object
+      required:
+      - question
+      - compressed_context
+      title: DemoTestOutputRequest
   securitySchemes:
     HTTPBearer:
       type: http

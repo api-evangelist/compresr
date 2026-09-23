@@ -1,0 +1,29 @@
+# Front Door AI Index — compresr — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: compresr
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.compresr.ai
+  final_host: www.compresr.ai
+  ownership: own
+  owner: compresr
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 13
+  host_score: 13
+  density: 22.3
+  words: 583
+  tiers:
+    agentic: 2
+    core: 6
+    model: 5
+  ambiguous: 1
+  top_terms:
+    LLMs: 6
+    GPT: 3
+    Claude: 2
+    prompts: 2
+    agent: 1
