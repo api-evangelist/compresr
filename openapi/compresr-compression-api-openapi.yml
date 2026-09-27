@@ -199,28 +199,55 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    DemoCompressionModelOption:
+    HealthResponse:
       properties:
-        value:
+        status:
           type: string
-          title: Value
-        label:
-          type: string
-          title: Label
-        description:
-          type: string
-          title: Description
-          default: ''
-        tier_scale:
+          title: Status
+          description: Service status
+        compression_server:
+          type: boolean
+          title: Compression Server
+          description: Whether compression server is available
+      type: object
+      required:
+      - status
+      - compression_server
+      title: HealthResponse
+    QuerySpecificCompressionBatchInput:
+      properties:
+        context:
           anyOf:
           - type: string
           - type: 'null'
-          title: Tier Scale
+          title: Context
+          description: Context text to compress. If null or empty, the corresponding result has compressed_context='' with zero tokens and is not billed.
+        query:
+          type: string
+          minLength: 1
+          title: Query
+          description: Query for this context (REQUIRED)
       type: object
       required:
-      - value
-      - label
-      title: DemoCompressionModelOption
+      - query
+      title: QuerySpecificCompressionBatchInput
+    DemoData:
+      properties:
+        sample_texts:
+          items:
+            $ref: '#/components/schemas/SampleText'
+          type: array
+          title: Sample Texts
+        compression_models:
+          items:
+            $ref: '#/components/schemas/DemoCompressionModelOption'
+          type: array
+          title: Compression Models
+          default: []
+      type: object
+      required:
+      - sample_texts
+      title: DemoData
     QuerySpecificCompressionBatchResult:
       properties:
         total_original_tokens:
@@ -325,40 +352,19 @@ components:
         Use /batch endpoint for multiple context+query pairs.
 
         Backbone: GemFilter'
-    DemoData:
+    SampleText:
       properties:
-        sample_texts:
-          items:
-            $ref: '#/components/schemas/SampleText'
-          type: array
-          title: Sample Texts
-        compression_models:
-          items:
-            $ref: '#/components/schemas/DemoCompressionModelOption'
-          type: array
-          title: Compression Models
-          default: []
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
       type: object
       required:
-      - sample_texts
-      title: DemoData
-    QuerySpecificCompressionResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/CompressionResult'
-          - type: 'null'
-      type: object
-      title: QuerySpecificCompressionResponse
+      - name
+      - text
+      title: SampleText
     ValidationError:
       properties:
         loc:
@@ -380,37 +386,7 @@ components:
       - msg
       - type
       title: ValidationError
-    SampleText:
-      properties:
-        name:
-          type: string
-          title: Name
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - name
-      - text
-      title: SampleText
-    QuerySpecificCompressionBatchInput:
-      properties:
-        context:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Context
-          description: Context text to compress. If null or empty, the corresponding result has compressed_context='' with zero tokens and is not billed.
-        query:
-          type: string
-          minLength: 1
-          title: Query
-          description: Query for this context (REQUIRED)
-      type: object
-      required:
-      - query
-      title: QuerySpecificCompressionBatchInput
-    DemoDataResponse:
+    QuerySpecificCompressionBatchResponse:
       properties:
         success:
           type: boolean
@@ -422,11 +398,50 @@ components:
           - type: 'null'
           title: Message
         data:
-          $ref: '#/components/schemas/DemoData'
+          anyOf:
+          - $ref: '#/components/schemas/QuerySpecificCompressionBatchResult'
+          - type: 'null'
+      type: object
+      title: QuerySpecificCompressionBatchResponse
+    QuerySpecificCompressionResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/CompressionResult'
+          - type: 'null'
+      type: object
+      title: QuerySpecificCompressionResponse
+    DemoCompressionModelOption:
+      properties:
+        value:
+          type: string
+          title: Value
+        label:
+          type: string
+          title: Label
+        description:
+          type: string
+          title: Description
+          default: ''
+        tier_scale:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier Scale
       type: object
       required:
-      - data
-      title: DemoDataResponse
+      - value
+      - label
+      title: DemoCompressionModelOption
     QuerySpecificCompressionBatchRequest:
       properties:
         inputs:
@@ -516,21 +531,6 @@ components:
         - gateway:anthropic, gateway:openai, gateway:gemini
 
         - integration:litellm, integration:hermes'
-    HealthResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: Service status
-        compression_server:
-          type: boolean
-          title: Compression Server
-          description: Whether compression server is available
-      type: object
-      required:
-      - status
-      - compression_server
-      title: HealthResponse
     CompressionResult:
       properties:
         original_tokens:
@@ -576,7 +576,7 @@ components:
 
 
         Used by query-specific routes, demo, and agentic responses.'
-    QuerySpecificCompressionBatchResponse:
+    DemoDataResponse:
       properties:
         success:
           type: boolean
@@ -588,11 +588,11 @@ components:
           - type: 'null'
           title: Message
         data:
-          anyOf:
-          - $ref: '#/components/schemas/QuerySpecificCompressionBatchResult'
-          - type: 'null'
+          $ref: '#/components/schemas/DemoData'
       type: object
-      title: QuerySpecificCompressionBatchResponse
+      required:
+      - data
+      title: DemoDataResponse
   securitySchemes:
     HTTPBearer:
       type: http

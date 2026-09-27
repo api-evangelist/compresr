@@ -284,37 +284,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    FeatureRequestResponse:
+    HTTPValidationError:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-          description: Request ID (None on error)
-        email:
-          type: string
-          title: Email
-          description: Submitted email
-        subject:
-          type: string
-          title: Subject
-          description: Feature subject
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - email
-      - subject
-      title: FeatureRequestResponse
+      title: HTTPValidationError
     FeatureRequestListResponse:
       properties:
         success:
@@ -354,15 +332,121 @@ components:
           default: 0
       type: object
       title: FeatureRequestListResponse
-    HTTPValidationError:
+    MessageResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
       type: object
-      title: HTTPValidationError
+      required:
+      - message
+      title: MessageResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    FeatureRequestResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+          description: Request ID (None on error)
+        email:
+          type: string
+          title: Email
+          description: Submitted email
+        subject:
+          type: string
+          title: Subject
+          description: Feature subject
+      type: object
+      required:
+      - email
+      - subject
+      title: FeatureRequestResponse
+    FeatureRequestStatus:
+      type: string
+      enum:
+      - pending
+      - under_review
+      - planned
+      - in_progress
+      - completed
+      - declined
+      title: FeatureRequestStatus
+    FeatureRequestPriority:
+      type: string
+      enum:
+      - low
+      - normal
+      - high
+      - critical
+      title: FeatureRequestPriority
     FeatureRequest:
       properties:
         id:
@@ -439,90 +523,6 @@ components:
       - subject
       - description
       title: FeatureRequestCreate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
-    FeatureRequestStatus:
-      type: string
-      enum:
-      - pending
-      - under_review
-      - planned
-      - in_progress
-      - completed
-      - declined
-      title: FeatureRequestStatus
-    MessageResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - message
-      title: MessageResponse
-    FeatureRequestPriority:
-      type: string
-      enum:
-      - low
-      - normal
-      - high
-      - critical
-      title: FeatureRequestPriority
     FeatureRequestUpdate:
       properties:
         status:

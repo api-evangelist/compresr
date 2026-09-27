@@ -146,6 +146,24 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
+    WhitelistMatchedUser:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        email:
+          type: string
+          title: Email
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+      type: object
+      required:
+      - user_id
+      - email
+      title: WhitelistMatchedUser
     HTTPValidationError:
       properties:
         detail:
@@ -202,35 +220,6 @@ components:
       - msg
       - type
       title: ValidationError
-    WhitelistMatchPreviewResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        match:
-          anyOf:
-          - $ref: '#/components/schemas/WhitelistEntry'
-          - type: 'null'
-      type: object
-      title: WhitelistMatchPreviewResponse
-    WhitelistListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        entries:
-          items:
-            $ref: '#/components/schemas/WhitelistEntry'
-          type: array
-          title: Entries
-        total:
-          type: integer
-          title: Total
-          default: 0
-      type: object
-      title: WhitelistListResponse
     WhitelistEntry:
       properties:
         id:
@@ -269,6 +258,23 @@ components:
       - pattern
       - created_at
       title: WhitelistEntry
+    WhitelistListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        entries:
+          items:
+            $ref: '#/components/schemas/WhitelistEntry'
+          type: array
+          title: Entries
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: WhitelistListResponse
     WhitelistCreateRequest:
       properties:
         pattern:
@@ -292,24 +298,6 @@ components:
       required:
       - pattern
       title: WhitelistCreateRequest
-    WhitelistMatchedUser:
-      properties:
-        user_id:
-          type: string
-          title: User Id
-        email:
-          type: string
-          title: Email
-        full_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Full Name
-      type: object
-      required:
-      - user_id
-      - email
-      title: WhitelistMatchedUser
     WhitelistMatchPreviewRequest:
       properties:
         email:
@@ -321,6 +309,18 @@ components:
       required:
       - email
       title: WhitelistMatchPreviewRequest
+    WhitelistMatchPreviewResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        match:
+          anyOf:
+          - $ref: '#/components/schemas/WhitelistEntry'
+          - type: 'null'
+      type: object
+      title: WhitelistMatchPreviewResponse
   securitySchemes:
     HTTPBearer:
       type: http

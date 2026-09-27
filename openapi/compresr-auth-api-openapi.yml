@@ -49,16 +49,15 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    EmailCheckRequest:
+    EmailCheckResponse:
       properties:
-        email:
-          type: string
-          format: email
-          title: Email
+        exists:
+          type: boolean
+          title: Exists
       type: object
       required:
-      - email
-      title: EmailCheckRequest
+      - exists
+      title: EmailCheckResponse
     ValidationError:
       properties:
         loc:
@@ -80,15 +79,16 @@ components:
       - msg
       - type
       title: ValidationError
-    EmailCheckResponse:
+    EmailCheckRequest:
       properties:
-        exists:
-          type: boolean
-          title: Exists
+        email:
+          type: string
+          format: email
+          title: Email
       type: object
       required:
-      - exists
-      title: EmailCheckResponse
+      - email
+      title: EmailCheckRequest
   securitySchemes:
     HTTPBearer:
       type: http

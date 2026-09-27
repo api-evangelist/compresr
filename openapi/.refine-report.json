@@ -32,9 +32,7 @@
     "compresr-ready-api-openapi.yml",
     "compresr-usage-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -75,8 +73,7 @@
     "compresr-openapi-original.json: declared missing tag: Profile",
     "compresr-openapi-original.json: declared missing tag: Ready",
     "compresr-openapi-original.json: declared missing tag: Usage",
-    "superseded outputs removed: compresr-o-auth-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 27 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "compresr-admin-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -98,7 +95,7 @@
     "compresr-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "compresr-metrics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "compresr-newsletter-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "compresr-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "compresr-oauth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "compresr-oauth-authorization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "compresr-on-prem-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "compresr-on-prem-telemetry-api-openapi.yml: previously refined output, superseded by openapi/_original/",

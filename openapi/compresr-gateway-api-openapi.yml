@@ -259,91 +259,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    GatewayStatusResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/GatewayStatusResult'
-          - type: 'null'
-      type: object
-      title: GatewayStatusResponse
-    GatewayInstallListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        installs:
-          items:
-            $ref: '#/components/schemas/GatewayInstallRecord'
-          type: array
-          title: Installs
-        total:
-          type: integer
-          title: Total
-          default: 0
-      type: object
-      title: GatewayInstallListResponse
-    GatewayInstallStatsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        period:
-          type: string
-          title: Period
-          description: Time period (last_hour, last_day, last_week, etc.)
-        period_start:
-          type: string
-          title: Period Start
-          description: Start of period (ISO)
-        period_end:
-          type: string
-          title: Period End
-          description: End of period (ISO)
-        total_installs:
-          type: integer
-          title: Total Installs
-          description: Total number of installs in period
-        by_version:
-          additionalProperties:
-            type: integer
-          type: object
-          title: By Version
-          description: Installs by version
-        top_countries:
-          additionalProperties:
-            type: integer
-          type: object
-          title: Top Countries
-          description: Top countries
-      type: object
-      required:
-      - period
-      - period_start
-      - period_end
-      - total_installs
-      title: GatewayInstallStatsResponse
     ValidationError:
       properties:
         loc:
@@ -365,73 +280,6 @@ components:
       - msg
       - type
       title: ValidationError
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
-    GatewayInstallRecord:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        version:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Version
-        country_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country Code
-        region:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Region
-        city:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: City
-      type: object
-      required:
-      - id
-      - created_at
-      title: GatewayInstallRecord
     GatewayStatusResult:
       properties:
         tier:
@@ -488,6 +336,158 @@ components:
         Provides a lightweight summary for the gateway to display
 
         balance and usage info to users during operation.'
+    GatewayInstallStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        period:
+          type: string
+          title: Period
+          description: Time period (last_hour, last_day, last_week, etc.)
+        period_start:
+          type: string
+          title: Period Start
+          description: Start of period (ISO)
+        period_end:
+          type: string
+          title: Period End
+          description: End of period (ISO)
+        total_installs:
+          type: integer
+          title: Total Installs
+          description: Total number of installs in period
+        by_version:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Version
+          description: Installs by version
+        top_countries:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Top Countries
+          description: Top countries
+      type: object
+      required:
+      - period
+      - period_start
+      - period_end
+      - total_installs
+      title: GatewayInstallStatsResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    GatewayStatusResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/GatewayStatusResult'
+          - type: 'null'
+      type: object
+      title: GatewayStatusResponse
+    GatewayInstallRecord:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version
+        country_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Code
+        region:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Region
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: City
+      type: object
+      required:
+      - id
+      - created_at
+      title: GatewayInstallRecord
+    GatewayInstallListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        installs:
+          items:
+            $ref: '#/components/schemas/GatewayInstallRecord'
+          type: array
+          title: Installs
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: GatewayInstallListResponse
   securitySchemes:
     HTTPBearer:
       type: http

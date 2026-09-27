@@ -208,6 +208,46 @@ components:
       - error
       - code
       title: ErrorResponse
+    TimeSeriesDataPoint:
+      properties:
+        timestamp:
+          type: string
+          title: Timestamp
+          description: ISO timestamp
+        requests:
+          type: integer
+          title: Requests
+          description: Number of requests
+          default: 0
+        input_tokens:
+          type: integer
+          title: Input Tokens
+          description: Original input tokens
+          default: 0
+        compressed_input_tokens:
+          type: integer
+          title: Compressed Input Tokens
+          description: Compressed input tokens
+          default: 0
+        output_tokens:
+          type: integer
+          title: Output Tokens
+          description: Output tokens
+          default: 0
+        cost_usd:
+          type: number
+          title: Cost Usd
+          description: Cost in USD
+          default: 0.0
+        savings_usd:
+          type: number
+          title: Savings Usd
+          description: Savings in USD
+          default: 0.0
+      type: object
+      required:
+      - timestamp
+      title: TimeSeriesDataPoint
     UsageStatsResult:
       properties:
         period:
@@ -296,46 +336,6 @@ components:
       - period_end
       - group_by
       title: UsageStatsResult
-    TimeSeriesDataPoint:
-      properties:
-        timestamp:
-          type: string
-          title: Timestamp
-          description: ISO timestamp
-        requests:
-          type: integer
-          title: Requests
-          description: Number of requests
-          default: 0
-        input_tokens:
-          type: integer
-          title: Input Tokens
-          description: Original input tokens
-          default: 0
-        compressed_input_tokens:
-          type: integer
-          title: Compressed Input Tokens
-          description: Compressed input tokens
-          default: 0
-        output_tokens:
-          type: integer
-          title: Output Tokens
-          description: Output tokens
-          default: 0
-        cost_usd:
-          type: number
-          title: Cost Usd
-          description: Cost in USD
-          default: 0.0
-        savings_usd:
-          type: number
-          title: Savings Usd
-          description: Savings in USD
-          default: 0.0
-      type: object
-      required:
-      - timestamp
-      title: TimeSeriesDataPoint
   securitySchemes:
     HTTPBearer:
       type: http

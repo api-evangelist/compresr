@@ -253,51 +253,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    NewsletterUnsubscribeRequest:
-      properties:
-        token:
-          type: string
-          format: uuid
-          title: Token
-          description: Unsubscribe token from email link
-      type: object
-      required:
-      - token
-      title: NewsletterUnsubscribeRequest
-    NewsletterStatusResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        email:
-          type: string
-          title: Email
-        status:
-          type: string
-          title: Status
-        subscribed_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Subscribed At
-        unsubscribed_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Unsubscribed At
-      type: object
-      required:
-      - email
-      - status
-      title: NewsletterStatusResponse
     ValidationError:
       properties:
         loc:
@@ -351,26 +306,7 @@ components:
       - error
       - code
       title: ErrorResponse
-    NewsletterSubscribeRequest:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-          description: Email address to subscribe
-        source:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Source
-          description: Source of subscription
-          default: landing_page
-      type: object
-      required:
-      - email
-      title: NewsletterSubscribeRequest
-    NewsletterUnsubscribeResponse:
+    NewsletterStatusResponse:
       properties:
         success:
           type: boolean
@@ -384,11 +320,26 @@ components:
         email:
           type: string
           title: Email
-          description: Unsubscribed email address
+        status:
+          type: string
+          title: Status
+        subscribed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Subscribed At
+        unsubscribed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Unsubscribed At
       type: object
       required:
       - email
-      title: NewsletterUnsubscribeResponse
+      - status
+      title: NewsletterStatusResponse
     NewsletterSubscribeResponse:
       properties:
         success:
@@ -413,6 +364,55 @@ components:
       required:
       - email
       title: NewsletterSubscribeResponse
+    NewsletterUnsubscribeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        email:
+          type: string
+          title: Email
+          description: Unsubscribed email address
+      type: object
+      required:
+      - email
+      title: NewsletterUnsubscribeResponse
+    NewsletterUnsubscribeRequest:
+      properties:
+        token:
+          type: string
+          format: uuid
+          title: Token
+          description: Unsubscribe token from email link
+      type: object
+      required:
+      - token
+      title: NewsletterUnsubscribeRequest
+    NewsletterSubscribeRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+          description: Email address to subscribe
+        source:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Source
+          description: Source of subscription
+          default: landing_page
+      type: object
+      required:
+      - email
+      title: NewsletterSubscribeRequest
   securitySchemes:
     HTTPBearer:
       type: http

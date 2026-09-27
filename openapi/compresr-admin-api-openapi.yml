@@ -1310,46 +1310,6 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    UserUpdateRequest:
-      properties:
-        full_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Full Name
-          description: Full name
-        company_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Company Name
-          description: Company name
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-          description: Country
-        tier:
-          anyOf:
-          - $ref: '#/components/schemas/TierName'
-          - type: 'null'
-          description: New rate-limit tier
-        account_type:
-          anyOf:
-          - $ref: '#/components/schemas/AccountType'
-          - type: 'null'
-          description: 'Billing plan: ''user'' (prepaid) or ''enterprise'' (postpaid). Admin-only.'
-        current_remaining_credits:
-          anyOf:
-          - type: number
-            maximum: 100000.0
-            minimum: 0.0
-          - type: 'null'
-          title: Current Remaining Credits
-          description: Set user balance/credits (must be finite, non-negative, max $100k)
-      type: object
-      title: UserUpdateRequest
     AuditLogsResponse:
       properties:
         success:
@@ -1376,134 +1336,19 @@ components:
           default: 50
       type: object
       title: AuditLogsResponse
-    UserBasic:
+    MessageResponse:
       properties:
-        user_id:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
           type: string
-          title: User Id
-        email:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Email
-        full_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Full Name
-        company_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Company Name
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-        role:
-          type: string
-          enum:
-          - user
-          - admin
-          - support
-          title: Role
-          default: user
-        tier:
-          $ref: '#/components/schemas/TierName'
-          default: tier1
-        account_type:
-          $ref: '#/components/schemas/AccountType'
-          default: user
-        prepaid_added:
-          type: number
-          title: Prepaid Added
-          default: 0.0
-        prepaid_balance:
-          type: number
-          title: Prepaid Balance
-          default: 0.0
-        prepaid_spent:
-          type: number
-          title: Prepaid Spent
-          default: 0.0
-        postpaid_paid:
-          type: number
-          title: Postpaid Paid
-          default: 0.0
-        postpaid_unpaid:
-          type: number
-          title: Postpaid Unpaid
-          default: 0.0
-        postpaid_current_month:
-          type: number
-          title: Postpaid Current Month
-          default: 0.0
-        total_requests:
-          type: integer
-          title: Total Requests
-          default: 0
-        total_tokens:
-          type: integer
-          title: Total Tokens
-          default: 0
-        requests_rejected_30d:
-          type: integer
-          title: Requests Rejected 30D
-          default: 0
-        created_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Created At
-        last_login:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Login
-        last_request_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Request At
+          title: Message
       type: object
       required:
-      - user_id
-      title: UserBasic
-    NewsletterSubscriber:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        email:
-          type: string
-          title: Email
-        status:
-          type: string
-          title: Status
-        source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source
-        subscribed_at:
-          type: string
-          format: date-time
-          title: Subscribed At
-        unsubscribed_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Unsubscribed At
-      type: object
-      required:
-      - id
-      - email
-      - status
-      - subscribed_at
-      title: NewsletterSubscriber
+      - message
+      title: MessageResponse
     EnterpriseKeyBilling:
       properties:
         key_id:
@@ -1599,241 +1444,6 @@ components:
       - created_at
       - user_id
       title: EnterpriseKeyBilling
-    ActiveUserInfo:
-      properties:
-        user_id:
-          type: string
-          title: User Id
-          description: User ID
-        email:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Email
-          description: User email
-        full_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Full Name
-          description: User full name
-        request_count:
-          type: integer
-          title: Request Count
-          description: Number of requests on this day
-          default: 0
-      type: object
-      required:
-      - user_id
-      title: ActiveUserInfo
-    EnterpriseKeyApprovalRequest:
-      properties:
-        action:
-          type: string
-          enum:
-          - approve
-          - decline
-          title: Action
-          description: 'Action: ''approve'' or ''decline'''
-        credit_limit_usd:
-          anyOf:
-          - type: number
-            minimum: 0.0
-          - type: 'null'
-          title: Credit Limit Usd
-          description: Override credit limit for this key (only for approve action)
-        decline_reason:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Decline Reason
-          description: Reason for declining (only for decline action)
-      type: object
-      required:
-      - action
-      title: EnterpriseKeyApprovalRequest
-    AccountType:
-      type: string
-      enum:
-      - user
-      - enterprise
-      title: AccountType
-      description: 'Account type: determines billing mode and allowed API key scopes.
-
-
-        - USER: Prepaid wallet billing, can create user-scope keys
-
-        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
-    DailyActiveUsersResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        date:
-          type: string
-          title: Date
-          description: Date (YYYY-MM-DD)
-        count:
-          type: integer
-          title: Count
-          description: Number of active users
-          default: 0
-        users:
-          items:
-            $ref: '#/components/schemas/ActiveUserInfo'
-          type: array
-          title: Users
-          description: List of active users
-      type: object
-      required:
-      - date
-      title: DailyActiveUsersResponse
-    RevenueBreakdown:
-      properties:
-        prepaid_total:
-          type: number
-          title: Prepaid Total
-          default: 0.0
-        prepaid_in_period:
-          type: number
-          title: Prepaid In Period
-          default: 0.0
-        enterprise_invoiced_total:
-          type: number
-          title: Enterprise Invoiced Total
-          default: 0.0
-        enterprise_invoiced_in_period:
-          type: number
-          title: Enterprise Invoiced In Period
-          default: 0.0
-        enterprise_paid_total:
-          type: number
-          title: Enterprise Paid Total
-          default: 0.0
-        enterprise_paid_in_period:
-          type: number
-          title: Enterprise Paid In Period
-          default: 0.0
-        enterprise_pending_total:
-          type: number
-          title: Enterprise Pending Total
-          default: 0.0
-        enterprise_pending_in_period:
-          type: number
-          title: Enterprise Pending In Period
-          default: 0.0
-        enterprise_unbilled:
-          type: number
-          title: Enterprise Unbilled
-          default: 0.0
-        prepaid_mtd:
-          type: number
-          title: Prepaid Mtd
-          default: 0.0
-        enterprise_mtd:
-          type: number
-          title: Enterprise Mtd
-          default: 0.0
-        total_mtd:
-          type: number
-          title: Total Mtd
-          default: 0.0
-        prepaid_time_series:
-          items:
-            $ref: '#/components/schemas/RevenueDataPoint'
-          type: array
-          title: Prepaid Time Series
-        enterprise_time_series:
-          items:
-            $ref: '#/components/schemas/RevenueDataPoint'
-          type: array
-          title: Enterprise Time Series
-        enterprise_daily_time_series:
-          items:
-            $ref: '#/components/schemas/RevenueDataPoint'
-          type: array
-          title: Enterprise Daily Time Series
-        unbilled_time_series:
-          items:
-            $ref: '#/components/schemas/RevenueDataPoint'
-          type: array
-          title: Unbilled Time Series
-        mrr_trend:
-          items:
-            $ref: '#/components/schemas/MRRDataPoint'
-          type: array
-          title: Mrr Trend
-      type: object
-      title: RevenueBreakdown
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    TierName:
-      type: string
-      enum:
-      - tier1
-      - tier2
-      - tier3
-      - tier4
-      - tier5
-      title: TierName
-    UserListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        users:
-          items:
-            $ref: '#/components/schemas/UserBasic'
-          type: array
-          title: Users
-          default: []
-        total:
-          type: integer
-          title: Total
-          default: 0
-        page:
-          type: integer
-          title: Page
-          default: 1
-        limit:
-          type: integer
-          title: Limit
-          default: 50
-        tier_distribution:
-          additionalProperties:
-            type: integer
-          type: object
-          title: Tier Distribution
-          default: {}
-        admin_count:
-          type: integer
-          title: Admin Count
-          default: 0
-      type: object
-      title: UserListResponse
-    MessageResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - message
-      title: MessageResponse
     AdminStatsResponse:
       properties:
         success:
@@ -2049,45 +1659,52 @@ components:
           title: Period End
       type: object
       title: AdminStatsResponse
-    ModelStats:
+    AddExcludedPatternRequest:
       properties:
-        model:
+        pattern:
           type: string
-          title: Model
-        requests:
-          type: integer
-          title: Requests
-          default: 0
-        tokens:
-          type: integer
-          title: Tokens
-          default: 0
-        cost_usd:
-          type: number
-          title: Cost Usd
-          default: 0.0
+          maxLength: 254
+          minLength: 1
+          title: Pattern
+          description: Pattern to exclude
       type: object
       required:
-      - model
-      title: ModelStats
-    PendingEnterpriseKeysResponse:
+      - pattern
+      title: AddExcludedPatternRequest
+    EnterpriseBillingSummary:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        data:
-          items:
-            $ref: '#/components/schemas/PendingEnterpriseKey'
-          type: array
-          title: Data
-        total:
+        total_paid:
+          type: number
+          title: Total Paid
+          description: Total paid invoices (all enterprise keys)
+          default: 0.0
+        total_unpaid:
+          type: number
+          title: Total Unpaid
+          description: Total unpaid invoices
+          default: 0.0
+        total_current_month:
+          type: number
+          title: Total Current Month
+          description: Current month usage (not yet invoiced)
+          default: 0.0
+        paid_invoice_count:
           type: integer
-          title: Total
-          description: Total pending keys
+          title: Paid Invoice Count
+          description: Number of paid invoices
+          default: 0
+        unpaid_invoice_count:
+          type: integer
+          title: Unpaid Invoice Count
+          description: Number of unpaid invoices
+          default: 0
+        active_enterprise_keys:
+          type: integer
+          title: Active Enterprise Keys
+          description: Number of active enterprise keys
           default: 0
       type: object
-      title: PendingEnterpriseKeysResponse
+      title: EnterpriseBillingSummary
     AuditLogEntry:
       properties:
         id:
@@ -2128,26 +1745,606 @@ components:
       required:
       - action
       title: AuditLogEntry
-    RevenueDataPoint:
+    UserUpdateRequest:
+      properties:
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+          description: Full name
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+          description: Company name
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Country
+        tier:
+          anyOf:
+          - $ref: '#/components/schemas/TierName'
+          - type: 'null'
+          description: New rate-limit tier
+        account_type:
+          anyOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+          description: 'Billing plan: ''user'' (prepaid) or ''enterprise'' (postpaid). Admin-only.'
+        current_remaining_credits:
+          anyOf:
+          - type: number
+            maximum: 100000.0
+            minimum: 0.0
+          - type: 'null'
+          title: Current Remaining Credits
+          description: Set user balance/credits (must be finite, non-negative, max $100k)
+      type: object
+      title: UserUpdateRequest
+    TierName:
+      type: string
+      enum:
+      - tier1
+      - tier2
+      - tier3
+      - tier4
+      - tier5
+      title: TierName
+    EnterpriseKeyApprovalRequest:
+      properties:
+        action:
+          type: string
+          enum:
+          - approve
+          - decline
+          title: Action
+          description: 'Action: ''approve'' or ''decline'''
+        credit_limit_usd:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Credit Limit Usd
+          description: Override credit limit for this key (only for approve action)
+        decline_reason:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Decline Reason
+          description: Reason for declining (only for decline action)
+      type: object
+      required:
+      - action
+      title: EnterpriseKeyApprovalRequest
+    UserListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        users:
+          items:
+            $ref: '#/components/schemas/UserBasic'
+          type: array
+          title: Users
+          default: []
+        total:
+          type: integer
+          title: Total
+          default: 0
+        page:
+          type: integer
+          title: Page
+          default: 1
+        limit:
+          type: integer
+          title: Limit
+          default: 50
+        tier_distribution:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Tier Distribution
+          default: {}
+        admin_count:
+          type: integer
+          title: Admin Count
+          default: 0
+      type: object
+      title: UserListResponse
+    DownloadTimeSeriesPoint:
       properties:
         timestamp:
           type: string
           title: Timestamp
-        amount:
-          type: number
-          title: Amount
-          default: 0.0
+          description: ISO timestamp
+        downloads:
+          type: integer
+          title: Downloads
+          description: Number of downloads
+          default: 0
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Product source (gateway, sdk_pypi, extension_vscode)
       type: object
       required:
       - timestamp
-      title: RevenueDataPoint
-    APIKeyScope:
-      type: string
-      enum:
-      - demo
-      - user
-      - enterprise
-      title: APIKeyScope
+      title: DownloadTimeSeriesPoint
+    NewsletterSubscriber:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          title: Email
+        status:
+          type: string
+          title: Status
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+        subscribed_at:
+          type: string
+          format: date-time
+          title: Subscribed At
+        unsubscribed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Unsubscribed At
+      type: object
+      required:
+      - id
+      - email
+      - status
+      - subscribed_at
+      title: NewsletterSubscriber
+    PendingEnterpriseKeysResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          items:
+            $ref: '#/components/schemas/PendingEnterpriseKey'
+          type: array
+          title: Data
+        total:
+          type: integer
+          title: Total
+          description: Total pending keys
+          default: 0
+      type: object
+      title: PendingEnterpriseKeysResponse
+    EnterpriseInvoice:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Invoice record ID
+        api_key_id:
+          type: string
+          title: Api Key Id
+          description: API key ID
+        billing_month:
+          type: string
+          title: Billing Month
+          description: Billing month (YYYY-MM)
+        usage_usd:
+          type: number
+          title: Usage Usd
+          description: Usage amount for the month
+          default: 0.0
+        total_requests:
+          type: integer
+          title: Total Requests
+          description: Total requests in the month
+          default: 0
+        invoice_paid:
+          type: boolean
+          title: Invoice Paid
+          description: Whether invoice is paid
+          default: false
+        invoice_generated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Invoice Generated At
+          description: When invoice was generated
+        paid_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paid At
+          description: When invoice was paid
+      type: object
+      required:
+      - id
+      - api_key_id
+      - billing_month
+      title: EnterpriseInvoice
+    DailyActiveUsersResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        date:
+          type: string
+          title: Date
+          description: Date (YYYY-MM-DD)
+        count:
+          type: integer
+          title: Count
+          description: Number of active users
+          default: 0
+        users:
+          items:
+            $ref: '#/components/schemas/ActiveUserInfo'
+          type: array
+          title: Users
+          description: List of active users
+      type: object
+      required:
+      - date
+      title: DailyActiveUsersResponse
+    DownloadStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        period:
+          type: string
+          title: Period
+          description: Time period (last_hour, last_day, etc.)
+        period_start:
+          type: string
+          title: Period Start
+          description: Start of period (ISO)
+        period_end:
+          type: string
+          title: Period End
+          description: End of period (ISO)
+        total_downloads:
+          type: integer
+          title: Total Downloads
+          description: Total downloads in period
+          default: 0
+        time_series:
+          items:
+            $ref: '#/components/schemas/DownloadTimeSeriesPoint'
+          type: array
+          title: Time Series
+          description: Time series data for charting
+        by_source:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Source
+          description: 'Downloads by source in period: gateway, sdk_pypi, extension_vscode'
+        by_source_total:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Source Total
+          description: All-time downloads by source for display cards
+        by_os:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Os
+          description: Downloads by OS
+        by_country:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Country
+          description: Downloads by country
+      type: object
+      required:
+      - period
+      - period_start
+      - period_end
+      title: DownloadStatsResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ExcludedPatternsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        patterns:
+          items:
+            type: string
+          type: array
+          title: Patterns
+          description: Editable patterns stored in DB
+        hardcoded:
+          items:
+            type: string
+          type: array
+          title: Hardcoded
+          description: Built-in patterns that cannot be removed
+        env_patterns:
+          items:
+            type: string
+          type: array
+          title: Env Patterns
+          description: Patterns from STATS_EXCLUDED_EMAIL_PATTERNS env var (read-only)
+      type: object
+      title: ExcludedPatternsResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    EnterpriseBillingResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        summary:
+          $ref: '#/components/schemas/EnterpriseBillingSummary'
+        keys:
+          items:
+            $ref: '#/components/schemas/EnterpriseKeyBilling'
+          type: array
+          title: Keys
+        total:
+          type: integer
+          title: Total
+          description: Total enterprise keys
+          default: 0
+      type: object
+      title: EnterpriseBillingResponse
+    PendingEnterpriseKey:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: API key ID
+        user_id:
+          type: string
+          title: User Id
+          description: User ID who requested the key
+        user_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Email
+          description: User's email
+        name:
+          type: string
+          title: Name
+          description: Key display name
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+          description: Company name
+        request_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Message
+          description: Reason for requesting enterprise access
+        expected_monthly_usage:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Expected Monthly Usage
+          description: Expected monthly usage in USD
+        credit_limit_usd:
+          type: number
+          title: Credit Limit Usd
+          description: Credit limit for this key
+          default: 10000.0
+        created_at:
+          type: string
+          title: Created At
+          description: Request creation timestamp
+      type: object
+      required:
+      - id
+      - user_id
+      - name
+      - created_at
+      title: PendingEnterpriseKey
+    RevenueBreakdown:
+      properties:
+        prepaid_total:
+          type: number
+          title: Prepaid Total
+          default: 0.0
+        prepaid_in_period:
+          type: number
+          title: Prepaid In Period
+          default: 0.0
+        enterprise_invoiced_total:
+          type: number
+          title: Enterprise Invoiced Total
+          default: 0.0
+        enterprise_invoiced_in_period:
+          type: number
+          title: Enterprise Invoiced In Period
+          default: 0.0
+        enterprise_paid_total:
+          type: number
+          title: Enterprise Paid Total
+          default: 0.0
+        enterprise_paid_in_period:
+          type: number
+          title: Enterprise Paid In Period
+          default: 0.0
+        enterprise_pending_total:
+          type: number
+          title: Enterprise Pending Total
+          default: 0.0
+        enterprise_pending_in_period:
+          type: number
+          title: Enterprise Pending In Period
+          default: 0.0
+        enterprise_unbilled:
+          type: number
+          title: Enterprise Unbilled
+          default: 0.0
+        prepaid_mtd:
+          type: number
+          title: Prepaid Mtd
+          default: 0.0
+        enterprise_mtd:
+          type: number
+          title: Enterprise Mtd
+          default: 0.0
+        total_mtd:
+          type: number
+          title: Total Mtd
+          default: 0.0
+        prepaid_time_series:
+          items:
+            $ref: '#/components/schemas/RevenueDataPoint'
+          type: array
+          title: Prepaid Time Series
+        enterprise_time_series:
+          items:
+            $ref: '#/components/schemas/RevenueDataPoint'
+          type: array
+          title: Enterprise Time Series
+        enterprise_daily_time_series:
+          items:
+            $ref: '#/components/schemas/RevenueDataPoint'
+          type: array
+          title: Enterprise Daily Time Series
+        unbilled_time_series:
+          items:
+            $ref: '#/components/schemas/RevenueDataPoint'
+          type: array
+          title: Unbilled Time Series
+        mrr_trend:
+          items:
+            $ref: '#/components/schemas/MRRDataPoint'
+          type: array
+          title: Mrr Trend
+      type: object
+      title: RevenueBreakdown
+    AdminTimeSeriesDataPoint:
+      properties:
+        timestamp:
+          type: string
+          title: Timestamp
+          description: ISO timestamp
+        requests:
+          type: integer
+          title: Requests
+          description: Number of requests
+          default: 0
+        tokens:
+          type: integer
+          title: Tokens
+          description: Total tokens processed
+          default: 0
+        cost_usd:
+          type: number
+          title: Cost Usd
+          description: Cost in USD (user spending)
+          default: 0.0
+        revenue_usd:
+          type: number
+          title: Revenue Usd
+          description: Revenue in USD
+          default: 0.0
+        compression_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Compression Model
+          description: Compression model used
+        api_key_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Type
+          description: API key type/scope (demo, user, enterprise)
+        request_source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Source
+          description: 'Request source: sdk, demo, or gateway'
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+          description: User tier
+      type: object
+      required:
+      - timestamp
+      title: AdminTimeSeriesDataPoint
     EnterpriseKeyApprovalResponse:
       properties:
         success:
@@ -2175,86 +2372,227 @@ components:
       - key_id
       - new_status
       title: EnterpriseKeyApprovalResponse
-    DownloadTimeSeriesPoint:
+    UserBasic:
       properties:
-        timestamp:
+        user_id:
           type: string
-          title: Timestamp
-          description: ISO timestamp
-        downloads:
-          type: integer
-          title: Downloads
-          description: Number of downloads
-          default: 0
-        source:
+          title: User Id
+        email:
           anyOf:
           - type: string
           - type: 'null'
-          title: Source
-          description: Product source (gateway, sdk_pypi, extension_vscode)
-      type: object
-      required:
-      - timestamp
-      title: DownloadTimeSeriesPoint
-    MRRDataPoint:
-      properties:
-        month:
+          title: Email
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        role:
           type: string
-          title: Month
-        prepaid:
+          enum:
+          - user
+          - admin
+          - support
+          title: Role
+          default: user
+        tier:
+          $ref: '#/components/schemas/TierName'
+          default: tier1
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+          default: user
+        prepaid_added:
           type: number
-          title: Prepaid
+          title: Prepaid Added
           default: 0.0
-        enterprise:
+        prepaid_balance:
           type: number
-          title: Enterprise
+          title: Prepaid Balance
           default: 0.0
-        total:
+        prepaid_spent:
           type: number
-          title: Total
+          title: Prepaid Spent
           default: 0.0
+        postpaid_paid:
+          type: number
+          title: Postpaid Paid
+          default: 0.0
+        postpaid_unpaid:
+          type: number
+          title: Postpaid Unpaid
+          default: 0.0
+        postpaid_current_month:
+          type: number
+          title: Postpaid Current Month
+          default: 0.0
+        total_requests:
+          type: integer
+          title: Total Requests
+          default: 0
+        total_tokens:
+          type: integer
+          title: Total Tokens
+          default: 0
+        requests_rejected_30d:
+          type: integer
+          title: Requests Rejected 30D
+          default: 0
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        last_login:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Login
+        last_request_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Request At
       type: object
       required:
-      - month
-      title: MRRDataPoint
-    AddExcludedPatternRequest:
+      - user_id
+      title: UserBasic
+    ModelStats:
       properties:
-        pattern:
+        model:
           type: string
-          maxLength: 254
-          minLength: 1
-          title: Pattern
-          description: Pattern to exclude
+          title: Model
+        requests:
+          type: integer
+          title: Requests
+          default: 0
+        tokens:
+          type: integer
+          title: Tokens
+          default: 0
+        cost_usd:
+          type: number
+          title: Cost Usd
+          default: 0.0
       type: object
       required:
-      - pattern
-      title: AddExcludedPatternRequest
-    ExcludedPatternsResponse:
+      - model
+      title: ModelStats
+    UserAPIKeyInfo:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        scope:
+          $ref: '#/components/schemas/APIKeyScope'
+        status:
+          $ref: '#/components/schemas/APIKeyStatus'
+        key_preview:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key Preview
+        total_requests:
+          type: integer
+          title: Total Requests
+          default: 0
+        last_used_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Used At
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        daily_limit:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Daily Limit
+        daily_requests_remaining:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Daily Requests Remaining
+        budget_limit:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Limit
+        budget_used_this_month:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Used This Month
+      type: object
+      required:
+      - id
+      - name
+      - scope
+      - status
+      title: UserAPIKeyInfo
+    NewsletterListResponse:
       properties:
         success:
           type: boolean
           title: Success
           default: true
-        patterns:
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        subscribers:
           items:
-            type: string
+            $ref: '#/components/schemas/NewsletterSubscriber'
           type: array
-          title: Patterns
-          description: Editable patterns stored in DB
-        hardcoded:
-          items:
-            type: string
-          type: array
-          title: Hardcoded
-          description: Built-in patterns that cannot be removed
-        env_patterns:
-          items:
-            type: string
-          type: array
-          title: Env Patterns
-          description: Patterns from STATS_EXCLUDED_EMAIL_PATTERNS env var (read-only)
+          title: Subscribers
+          default: []
+        total_active:
+          type: integer
+          title: Total Active
+          default: 0
+        total_unsubscribed:
+          type: integer
+          title: Total Unsubscribed
+          default: 0
       type: object
-      title: ExcludedPatternsResponse
+      title: NewsletterListResponse
+    AccountType:
+      type: string
+      enum:
+      - user
+      - enterprise
+      title: AccountType
+      description: 'Account type: determines billing mode and allowed API key scopes.
+
+
+        - USER: Prepaid wallet billing, can create user-scope keys
+
+        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     UserDetailsResponse:
       properties:
         success:
@@ -2323,297 +2661,57 @@ components:
       - declined
       - revoked
       title: APIKeyStatus
-    EnterpriseBillingResponse:
+    RemoveExcludedPatternRequest:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        summary:
-          $ref: '#/components/schemas/EnterpriseBillingSummary'
-        keys:
-          items:
-            $ref: '#/components/schemas/EnterpriseKeyBilling'
-          type: array
-          title: Keys
-        total:
-          type: integer
-          title: Total
-          description: Total enterprise keys
-          default: 0
-      type: object
-      title: EnterpriseBillingResponse
-    UserAPIKeyInfo:
-      properties:
-        id:
+        pattern:
           type: string
-          title: Id
-        name:
-          type: string
-          title: Name
-        scope:
-          $ref: '#/components/schemas/APIKeyScope'
-        status:
-          $ref: '#/components/schemas/APIKeyStatus'
-        key_preview:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Key Preview
-        total_requests:
-          type: integer
-          title: Total Requests
-          default: 0
-        last_used_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Used At
-        created_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Created At
-        daily_limit:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Daily Limit
-        daily_requests_remaining:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Daily Requests Remaining
-        budget_limit:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Budget Limit
-        budget_used_this_month:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Budget Used This Month
+          title: Pattern
+          description: Pattern to remove
       type: object
       required:
-      - id
-      - name
-      - scope
-      - status
-      title: UserAPIKeyInfo
-    EnterpriseInvoice:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: Invoice record ID
-        api_key_id:
-          type: string
-          title: Api Key Id
-          description: API key ID
-        billing_month:
-          type: string
-          title: Billing Month
-          description: Billing month (YYYY-MM)
-        usage_usd:
-          type: number
-          title: Usage Usd
-          description: Usage amount for the month
-          default: 0.0
-        total_requests:
-          type: integer
-          title: Total Requests
-          description: Total requests in the month
-          default: 0
-        invoice_paid:
-          type: boolean
-          title: Invoice Paid
-          description: Whether invoice is paid
-          default: false
-        invoice_generated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Invoice Generated At
-          description: When invoice was generated
-        paid_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Paid At
-          description: When invoice was paid
-      type: object
-      required:
-      - id
-      - api_key_id
-      - billing_month
-      title: EnterpriseInvoice
-    DownloadStatsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        period:
-          type: string
-          title: Period
-          description: Time period (last_hour, last_day, etc.)
-        period_start:
-          type: string
-          title: Period Start
-          description: Start of period (ISO)
-        period_end:
-          type: string
-          title: Period End
-          description: End of period (ISO)
-        total_downloads:
-          type: integer
-          title: Total Downloads
-          description: Total downloads in period
-          default: 0
-        time_series:
-          items:
-            $ref: '#/components/schemas/DownloadTimeSeriesPoint'
-          type: array
-          title: Time Series
-          description: Time series data for charting
-        by_source:
-          additionalProperties:
-            type: integer
-          type: object
-          title: By Source
-          description: 'Downloads by source in period: gateway, sdk_pypi, extension_vscode'
-        by_source_total:
-          additionalProperties:
-            type: integer
-          type: object
-          title: By Source Total
-          description: All-time downloads by source for display cards
-        by_os:
-          additionalProperties:
-            type: integer
-          type: object
-          title: By Os
-          description: Downloads by OS
-        by_country:
-          additionalProperties:
-            type: integer
-          type: object
-          title: By Country
-          description: Downloads by country
-      type: object
-      required:
-      - period
-      - period_start
-      - period_end
-      title: DownloadStatsResponse
-    AdminTimeSeriesDataPoint:
+      - pattern
+      title: RemoveExcludedPatternRequest
+    RevenueDataPoint:
       properties:
         timestamp:
           type: string
           title: Timestamp
-          description: ISO timestamp
-        requests:
-          type: integer
-          title: Requests
-          description: Number of requests
-          default: 0
-        tokens:
-          type: integer
-          title: Tokens
-          description: Total tokens processed
-          default: 0
-        cost_usd:
+        amount:
           type: number
-          title: Cost Usd
-          description: Cost in USD (user spending)
+          title: Amount
           default: 0.0
-        revenue_usd:
-          type: number
-          title: Revenue Usd
-          description: Revenue in USD
-          default: 0.0
-        compression_model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Compression Model
-          description: Compression model used
-        api_key_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Api Key Type
-          description: API key type/scope (demo, user, enterprise)
-        request_source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Request Source
-          description: 'Request source: sdk, demo, or gateway'
-        tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier
-          description: User tier
       type: object
       required:
       - timestamp
-      title: AdminTimeSeriesDataPoint
-    ValidationError:
+      title: RevenueDataPoint
+    APIKeyScope:
+      type: string
+      enum:
+      - demo
+      - user
+      - enterprise
+      title: APIKeyScope
+    MRRDataPoint:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        month:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Month
+        prepaid:
+          type: number
+          title: Prepaid
+          default: 0.0
+        enterprise:
+          type: number
+          title: Enterprise
+          default: 0.0
+        total:
+          type: number
+          title: Total
+          default: 0.0
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
+      - month
+      title: MRRDataPoint
     UsageBreakdown:
       properties:
         name:
@@ -2635,131 +2733,33 @@ components:
       required:
       - name
       title: UsageBreakdown
-    NewsletterListResponse:
+    ActiveUserInfo:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        subscribers:
-          items:
-            $ref: '#/components/schemas/NewsletterSubscriber'
-          type: array
-          title: Subscribers
-          default: []
-        total_active:
-          type: integer
-          title: Total Active
-          default: 0
-        total_unsubscribed:
-          type: integer
-          title: Total Unsubscribed
-          default: 0
-      type: object
-      title: NewsletterListResponse
-    EnterpriseBillingSummary:
-      properties:
-        total_paid:
-          type: number
-          title: Total Paid
-          description: Total paid invoices (all enterprise keys)
-          default: 0.0
-        total_unpaid:
-          type: number
-          title: Total Unpaid
-          description: Total unpaid invoices
-          default: 0.0
-        total_current_month:
-          type: number
-          title: Total Current Month
-          description: Current month usage (not yet invoiced)
-          default: 0.0
-        paid_invoice_count:
-          type: integer
-          title: Paid Invoice Count
-          description: Number of paid invoices
-          default: 0
-        unpaid_invoice_count:
-          type: integer
-          title: Unpaid Invoice Count
-          description: Number of unpaid invoices
-          default: 0
-        active_enterprise_keys:
-          type: integer
-          title: Active Enterprise Keys
-          description: Number of active enterprise keys
-          default: 0
-      type: object
-      title: EnterpriseBillingSummary
-    PendingEnterpriseKey:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: API key ID
         user_id:
           type: string
           title: User Id
-          description: User ID who requested the key
-        user_email:
+          description: User ID
+        email:
           anyOf:
           - type: string
           - type: 'null'
-          title: User Email
-          description: User's email
-        name:
-          type: string
-          title: Name
-          description: Key display name
-        company_name:
+          title: Email
+          description: User email
+        full_name:
           anyOf:
           - type: string
           - type: 'null'
-          title: Company Name
-          description: Company name
-        request_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Request Message
-          description: Reason for requesting enterprise access
-        expected_monthly_usage:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Expected Monthly Usage
-          description: Expected monthly usage in USD
-        credit_limit_usd:
-          type: number
-          title: Credit Limit Usd
-          description: Credit limit for this key
-          default: 10000.0
-        created_at:
-          type: string
-          title: Created At
-          description: Request creation timestamp
+          title: Full Name
+          description: User full name
+        request_count:
+          type: integer
+          title: Request Count
+          description: Number of requests on this day
+          default: 0
       type: object
       required:
-      - id
       - user_id
-      - name
-      - created_at
-      title: PendingEnterpriseKey
-    RemoveExcludedPatternRequest:
-      properties:
-        pattern:
-          type: string
-          title: Pattern
-          description: Pattern to remove
-      type: object
-      required:
-      - pattern
-      title: RemoveExcludedPatternRequest
+      title: ActiveUserInfo
     UserAnalyticsResponse:
       properties:
         success:

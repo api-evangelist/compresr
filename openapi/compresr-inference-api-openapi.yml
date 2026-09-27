@@ -33,6 +33,29 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TokenCountResponse:
+      properties:
+        tokens:
+          type: integer
+          title: Tokens
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+      type: object
+      required:
+      - tokens
+      title: TokenCountResponse
     TokenCountRequest:
       properties:
         prompt:
@@ -51,15 +74,6 @@ components:
       required:
       - prompt
       title: TokenCountRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -81,20 +95,6 @@ components:
       - msg
       - type
       title: ValidationError
-    TokenCountResponse:
-      properties:
-        tokens:
-          type: integer
-          title: Tokens
-        model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model
-      type: object
-      required:
-      - tokens
-      title: TokenCountResponse
   securitySchemes:
     HTTPBearer:
       type: http
