@@ -164,15 +164,38 @@ components:
       - user_id
       - email
       title: WhitelistMatchedUser
-    HTTPValidationError:
+    WhitelistMatchPreviewRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        email:
+          type: string
+          maxLength: 254
+          minLength: 3
+          title: Email
       type: object
-      title: HTTPValidationError
+      required:
+      - email
+      title: WhitelistMatchPreviewRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     WhitelistMatchesResponse:
       properties:
         success:
@@ -199,27 +222,41 @@ components:
       - rule_id
       - pattern
       title: WhitelistMatchesResponse
-    ValidationError:
+    WhitelistCreateRequest:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        pattern:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          maxLength: 254
+          minLength: 3
+          title: Pattern
+        credit_limit_usd:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Credit Limit Usd
+        notes:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Notes
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - pattern
+      title: WhitelistCreateRequest
+    WhitelistMatchPreviewResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        match:
+          anyOf:
+          - $ref: '#/components/schemas/WhitelistEntry'
+          - type: 'null'
+      type: object
+      title: WhitelistMatchPreviewResponse
     WhitelistEntry:
       properties:
         id:
@@ -258,6 +295,15 @@ components:
       - pattern
       - created_at
       title: WhitelistEntry
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     WhitelistListResponse:
       properties:
         success:
@@ -275,52 +321,6 @@ components:
           default: 0
       type: object
       title: WhitelistListResponse
-    WhitelistCreateRequest:
-      properties:
-        pattern:
-          type: string
-          maxLength: 254
-          minLength: 3
-          title: Pattern
-        credit_limit_usd:
-          anyOf:
-          - type: number
-            minimum: 0.0
-          - type: 'null'
-          title: Credit Limit Usd
-        notes:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Notes
-      type: object
-      required:
-      - pattern
-      title: WhitelistCreateRequest
-    WhitelistMatchPreviewRequest:
-      properties:
-        email:
-          type: string
-          maxLength: 254
-          minLength: 3
-          title: Email
-      type: object
-      required:
-      - email
-      title: WhitelistMatchPreviewRequest
-    WhitelistMatchPreviewResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        match:
-          anyOf:
-          - $ref: '#/components/schemas/WhitelistEntry'
-          - type: 'null'
-      type: object
-      title: WhitelistMatchPreviewResponse
   securitySchemes:
     HTTPBearer:
       type: http

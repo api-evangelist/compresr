@@ -110,32 +110,6 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CLIKeyResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        token:
-          type: string
-          title: Token
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - success
-      - token
-      - message
-      title: CLIKeyResponse
     WsCallbackRequest:
       properties:
         ws_session:
@@ -149,6 +123,19 @@ components:
       - ws_session
       - state
       title: WsCallbackRequest
+    WsCallbackResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - message
+      title: WsCallbackResponse
     ValidationError:
       properties:
         loc:
@@ -202,19 +189,32 @@ components:
       - error
       - code
       title: ErrorResponse
-    WsCallbackResponse:
+    CLIKeyResponse:
       properties:
         success:
           type: boolean
           title: Success
+        token:
+          type: string
+          title: Token
         message:
           type: string
           title: Message
       type: object
       required:
       - success
+      - token
       - message
-      title: WsCallbackResponse
+      title: CLIKeyResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     LogoutResponse:
       properties:
         success:

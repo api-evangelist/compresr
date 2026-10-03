@@ -40,24 +40,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    EmailCheckResponse:
-      properties:
-        exists:
-          type: boolean
-          title: Exists
-      type: object
-      required:
-      - exists
-      title: EmailCheckResponse
     ValidationError:
       properties:
         loc:
@@ -79,6 +61,15 @@ components:
       - msg
       - type
       title: ValidationError
+    EmailCheckResponse:
+      properties:
+        exists:
+          type: boolean
+          title: Exists
+      type: object
+      required:
+      - exists
+      title: EmailCheckResponse
     EmailCheckRequest:
       properties:
         email:
@@ -89,6 +80,15 @@ components:
       required:
       - email
       title: EmailCheckRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

@@ -499,6 +499,87 @@ paths:
                 $ref: '#/components/schemas/WebhookResponse'
 components:
   schemas:
+    CheckoutSessionRequest:
+      properties:
+        amount_usd:
+          type: number
+          maximum: 10000.0
+          minimum: 1.0
+          title: Amount Usd
+          description: Amount to upload ($1-$10,000)
+      type: object
+      required:
+      - amount_usd
+      title: CheckoutSessionRequest
+    TransactionResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Transaction'
+            type: array
+          - $ref: '#/components/schemas/Transaction'
+          - type: 'null'
+          title: Data
+      type: object
+      title: TransactionResponse
+    EnterpriseBudgetResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        api_key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Id
+          description: API key UUID
+        api_key_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Name
+          description: API key name
+        monthly_budget_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Monthly Budget Usd
+          description: Monthly budget (null = unlimited)
+        current_month_usage_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Current Month Usage Usd
+          description: Current month's usage
+        budget_utilization_percent:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Utilization Percent
+          description: Percentage of budget used (null if no budget)
+        is_over_budget:
+          type: boolean
+          title: Is Over Budget
+          description: Whether current usage exceeds budget
+          default: false
+      type: object
+      title: EnterpriseBudgetResponse
     MoneyUploadRequest:
       properties:
         amount_usd:
@@ -599,186 +680,6 @@ components:
       - status
       - created_at
       title: PaymentReceipt
-    CheckoutSessionResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-          description: Stripe Checkout URL to redirect user
-        session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Id
-          description: Stripe session ID
-      type: object
-      title: CheckoutSessionResponse
-    EnterpriseBudgetResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        api_key_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Api Key Id
-          description: API key UUID
-        api_key_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Api Key Name
-          description: API key name
-        monthly_budget_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Monthly Budget Usd
-          description: Monthly budget (null = unlimited)
-        current_month_usage_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Current Month Usage Usd
-          description: Current month's usage
-        budget_utilization_percent:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Budget Utilization Percent
-          description: Percentage of budget used (null if no budget)
-        is_over_budget:
-          type: boolean
-          title: Is Over Budget
-          description: Whether current usage exceeds budget
-          default: false
-      type: object
-      title: EnterpriseBudgetResponse
-    EnterpriseBudgetUpdate:
-      properties:
-        api_key_id:
-          type: string
-          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-          title: Api Key Id
-          description: API key UUID to update
-        monthly_budget_usd:
-          anyOf:
-          - type: number
-            minimum: 0.0
-          - type: 'null'
-          title: Monthly Budget Usd
-          description: Monthly budget in USD. Set to null/None to remove budget (unlimited).
-      type: object
-      required:
-      - api_key_id
-      title: EnterpriseBudgetUpdate
-    MoneyUploadResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/Transaction'
-          - type: 'null'
-        new_balance:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: New Balance
-      type: object
-      title: MoneyUploadResponse
-    CheckoutSessionRequest:
-      properties:
-        amount_usd:
-          type: number
-          maximum: 10000.0
-          minimum: 1.0
-          title: Amount Usd
-          description: Amount to upload ($1-$10,000)
-      type: object
-      required:
-      - amount_usd
-      title: CheckoutSessionRequest
-    TiersResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        tiers:
-          items:
-            $ref: '#/components/schemas/TierInfo'
-          type: array
-          title: Tiers
-          default: []
-        scale_limits:
-          additionalProperties:
-            items:
-              $ref: '#/components/schemas/ScaleTierLimits'
-            type: array
-          type: object
-          title: Scale Limits
-          default: {}
-      type: object
-      title: TiersResponse
-    TierRateLimits:
-      properties:
-        rpm:
-          type: integer
-          title: Rpm
-          description: Requests Per Minute
-        tpm:
-          type: integer
-          title: Tpm
-          description: Tokens Per Minute
-        rpd:
-          type: integer
-          title: Rpd
-          description: Requests Per Day
-      type: object
-      required:
-      - rpm
-      - tpm
-      - rpd
-      title: TierRateLimits
-    InvoiceStatus:
-      type: string
-      enum:
-      - draft
-      - pending
-      - paid
-      - failed
-      title: InvoiceStatus
     Invoice:
       properties:
         id:
@@ -847,109 +748,6 @@ components:
       - status
       - created_at
       title: Invoice
-    TransactionResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Transaction'
-            type: array
-          - $ref: '#/components/schemas/Transaction'
-          - type: 'null'
-          title: Data
-      type: object
-      title: TransactionResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
-    PaymentReceiptsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          items:
-            $ref: '#/components/schemas/PaymentReceipt'
-          type: array
-          title: Data
-          default: []
-      type: object
-      title: PaymentReceiptsResponse
-    InvoicePaymentRequest:
-      properties:
-        billing_month:
-          type: string
-          title: Billing Month
-          description: Billing month to pay (YYYY-MM)
-      type: object
-      required:
-      - billing_month
-      title: InvoicePaymentRequest
     HTTPValidationError:
       properties:
         detail:
@@ -959,6 +757,15 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    InvoiceType:
+      type: string
+      enum:
+      - enterprise
+      title: InvoiceType
+      description: 'Invoice types — enterprise postpaid only.
+
+
+        Prepaid wallet top-ups are ''transactions'', not invoices.'
     InvoiceListResponse:
       properties:
         success:
@@ -983,6 +790,14 @@ components:
           default: 0.0
       type: object
       title: InvoiceListResponse
+    InvoiceStatus:
+      type: string
+      enum:
+      - draft
+      - pending
+      - paid
+      - failed
+      title: InvoiceStatus
     TierInfo:
       properties:
         name:
@@ -1029,58 +844,6 @@ components:
           title: Error
       type: object
       title: WebhookResponse
-    ScaleTierLimits:
-      properties:
-        tier:
-          type: string
-          title: Tier
-        rate_limits:
-          $ref: '#/components/schemas/TierRateLimits'
-      type: object
-      required:
-      - tier
-      - rate_limits
-      title: ScaleTierLimits
-    InvoicePaymentResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-          description: Stripe Checkout URL
-        session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Id
-          description: Stripe session ID
-        amount_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Amount Usd
-          description: Amount to pay
-      type: object
-      title: InvoicePaymentResponse
-    InvoiceType:
-      type: string
-      enum:
-      - enterprise
-      title: InvoiceType
-      description: 'Invoice types — enterprise postpaid only.
-
-
-        Prepaid wallet top-ups are ''transactions'', not invoices.'
     Transaction:
       properties:
         id:
@@ -1158,6 +921,243 @@ components:
       - status
       - created_at
       title: Transaction
+    TiersResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        tiers:
+          items:
+            $ref: '#/components/schemas/TierInfo'
+          type: array
+          title: Tiers
+          default: []
+        scale_limits:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/ScaleTierLimits'
+            type: array
+          type: object
+          title: Scale Limits
+          default: {}
+      type: object
+      title: TiersResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    PaymentReceiptsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          items:
+            $ref: '#/components/schemas/PaymentReceipt'
+          type: array
+          title: Data
+          default: []
+      type: object
+      title: PaymentReceiptsResponse
+    CheckoutSessionResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Stripe Checkout URL to redirect user
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Stripe session ID
+      type: object
+      title: CheckoutSessionResponse
+    EnterpriseBudgetUpdate:
+      properties:
+        api_key_id:
+          type: string
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          title: Api Key Id
+          description: API key UUID to update
+        monthly_budget_usd:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Monthly Budget Usd
+          description: Monthly budget in USD. Set to null/None to remove budget (unlimited).
+      type: object
+      required:
+      - api_key_id
+      title: EnterpriseBudgetUpdate
+    InvoicePaymentRequest:
+      properties:
+        billing_month:
+          type: string
+          title: Billing Month
+          description: Billing month to pay (YYYY-MM)
+      type: object
+      required:
+      - billing_month
+      title: InvoicePaymentRequest
+    MoneyUploadResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/Transaction'
+          - type: 'null'
+        new_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: New Balance
+      type: object
+      title: MoneyUploadResponse
+    ScaleTierLimits:
+      properties:
+        tier:
+          type: string
+          title: Tier
+        rate_limits:
+          $ref: '#/components/schemas/TierRateLimits'
+      type: object
+      required:
+      - tier
+      - rate_limits
+      title: ScaleTierLimits
+    TierRateLimits:
+      properties:
+        rpm:
+          type: integer
+          title: Rpm
+          description: Requests Per Minute
+        tpm:
+          type: integer
+          title: Tpm
+          description: Tokens Per Minute
+        rpd:
+          type: integer
+          title: Rpd
+          description: Requests Per Day
+      type: object
+      required:
+      - rpm
+      - tpm
+      - rpd
+      title: TierRateLimits
+    InvoicePaymentResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Stripe Checkout URL
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Stripe session ID
+        amount_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Amount Usd
+          description: Amount to pay
+      type: object
+      title: InvoicePaymentResponse
   securitySchemes:
     HTTPBearer:
       type: http

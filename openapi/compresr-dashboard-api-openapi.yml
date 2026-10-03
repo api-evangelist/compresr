@@ -61,118 +61,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
-    TierName:
-      type: string
-      enum:
-      - tier1
-      - tier2
-      - tier3
-      - tier4
-      - tier5
-      title: TierName
-    ApiKeyUsageSummary:
-      properties:
-        api_key_id:
-          type: string
-          title: Api Key Id
-          description: API key UUID
-        api_key_name:
-          type: string
-          title: Api Key Name
-          description: API key name
-        requests_this_month:
-          type: integer
-          title: Requests This Month
-          description: Requests made this month (resets monthly)
-          default: 0
-        money_used_this_month:
-          type: number
-          title: Money Used This Month
-          description: Money used via this key this month (USD)
-          default: 0.0
-        budget_limit:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Budget Limit
-          description: Budget limit for this key (USD)
-        budget_remaining:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Budget Remaining
-          description: Budget remaining for this key (USD)
-      type: object
-      required:
-      - api_key_id
-      - api_key_name
-      title: ApiKeyUsageSummary
-      description: 'Summary of usage for a single API key (dashboard view).
-
-
-        Note: requests_this_month uses current_month_requests from DB which resets monthly.'
     EnterpriseKeyUsage:
       properties:
         api_key_id:
@@ -264,6 +152,23 @@ components:
         For postpaid keys, current_balance_usd is negative (representing debt/usage).
 
         Monthly usage resets at the start of each month and is stored in history for invoicing.'
+    DashboardStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/DashboardStats'
+          - type: 'null'
+      type: object
+      title: DashboardStatsResponse
     APIKeyScope:
       type: string
       enum:
@@ -271,6 +176,59 @@ components:
       - user
       - enterprise
       title: APIKeyScope
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
     ModelStatsItem:
       properties:
         model:
@@ -306,35 +264,15 @@ components:
       required:
       - model
       title: ModelStatsItem
-    DashboardStatsResponse:
+    HTTPValidationError:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/DashboardStats'
-          - type: 'null'
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      title: DashboardStatsResponse
-    AccountType:
-      type: string
-      enum:
-      - user
-      - enterprise
-      title: AccountType
-      description: 'Account type: determines billing mode and allowed API key scopes.
-
-
-        - USER: Prepaid wallet billing, can create user-scope keys
-
-        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
+      title: HTTPValidationError
     DashboardStats:
       properties:
         total_uploaded_money:
@@ -493,6 +431,68 @@ components:
           description: Top 3 most used models with usage stats
       type: object
       title: DashboardStats
+    ApiKeyUsageSummary:
+      properties:
+        api_key_id:
+          type: string
+          title: Api Key Id
+          description: API key UUID
+        api_key_name:
+          type: string
+          title: Api Key Name
+          description: API key name
+        requests_this_month:
+          type: integer
+          title: Requests This Month
+          description: Requests made this month (resets monthly)
+          default: 0
+        money_used_this_month:
+          type: number
+          title: Money Used This Month
+          description: Money used via this key this month (USD)
+          default: 0.0
+        budget_limit:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Limit
+          description: Budget limit for this key (USD)
+        budget_remaining:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Remaining
+          description: Budget remaining for this key (USD)
+      type: object
+      required:
+      - api_key_id
+      - api_key_name
+      title: ApiKeyUsageSummary
+      description: 'Summary of usage for a single API key (dashboard view).
+
+
+        Note: requests_this_month uses current_month_requests from DB which resets monthly.'
+    AccountType:
+      type: string
+      enum:
+      - user
+      - enterprise
+      title: AccountType
+      description: 'Account type: determines billing mode and allowed API key scopes.
+
+
+        - USER: Prepaid wallet billing, can create user-scope keys
+
+        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
+    TierName:
+      type: string
+      enum:
+      - tier1
+      - tier2
+      - tier3
+      - tier4
+      - tier5
+      title: TierName
   securitySchemes:
     HTTPBearer:
       type: http

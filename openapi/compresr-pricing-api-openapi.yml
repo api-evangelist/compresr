@@ -96,15 +96,23 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    EstimateCostResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          $ref: '#/components/schemas/CostBreakdown'
       type: object
-      title: HTTPValidationError
+      required:
+      - data
+      title: EstimateCostResponse
     CompressionModelsResponse:
       properties:
         success:
@@ -125,53 +133,29 @@ components:
       required:
       - data
       title: CompressionModelsResponse
-    CostBreakdown:
+    EstimateCostRequest:
       properties:
+        compression_model:
+          type: string
+          title: Compression Model
+          description: Compression model to use
+          default: latte_v1
         input_tokens:
           type: integer
-          minimum: 0.0
+          exclusiveMinimum: 0.0
           title: Input Tokens
-          description: Original input token count
-        compressed_tokens:
-          type: integer
-          minimum: 0.0
-          title: Compressed Tokens
-          description: Estimated compressed token count
-        tokens_saved:
-          type: integer
-          minimum: 0.0
-          title: Tokens Saved
-          description: Estimated tokens saved
+          description: Number of input tokens
         compression_ratio:
           type: number
-          maximum: 1.0
-          minimum: 0.0
+          exclusiveMaximum: 1.0
+          exclusiveMinimum: 0.0
           title: Compression Ratio
-          description: Compression ratio (0-1)
-        processing_cost_usd:
-          type: number
-          minimum: 0.0
-          title: Processing Cost Usd
-          description: Estimated processing cost in USD
-        model:
-          type: string
-          title: Model
-          description: Compression model used for estimate
-        input_price_per_1m:
-          type: number
-          minimum: 0.0
-          title: Input Price Per 1M
-          description: Input price per 1M tokens
+          description: Target compression ratio (e.g., 0.3)
+          default: 0.5
       type: object
       required:
       - input_tokens
-      - compressed_tokens
-      - tokens_saved
-      - compression_ratio
-      - processing_cost_usd
-      - model
-      - input_price_per_1m
-      title: CostBreakdown
+      title: EstimateCostRequest
     ValidationError:
       properties:
         loc:
@@ -256,46 +240,62 @@ components:
       - description
       - input_price_per_1m
       title: CompressionModelInfo
-    EstimateCostRequest:
+    HTTPValidationError:
       properties:
-        compression_model:
-          type: string
-          title: Compression Model
-          description: Compression model to use
-          default: latte_v1
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CostBreakdown:
+      properties:
         input_tokens:
           type: integer
-          exclusiveMinimum: 0.0
+          minimum: 0.0
           title: Input Tokens
-          description: Number of input tokens
+          description: Original input token count
+        compressed_tokens:
+          type: integer
+          minimum: 0.0
+          title: Compressed Tokens
+          description: Estimated compressed token count
+        tokens_saved:
+          type: integer
+          minimum: 0.0
+          title: Tokens Saved
+          description: Estimated tokens saved
         compression_ratio:
           type: number
-          exclusiveMaximum: 1.0
-          exclusiveMinimum: 0.0
+          maximum: 1.0
+          minimum: 0.0
           title: Compression Ratio
-          description: Target compression ratio (e.g., 0.3)
-          default: 0.5
+          description: Compression ratio (0-1)
+        processing_cost_usd:
+          type: number
+          minimum: 0.0
+          title: Processing Cost Usd
+          description: Estimated processing cost in USD
+        model:
+          type: string
+          title: Model
+          description: Compression model used for estimate
+        input_price_per_1m:
+          type: number
+          minimum: 0.0
+          title: Input Price Per 1M
+          description: Input price per 1M tokens
       type: object
       required:
       - input_tokens
-      title: EstimateCostRequest
-    EstimateCostResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          $ref: '#/components/schemas/CostBreakdown'
-      type: object
-      required:
-      - data
-      title: EstimateCostResponse
+      - compressed_tokens
+      - tokens_saved
+      - compression_ratio
+      - processing_cost_usd
+      - model
+      - input_price_per_1m
+      title: CostBreakdown
   securitySchemes:
     HTTPBearer:
       type: http

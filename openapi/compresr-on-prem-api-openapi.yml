@@ -35,32 +35,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidateKeyResponse:
-      properties:
-        valid:
-          type: boolean
-          title: Valid
-        user_id:
-          type: string
-          title: User Id
-        scope:
-          type: string
-          title: Scope
-      type: object
-      required:
-      - valid
-      - user_id
-      - scope
-      title: ValidateKeyResponse
     ValidationError:
       properties:
         loc:
@@ -82,6 +56,32 @@ components:
       - msg
       - type
       title: ValidationError
+    ValidateKeyResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+        user_id:
+          type: string
+          title: User Id
+        scope:
+          type: string
+          title: Scope
+      type: object
+      required:
+      - valid
+      - user_id
+      - scope
+      title: ValidateKeyResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

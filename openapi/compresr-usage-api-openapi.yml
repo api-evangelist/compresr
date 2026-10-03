@@ -129,32 +129,46 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    TimeSeriesDataPoint:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        timestamp:
+          type: string
+          title: Timestamp
+          description: ISO timestamp
+        requests:
+          type: integer
+          title: Requests
+          description: Number of requests
+          default: 0
+        input_tokens:
+          type: integer
+          title: Input Tokens
+          description: Original input tokens
+          default: 0
+        compressed_input_tokens:
+          type: integer
+          title: Compressed Input Tokens
+          description: Compressed input tokens
+          default: 0
+        output_tokens:
+          type: integer
+          title: Output Tokens
+          description: Output tokens
+          default: 0
+        cost_usd:
+          type: number
+          title: Cost Usd
+          description: Cost in USD
+          default: 0.0
+        savings_usd:
+          type: number
+          title: Savings Usd
+          description: Savings in USD
+          default: 0.0
       type: object
-      title: HTTPValidationError
-    UsageStatsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/UsageStatsResult'
-          - type: 'null'
-      type: object
-      title: UsageStatsResponse
+      required:
+      - timestamp
+      title: TimeSeriesDataPoint
     ValidationError:
       properties:
         loc:
@@ -208,46 +222,6 @@ components:
       - error
       - code
       title: ErrorResponse
-    TimeSeriesDataPoint:
-      properties:
-        timestamp:
-          type: string
-          title: Timestamp
-          description: ISO timestamp
-        requests:
-          type: integer
-          title: Requests
-          description: Number of requests
-          default: 0
-        input_tokens:
-          type: integer
-          title: Input Tokens
-          description: Original input tokens
-          default: 0
-        compressed_input_tokens:
-          type: integer
-          title: Compressed Input Tokens
-          description: Compressed input tokens
-          default: 0
-        output_tokens:
-          type: integer
-          title: Output Tokens
-          description: Output tokens
-          default: 0
-        cost_usd:
-          type: number
-          title: Cost Usd
-          description: Cost in USD
-          default: 0.0
-        savings_usd:
-          type: number
-          title: Savings Usd
-          description: Savings in USD
-          default: 0.0
-      type: object
-      required:
-      - timestamp
-      title: TimeSeriesDataPoint
     UsageStatsResult:
       properties:
         period:
@@ -336,6 +310,32 @@ components:
       - period_end
       - group_by
       title: UsageStatsResult
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UsageStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/UsageStatsResult'
+          - type: 'null'
+      type: object
+      title: UsageStatsResponse
   securitySchemes:
     HTTPBearer:
       type: http

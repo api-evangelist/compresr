@@ -244,15 +244,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -274,38 +265,25 @@ components:
       - msg
       - type
       title: ValidationError
-    ErrorResponse:
+    NewsletterSubscribeRequest:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
+        email:
           type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
+          format: email
+          title: Email
+          description: Email address to subscribe
+        source:
           anyOf:
           - type: string
+            maxLength: 100
           - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
+          title: Source
+          description: Source of subscription
+          default: landing_page
       type: object
       required:
-      - error
-      - code
-      title: ErrorResponse
+      - email
+      title: NewsletterSubscribeRequest
     NewsletterStatusResponse:
       properties:
         success:
@@ -340,6 +318,38 @@ components:
       - email
       - status
       title: NewsletterStatusResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
     NewsletterSubscribeResponse:
       properties:
         success:
@@ -383,6 +393,15 @@ components:
       required:
       - email
       title: NewsletterUnsubscribeResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     NewsletterUnsubscribeRequest:
       properties:
         token:
@@ -394,25 +413,6 @@ components:
       required:
       - token
       title: NewsletterUnsubscribeRequest
-    NewsletterSubscribeRequest:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-          description: Email address to subscribe
-        source:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Source
-          description: Source of subscription
-          default: landing_page
-      type: object
-      required:
-      - email
-      title: NewsletterSubscribeRequest
   securitySchemes:
     HTTPBearer:
       type: http

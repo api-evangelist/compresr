@@ -83,66 +83,23 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    DemoDataResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    DemoData:
-      properties:
-        sample_texts:
-          items:
-            $ref: '#/components/schemas/SampleText'
-          type: array
-          title: Sample Texts
-        compression_models:
-          items:
-            $ref: '#/components/schemas/DemoCompressionModelOption'
-          type: array
-          title: Compression Models
-          default: []
-      type: object
-      required:
-      - sample_texts
-      title: DemoData
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Message
-        type:
-          type: string
-          title: Error Type
+        data:
+          $ref: '#/components/schemas/DemoData'
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SampleText:
-      properties:
-        name:
-          type: string
-          title: Name
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - name
-      - text
-      title: SampleText
+      - data
+      title: DemoDataResponse
     DemoCompressionModelOption:
       properties:
         value:
@@ -165,23 +122,66 @@ components:
       - value
       - label
       title: DemoCompressionModelOption
-    DemoDataResponse:
+    ValidationError:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
           title: Message
-        data:
-          $ref: '#/components/schemas/DemoData'
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - data
-      title: DemoDataResponse
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DemoData:
+      properties:
+        sample_texts:
+          items:
+            $ref: '#/components/schemas/SampleText'
+          type: array
+          title: Sample Texts
+        compression_models:
+          items:
+            $ref: '#/components/schemas/DemoCompressionModelOption'
+          type: array
+          title: Compression Models
+          default: []
+      type: object
+      required:
+      - sample_texts
+      title: DemoData
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SampleText:
+      properties:
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - name
+      - text
+      title: SampleText
   securitySchemes:
     HTTPBearer:
       type: http

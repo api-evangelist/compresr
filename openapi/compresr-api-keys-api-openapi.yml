@@ -303,185 +303,38 @@ components:
       - status
       - created_at
       title: APIKeyResult
-    HTTPValidationError:
+    RevokedKeysSummary:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    MessageResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - message
-      title: MessageResponse
-    APIKeyListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
+        count:
+          type: integer
+          title: Count
+          default: 0
+        total_requests_all_time:
+          type: integer
+          title: Total Requests All Time
+          default: 0
+        total_requests_this_month:
+          type: number
+          title: Total Requests This Month
+          default: 0.0
+        total_usage_this_month_usd:
+          type: number
+          title: Total Usage This Month Usd
+          default: 0.0
+        latest_revoked_at:
           anyOf:
           - type: string
           - type: 'null'
-          title: Message
-        data:
-          items:
-            $ref: '#/components/schemas/APIKeyResult'
-          type: array
-          title: Data
-          default: []
-        revoked_summary:
-          anyOf:
-          - $ref: '#/components/schemas/RevokedKeysSummary'
-          - type: 'null'
+          title: Latest Revoked At
       type: object
-      title: APIKeyListResponse
-    BillingMode:
+      title: RevokedKeysSummary
+    APIKeyScope:
       type: string
       enum:
-      - prepaid
-      - postpaid
-      title: BillingMode
-      description: "Billing mode for API keys.\n\nPREPAID: User must have positive balance. Session stops if balance runs out.\n         Used by regular users (demo, user scopes).\n\nPOSTPAID: Can go negative. Invoiced monthly.\n          Used by enterprise keys only (requires admin approval)."
-    APIKeyResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/APIKeyResult'
-          - type: 'null'
-      type: object
-      title: APIKeyResponse
-    APIKeyCreatedResult:
-      properties:
-        id:
-          type: string
-          title: Id
-        name:
-          type: string
-          title: Name
-        scope:
-          $ref: '#/components/schemas/APIKeyScope'
-        status:
-          $ref: '#/components/schemas/APIKeyStatus'
-        billing_mode:
-          $ref: '#/components/schemas/BillingMode'
-          default: prepaid
-        key:
-          type: string
-          title: Key
-          description: The API key - store securely, shown only once!
-        key_preview:
-          type: string
-          title: Key Preview
-          description: Masked preview of the key
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        expires_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Expires At
-        company_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Company Name
-      type: object
-      required:
-      - id
-      - name
-      - scope
-      - status
-      - key
-      - key_preview
-      - created_at
-      title: APIKeyCreatedResult
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    APIKeyStatus:
-      type: string
-      enum:
-      - pending
-      - active
-      - expired
-      - declined
-      - revoked
-      title: APIKeyStatus
+      - demo
+      - user
+      - enterprise
+      title: APIKeyScope
     APIKeyCreateRequest:
       properties:
         name:
@@ -534,38 +387,27 @@ components:
       required:
       - name
       title: APIKeyCreateRequest
-    RevokedKeysSummary:
+    ValidationError:
       properties:
-        count:
-          type: integer
-          title: Count
-          default: 0
-        total_requests_all_time:
-          type: integer
-          title: Total Requests All Time
-          default: 0
-        total_requests_this_month:
-          type: number
-          title: Total Requests This Month
-          default: 0.0
-        total_usage_this_month_usd:
-          type: number
-          title: Total Usage This Month Usd
-          default: 0.0
-        latest_revoked_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Latest Revoked At
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: RevokedKeysSummary
-    APIKeyScope:
-      type: string
-      enum:
-      - demo
-      - user
-      - enterprise
-      title: APIKeyScope
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     APIKeyCreatedResponse:
       properties:
         success:
@@ -583,6 +425,164 @@ components:
           - type: 'null'
       type: object
       title: APIKeyCreatedResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    APIKeyResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/APIKeyResult'
+          - type: 'null'
+      type: object
+      title: APIKeyResponse
+    APIKeyListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          items:
+            $ref: '#/components/schemas/APIKeyResult'
+          type: array
+          title: Data
+          default: []
+        revoked_summary:
+          anyOf:
+          - $ref: '#/components/schemas/RevokedKeysSummary'
+          - type: 'null'
+      type: object
+      title: APIKeyListResponse
+    APIKeyStatus:
+      type: string
+      enum:
+      - pending
+      - active
+      - expired
+      - declined
+      - revoked
+      title: APIKeyStatus
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MessageResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
+    APIKeyCreatedResult:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        scope:
+          $ref: '#/components/schemas/APIKeyScope'
+        status:
+          $ref: '#/components/schemas/APIKeyStatus'
+        billing_mode:
+          $ref: '#/components/schemas/BillingMode'
+          default: prepaid
+        key:
+          type: string
+          title: Key
+          description: The API key - store securely, shown only once!
+        key_preview:
+          type: string
+          title: Key Preview
+          description: Masked preview of the key
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
+      type: object
+      required:
+      - id
+      - name
+      - scope
+      - status
+      - key
+      - key_preview
+      - created_at
+      title: APIKeyCreatedResult
+    BillingMode:
+      type: string
+      enum:
+      - prepaid
+      - postpaid
+      title: BillingMode
+      description: "Billing mode for API keys.\n\nPREPAID: User must have positive balance. Session stops if balance runs out.\n         Used by regular users (demo, user scopes).\n\nPOSTPAID: Can go negative. Invoiced monthly.\n          Used by enterprise keys only (requires admin approval)."
   securitySchemes:
     HTTPBearer:
       type: http

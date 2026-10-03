@@ -905,30 +905,69 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    MessageResponse:
+    JobAdminListResponse:
       properties:
         success:
           type: boolean
           title: Success
           default: true
         message:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Message
+        jobs:
+          items:
+            $ref: '#/components/schemas/Job'
+          type: array
+          title: Jobs
+        total:
+          type: integer
+          title: Total
+          default: 0
       type: object
-      required:
-      - message
-      title: MessageResponse
-    ApplicationStatus:
+      title: JobAdminListResponse
+    JobApplicationListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        applications:
+          items:
+            $ref: '#/components/schemas/JobApplication'
+          type: array
+          title: Applications
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: JobApplicationListResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ApplicationQuestionType:
       type: string
       enum:
-      - new
-      - reviewing
-      - interviewing
-      - offer
-      - hired
-      - rejected
-      - withdrawn
-      title: ApplicationStatus
+      - short_text
+      - long_text
+      - select
+      - multiselect
+      - url
+      - yes_no
+      title: ApplicationQuestionType
     JobApplicationUpdate:
       properties:
         status:
@@ -943,113 +982,43 @@ components:
           title: Admin Notes
       type: object
       title: JobApplicationUpdate
-    ApplicationsPurgeResponse:
+    WorkplaceType:
+      type: string
+      enum:
+      - onsite
+      - remote
+      - hybrid
+      title: WorkplaceType
+    Body_apply_to_job_api_jobs__slug__apply_post:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
+        full_name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Full Name
+        email:
+          type: string
+          maxLength: 254
+          title: Email
+        linkedin_url:
           anyOf:
           - type: string
           - type: 'null'
-          title: Message
-        retention_days:
-          type: integer
-          title: Retention Days
-        statuses_purged:
-          items:
-            type: string
-          type: array
-          title: Statuses Purged
-        scanned:
-          type: integer
-          title: Scanned
-        deleted:
-          type: integer
-          title: Deleted
-        cv_files_removed:
-          type: integer
-          title: Cv Files Removed
-        errors:
-          items:
-            type: string
-          type: array
-          title: Errors
+          title: Linkedin Url
+        custom_answers:
+          type: string
+          title: Custom Answers
+          default: '{}'
+        cv:
+          type: string
+          format: binary
+          title: Cv
       type: object
       required:
-      - retention_days
-      - statuses_purged
-      - scanned
-      - deleted
-      - cv_files_removed
-      title: ApplicationsPurgeResponse
-    JobPublicResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        title:
-          type: string
-          title: Title
-        department:
-          type: string
-          title: Department
-        location:
-          type: string
-          title: Location
-        workplace_type:
-          $ref: '#/components/schemas/WorkplaceType'
-        employment_type:
-          $ref: '#/components/schemas/EmploymentType'
-        description:
-          type: string
-          title: Description
-          default: ''
-        application_questions:
-          items:
-            $ref: '#/components/schemas/ApplicationQuestion'
-          type: array
-          title: Application Questions
-        published_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Published At
-      type: object
-      required:
-      - id
-      - slug
-      - title
-      - department
-      - location
-      - workplace_type
-      - employment_type
-      title: JobPublicResponse
-      description: Public job view — safe to expose to anonymous visitors.
-    ApplicationQuestionType:
-      type: string
-      enum:
-      - short_text
-      - long_text
-      - select
-      - multiselect
-      - url
-      - yes_no
-      title: ApplicationQuestionType
-    EmploymentType:
-      type: string
-      enum:
-      - full_time
-      - part_time
-      - contract
-      - intern
-      title: EmploymentType
+      - full_name
+      - email
+      - cv
+      title: Body_apply_to_job_api_jobs__slug__apply_post
     JobApplication:
       properties:
         full_name:
@@ -1124,134 +1093,6 @@ components:
       - applied_at
       - updated_at
       title: JobApplication
-    Body_apply_to_job_api_jobs__slug__apply_post:
-      properties:
-        full_name:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Full Name
-        email:
-          type: string
-          maxLength: 254
-          title: Email
-        linkedin_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Linkedin Url
-        custom_answers:
-          type: string
-          title: Custom Answers
-          default: '{}'
-        cv:
-          type: string
-          format: binary
-          title: Cv
-      type: object
-      required:
-      - full_name
-      - email
-      - cv
-      title: Body_apply_to_job_api_jobs__slug__apply_post
-    JobApplicationListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        applications:
-          items:
-            $ref: '#/components/schemas/JobApplication'
-          type: array
-          title: Applications
-        total:
-          type: integer
-          title: Total
-          default: 0
-      type: object
-      title: JobApplicationListResponse
-    JobListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        jobs:
-          items:
-            $ref: '#/components/schemas/JobPublicResponse'
-          type: array
-          title: Jobs
-        total:
-          type: integer
-          title: Total
-          default: 0
-      type: object
-      title: JobListResponse
-    ApplicationQuestion:
-      properties:
-        id:
-          type: string
-          maxLength: 64
-          minLength: 1
-          pattern: ^[a-z0-9_]+$
-          title: Id
-        type:
-          $ref: '#/components/schemas/ApplicationQuestionType'
-        label:
-          type: string
-          maxLength: 500
-          minLength: 1
-          title: Label
-        required:
-          type: boolean
-          title: Required
-          default: false
-        options:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Options
-          description: For select/multiselect, the allowed choices.
-        help_text:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Help Text
-      type: object
-      required:
-      - id
-      - type
-      - label
-      title: ApplicationQuestion
-      description: Per-job custom application question (admin-defined).
-    JobStatus:
-      type: string
-      enum:
-      - draft
-      - published
-      - closed
-      title: JobStatus
-    WorkplaceType:
-      type: string
-      enum:
-      - onsite
-      - remote
-      - hybrid
-      title: WorkplaceType
     JobUpdate:
       properties:
         slug:
@@ -1310,6 +1151,14 @@ components:
           - type: 'null'
       type: object
       title: JobUpdate
+    EmploymentType:
+      type: string
+      enum:
+      - full_time
+      - part_time
+      - contract
+      - intern
+      title: EmploymentType
     ValidationError:
       properties:
         loc:
@@ -1363,6 +1212,254 @@ components:
       - error
       - code
       title: ErrorResponse
+    JobApplicationSubmitResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        email:
+          type: string
+          title: Email
+        job_slug:
+          type: string
+          title: Job Slug
+      type: object
+      required:
+      - email
+      - job_slug
+      title: JobApplicationSubmitResponse
+    JobListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        jobs:
+          items:
+            $ref: '#/components/schemas/JobPublicResponse'
+          type: array
+          title: Jobs
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: JobListResponse
+    MessageResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
+    ApplicationQuestion:
+      properties:
+        id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          pattern: ^[a-z0-9_]+$
+          title: Id
+        type:
+          $ref: '#/components/schemas/ApplicationQuestionType'
+        label:
+          type: string
+          maxLength: 500
+          minLength: 1
+          title: Label
+        required:
+          type: boolean
+          title: Required
+          default: false
+        options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Options
+          description: For select/multiselect, the allowed choices.
+        help_text:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Help Text
+      type: object
+      required:
+      - id
+      - type
+      - label
+      title: ApplicationQuestion
+      description: Per-job custom application question (admin-defined).
+    JobPublicResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        title:
+          type: string
+          title: Title
+        department:
+          type: string
+          title: Department
+        location:
+          type: string
+          title: Location
+        workplace_type:
+          $ref: '#/components/schemas/WorkplaceType'
+        employment_type:
+          $ref: '#/components/schemas/EmploymentType'
+        description:
+          type: string
+          title: Description
+          default: ''
+        application_questions:
+          items:
+            $ref: '#/components/schemas/ApplicationQuestion'
+          type: array
+          title: Application Questions
+        published_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Published At
+      type: object
+      required:
+      - id
+      - slug
+      - title
+      - department
+      - location
+      - workplace_type
+      - employment_type
+      title: JobPublicResponse
+      description: Public job view — safe to expose to anonymous visitors.
+    ApplicationsPurgeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        retention_days:
+          type: integer
+          title: Retention Days
+        statuses_purged:
+          items:
+            type: string
+          type: array
+          title: Statuses Purged
+        scanned:
+          type: integer
+          title: Scanned
+        deleted:
+          type: integer
+          title: Deleted
+        cv_files_removed:
+          type: integer
+          title: Cv Files Removed
+        errors:
+          items:
+            type: string
+          type: array
+          title: Errors
+      type: object
+      required:
+      - retention_days
+      - statuses_purged
+      - scanned
+      - deleted
+      - cv_files_removed
+      title: ApplicationsPurgeResponse
+    JobStatus:
+      type: string
+      enum:
+      - draft
+      - published
+      - closed
+      title: JobStatus
+    JobCreate:
+      properties:
+        slug:
+          type: string
+          maxLength: 100
+          minLength: 2
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: Slug
+        title:
+          type: string
+          maxLength: 200
+          minLength: 2
+          title: Title
+        department:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Department
+        location:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Location
+        workplace_type:
+          $ref: '#/components/schemas/WorkplaceType'
+          default: onsite
+        employment_type:
+          $ref: '#/components/schemas/EmploymentType'
+          default: full_time
+        description:
+          type: string
+          maxLength: 50000
+          title: Description
+          default: ''
+        application_questions:
+          items:
+            $ref: '#/components/schemas/ApplicationQuestion'
+          type: array
+          title: Application Questions
+        status:
+          $ref: '#/components/schemas/JobStatus'
+          default: draft
+      type: object
+      required:
+      - slug
+      - title
+      - department
+      - location
+      title: JobCreate
     Job:
       properties:
         slug:
@@ -1434,114 +1531,17 @@ components:
       - updated_at
       title: Job
       description: Full job record — admin view (includes drafts + timestamps).
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    JobAdminListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        jobs:
-          items:
-            $ref: '#/components/schemas/Job'
-          type: array
-          title: Jobs
-        total:
-          type: integer
-          title: Total
-          default: 0
-      type: object
-      title: JobAdminListResponse
-    JobApplicationSubmitResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-        email:
-          type: string
-          title: Email
-        job_slug:
-          type: string
-          title: Job Slug
-      type: object
-      required:
-      - email
-      - job_slug
-      title: JobApplicationSubmitResponse
-    JobCreate:
-      properties:
-        slug:
-          type: string
-          maxLength: 100
-          minLength: 2
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          title: Slug
-        title:
-          type: string
-          maxLength: 200
-          minLength: 2
-          title: Title
-        department:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Department
-        location:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Location
-        workplace_type:
-          $ref: '#/components/schemas/WorkplaceType'
-          default: onsite
-        employment_type:
-          $ref: '#/components/schemas/EmploymentType'
-          default: full_time
-        description:
-          type: string
-          maxLength: 50000
-          title: Description
-          default: ''
-        application_questions:
-          items:
-            $ref: '#/components/schemas/ApplicationQuestion'
-          type: array
-          title: Application Questions
-        status:
-          $ref: '#/components/schemas/JobStatus'
-          default: draft
-      type: object
-      required:
-      - slug
-      - title
-      - department
-      - location
-      title: JobCreate
+    ApplicationStatus:
+      type: string
+      enum:
+      - new
+      - reviewing
+      - interviewing
+      - offer
+      - hired
+      - rejected
+      - withdrawn
+      title: ApplicationStatus
   securitySchemes:
     HTTPBearer:
       type: http
