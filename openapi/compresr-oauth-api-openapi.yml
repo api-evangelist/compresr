@@ -226,45 +226,6 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    Body_token_oauth_token_post:
-      properties:
-        grant_type:
-          type: string
-          title: Grant Type
-        code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Code
-        redirect_uri:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Redirect Uri
-        client_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Client Id
-        code_verifier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Code Verifier
-        refresh_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refresh Token
-        device_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Device Code
-      type: object
-      required:
-      - grant_type
-      title: Body_token_oauth_token_post
     DeviceDecisionResponse:
       properties:
         success:
@@ -279,20 +240,6 @@ components:
       - message
       title: DeviceDecisionResponse
       description: Result of a device authorization decision.
-    DeviceDecisionRequest:
-      properties:
-        user_code:
-          type: string
-          title: User Code
-        approve:
-          type: boolean
-          title: Approve
-          default: true
-      type: object
-      required:
-      - user_code
-      title: DeviceDecisionRequest
-      description: User's approve/deny decision for a device authorization.
     AuthorizationDecisionResponse:
       properties:
         redirect_uri:
@@ -325,33 +272,6 @@ components:
       - msg
       - type
       title: ValidationError
-    AuthorizationRequestInfo:
-      properties:
-        request_id:
-          type: string
-          title: Request Id
-        client_id:
-          type: string
-          title: Client Id
-        scope:
-          type: string
-          title: Scope
-        org:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Org
-        redirect_uri:
-          type: string
-          title: Redirect Uri
-      type: object
-      required:
-      - request_id
-      - client_id
-      - scope
-      - redirect_uri
-      title: AuthorizationRequestInfo
-      description: Consent-screen render data for a pending authorization request.
     DeviceAuthorizationResponse:
       properties:
         device_code:
@@ -382,20 +302,34 @@ components:
       - interval
       title: DeviceAuthorizationResponse
       description: RFC 8628 device authorization response.
-    AuthorizationDecisionRequest:
+    Body_device_authorization_oauth_device_authorization_post:
       properties:
-        request_id:
+        client_id:
           type: string
-          title: Request Id
+          title: Client Id
+        scope:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scope
+      type: object
+      required:
+      - client_id
+      title: Body_device_authorization_oauth_device_authorization_post
+    DeviceDecisionRequest:
+      properties:
+        user_code:
+          type: string
+          title: User Code
         approve:
           type: boolean
           title: Approve
           default: true
       type: object
       required:
-      - request_id
-      title: AuthorizationDecisionRequest
-      description: User's approve/deny decision for an authorization request.
+      - user_code
+      title: DeviceDecisionRequest
+      description: User's approve/deny decision for a device authorization.
     TokenResponse:
       properties:
         access_token:
@@ -442,20 +376,86 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Body_device_authorization_oauth_device_authorization_post:
+    Body_token_oauth_token_post:
       properties:
+        grant_type:
+          type: string
+          title: Grant Type
+        code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Code
+        redirect_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Redirect Uri
+        client_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Client Id
+        code_verifier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Code Verifier
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        device_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Device Code
+      type: object
+      required:
+      - grant_type
+      title: Body_token_oauth_token_post
+    AuthorizationRequestInfo:
+      properties:
+        request_id:
+          type: string
+          title: Request Id
         client_id:
           type: string
           title: Client Id
         scope:
+          type: string
+          title: Scope
+        org:
           anyOf:
           - type: string
           - type: 'null'
-          title: Scope
+          title: Org
+        redirect_uri:
+          type: string
+          title: Redirect Uri
       type: object
       required:
+      - request_id
       - client_id
-      title: Body_device_authorization_oauth_device_authorization_post
+      - scope
+      - redirect_uri
+      title: AuthorizationRequestInfo
+      description: Consent-screen render data for a pending authorization request.
+    AuthorizationDecisionRequest:
+      properties:
+        request_id:
+          type: string
+          title: Request Id
+        approve:
+          type: boolean
+          title: Approve
+          default: true
+      type: object
+      required:
+      - request_id
+      title: AuthorizationDecisionRequest
+      description: User's approve/deny decision for an authorization request.
   securitySchemes:
     HTTPBearer:
       type: http

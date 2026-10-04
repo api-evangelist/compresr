@@ -54,24 +54,6 @@ components:
       - msg
       - type
       title: ValidationError
-    TokenCountRequest:
-      properties:
-        prompt:
-          type: string
-          maxLength: 100000
-          minLength: 1
-          title: Prompt
-          description: Text to count
-        model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model
-          description: Model for tokenizer
-      type: object
-      required:
-      - prompt
-      title: TokenCountRequest
     TokenCountResponse:
       properties:
         tokens:
@@ -95,6 +77,24 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    TokenCountRequest:
+      properties:
+        prompt:
+          type: string
+          maxLength: 100000
+          minLength: 1
+          title: Prompt
+          description: Text to count
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Model for tokenizer
+      type: object
+      required:
+      - prompt
+      title: TokenCountRequest
   securitySchemes:
     HTTPBearer:
       type: http

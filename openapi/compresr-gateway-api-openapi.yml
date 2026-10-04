@@ -250,23 +250,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    GatewayStatusResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/GatewayStatusResult'
-          - type: 'null'
-      type: object
-      title: GatewayStatusResponse
     GatewayStatusResult:
       properties:
         tier:
@@ -323,59 +306,6 @@ components:
         Provides a lightweight summary for the gateway to display
 
         balance and usage info to users during operation.'
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
     GatewayInstallRecord:
       properties:
         id:
@@ -411,6 +341,66 @@ components:
       - id
       - created_at
       title: GatewayInstallRecord
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GatewayInstallListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        installs:
+          items:
+            $ref: '#/components/schemas/GatewayInstallRecord'
+          type: array
+          title: Installs
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: GatewayInstallListResponse
+    GatewayStatusResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/GatewayStatusResult'
+          - type: 'null'
+      type: object
+      title: GatewayStatusResponse
     HTTPValidationError:
       properties:
         detail:
@@ -466,28 +456,38 @@ components:
       - period_end
       - total_installs
       title: GatewayInstallStatsResponse
-    GatewayInstallListResponse:
+    ErrorResponse:
       properties:
         success:
           type: boolean
           title: Success
-          default: true
-        message:
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
           anyOf:
           - type: string
           - type: 'null'
-          title: Message
-        installs:
-          items:
-            $ref: '#/components/schemas/GatewayInstallRecord'
-          type: array
-          title: Installs
-        total:
-          type: integer
-          title: Total
-          default: 0
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
       type: object
-      title: GatewayInstallListResponse
+      required:
+      - error
+      - code
+      title: ErrorResponse
   securitySchemes:
     HTTPBearer:
       type: http

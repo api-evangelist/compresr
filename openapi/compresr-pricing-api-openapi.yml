@@ -96,119 +96,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    EstimateCostResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          $ref: '#/components/schemas/CostBreakdown'
-      type: object
-      required:
-      - data
-      title: EstimateCostResponse
-    CompressionModelsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          items:
-            $ref: '#/components/schemas/CompressionModelInfo'
-          type: array
-          title: Data
-      type: object
-      required:
-      - data
-      title: CompressionModelsResponse
-    EstimateCostRequest:
-      properties:
-        compression_model:
-          type: string
-          title: Compression Model
-          description: Compression model to use
-          default: latte_v1
-        input_tokens:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Input Tokens
-          description: Number of input tokens
-        compression_ratio:
-          type: number
-          exclusiveMaximum: 1.0
-          exclusiveMinimum: 0.0
-          title: Compression Ratio
-          description: Target compression ratio (e.g., 0.3)
-          default: 0.5
-      type: object
-      required:
-      - input_tokens
-      title: EstimateCostRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
     CompressionModelInfo:
       properties:
         name:
@@ -240,15 +127,6 @@ components:
       - description
       - input_price_per_1m
       title: CompressionModelInfo
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     CostBreakdown:
       properties:
         input_tokens:
@@ -296,6 +174,128 @@ components:
       - model
       - input_price_per_1m
       title: CostBreakdown
+    CompressionModelsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          items:
+            $ref: '#/components/schemas/CompressionModelInfo'
+          type: array
+          title: Data
+      type: object
+      required:
+      - data
+      title: CompressionModelsResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    EstimateCostResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          $ref: '#/components/schemas/CostBreakdown'
+      type: object
+      required:
+      - data
+      title: EstimateCostResponse
+    EstimateCostRequest:
+      properties:
+        compression_model:
+          type: string
+          title: Compression Model
+          description: Compression model to use
+          default: latte_v1
+        input_tokens:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Input Tokens
+          description: Number of input tokens
+        compression_ratio:
+          type: number
+          exclusiveMaximum: 1.0
+          exclusiveMinimum: 0.0
+          title: Compression Ratio
+          description: Target compression ratio (e.g., 0.3)
+          default: 0.5
+      type: object
+      required:
+      - input_tokens
+      title: EstimateCostRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
   securitySchemes:
     HTTPBearer:
       type: http

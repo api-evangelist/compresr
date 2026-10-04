@@ -146,35 +146,18 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    WhitelistMatchedUser:
+    WhitelistMatchPreviewResponse:
       properties:
-        user_id:
-          type: string
-          title: User Id
-        email:
-          type: string
-          title: Email
-        full_name:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        match:
           anyOf:
-          - type: string
+          - $ref: '#/components/schemas/WhitelistEntry'
           - type: 'null'
-          title: Full Name
       type: object
-      required:
-      - user_id
-      - email
-      title: WhitelistMatchedUser
-    WhitelistMatchPreviewRequest:
-      properties:
-        email:
-          type: string
-          maxLength: 254
-          minLength: 3
-          title: Email
-      type: object
-      required:
-      - email
-      title: WhitelistMatchPreviewRequest
+      title: WhitelistMatchPreviewResponse
     ValidationError:
       properties:
         loc:
@@ -222,41 +205,61 @@ components:
       - rule_id
       - pattern
       title: WhitelistMatchesResponse
-    WhitelistCreateRequest:
+    WhitelistMatchedUser:
       properties:
-        pattern:
+        user_id:
           type: string
-          maxLength: 254
-          minLength: 3
-          title: Pattern
-        credit_limit_usd:
-          anyOf:
-          - type: number
-            minimum: 0.0
-          - type: 'null'
-          title: Credit Limit Usd
-        notes:
+          title: User Id
+        email:
+          type: string
+          title: Email
+        full_name:
           anyOf:
           - type: string
-            maxLength: 500
           - type: 'null'
-          title: Notes
+          title: Full Name
       type: object
       required:
-      - pattern
-      title: WhitelistCreateRequest
-    WhitelistMatchPreviewResponse:
+      - user_id
+      - email
+      title: WhitelistMatchedUser
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    WhitelistListResponse:
       properties:
         success:
           type: boolean
           title: Success
           default: true
-        match:
-          anyOf:
-          - $ref: '#/components/schemas/WhitelistEntry'
-          - type: 'null'
+        entries:
+          items:
+            $ref: '#/components/schemas/WhitelistEntry'
+          type: array
+          title: Entries
+        total:
+          type: integer
+          title: Total
+          default: 0
       type: object
-      title: WhitelistMatchPreviewResponse
+      title: WhitelistListResponse
+    WhitelistMatchPreviewRequest:
+      properties:
+        email:
+          type: string
+          maxLength: 254
+          minLength: 3
+          title: Email
+      type: object
+      required:
+      - email
+      title: WhitelistMatchPreviewRequest
     WhitelistEntry:
       properties:
         id:
@@ -295,32 +298,29 @@ components:
       - pattern
       - created_at
       title: WhitelistEntry
-    HTTPValidationError:
+    WhitelistCreateRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        pattern:
+          type: string
+          maxLength: 254
+          minLength: 3
+          title: Pattern
+        credit_limit_usd:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Credit Limit Usd
+        notes:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Notes
       type: object
-      title: HTTPValidationError
-    WhitelistListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        entries:
-          items:
-            $ref: '#/components/schemas/WhitelistEntry'
-          type: array
-          title: Entries
-        total:
-          type: integer
-          title: Total
-          default: 0
-      type: object
-      title: WhitelistListResponse
+      required:
+      - pattern
+      title: WhitelistCreateRequest
   securitySchemes:
     HTTPBearer:
       type: http

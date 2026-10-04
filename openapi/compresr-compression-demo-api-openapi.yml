@@ -191,75 +191,19 @@ paths:
                 $ref: '#/components/schemas/DemoDataResponse'
 components:
   schemas:
-    DemoDataResponse:
+    SampleText:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          $ref: '#/components/schemas/DemoData'
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
       type: object
       required:
-      - data
-      title: DemoDataResponse
-    DemoStreamRequest:
-      properties:
-        context:
-          type: string
-          maxLength: 1000000
-          minLength: 1
-          title: Context
-        compression_model_name:
-          type: string
-          title: Compression Model Name
-          default: latte_v2
-        question:
-          anyOf:
-          - type: string
-            maxLength: 4096
-          - type: 'null'
-          title: Question
-        target_ratio:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Target Ratio
-        coarse:
-          type: boolean
-          title: Coarse
-          default: true
-      type: object
-      required:
-      - context
-      title: DemoStreamRequest
-    DemoCompressionModelOption:
-      properties:
-        value:
-          type: string
-          title: Value
-        label:
-          type: string
-          title: Label
-        description:
-          type: string
-          title: Description
-          default: ''
-        tier_scale:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier Scale
-      type: object
-      required:
-      - value
-      - label
-      title: DemoCompressionModelOption
+      - name
+      - text
+      title: SampleText
     ValidationError:
       properties:
         loc:
@@ -298,6 +242,45 @@ components:
       required:
       - sample_texts
       title: DemoData
+    DemoDataResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          $ref: '#/components/schemas/DemoData'
+      type: object
+      required:
+      - data
+      title: DemoDataResponse
+    DemoCompressionModelOption:
+      properties:
+        value:
+          type: string
+          title: Value
+        label:
+          type: string
+          title: Label
+        description:
+          type: string
+          title: Description
+          default: ''
+        tier_scale:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier Scale
+      type: object
+      required:
+      - value
+      - label
+      title: DemoCompressionModelOption
     HTTPValidationError:
       properties:
         detail:
@@ -307,19 +290,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SampleText:
-      properties:
-        name:
-          type: string
-          title: Name
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - name
-      - text
-      title: SampleText
     DemoTestOutputRequest:
       properties:
         question:
@@ -337,6 +307,36 @@ components:
       - question
       - compressed_context
       title: DemoTestOutputRequest
+    DemoStreamRequest:
+      properties:
+        context:
+          type: string
+          maxLength: 1000000
+          minLength: 1
+          title: Context
+        compression_model_name:
+          type: string
+          title: Compression Model Name
+          default: latte_v2
+        question:
+          anyOf:
+          - type: string
+            maxLength: 4096
+          - type: 'null'
+          title: Question
+        target_ratio:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Target Ratio
+        coarse:
+          type: boolean
+          title: Coarse
+          default: true
+      type: object
+      required:
+      - context
+      title: DemoStreamRequest
   securitySchemes:
     HTTPBearer:
       type: http

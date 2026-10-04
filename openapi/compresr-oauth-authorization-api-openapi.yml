@@ -110,19 +110,23 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    WsCallbackRequest:
+    CLIKeyResponse:
       properties:
-        ws_session:
+        success:
+          type: boolean
+          title: Success
+        token:
           type: string
-          title: Ws Session
-        state:
+          title: Token
+        message:
           type: string
-          title: State
+          title: Message
       type: object
       required:
-      - ws_session
-      - state
-      title: WsCallbackRequest
+      - success
+      - token
+      - message
+      title: CLIKeyResponse
     WsCallbackResponse:
       properties:
         success:
@@ -157,6 +161,33 @@ components:
       - msg
       - type
       title: ValidationError
+    LogoutResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        revoked_key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Revoked Key Id
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - message
+      title: LogoutResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ErrorResponse:
       properties:
         success:
@@ -189,50 +220,19 @@ components:
       - error
       - code
       title: ErrorResponse
-    CLIKeyResponse:
+    WsCallbackRequest:
       properties:
-        success:
-          type: boolean
-          title: Success
-        token:
+        ws_session:
           type: string
-          title: Token
-        message:
+          title: Ws Session
+        state:
           type: string
-          title: Message
+          title: State
       type: object
       required:
-      - success
-      - token
-      - message
-      title: CLIKeyResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    LogoutResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        revoked_key_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Revoked Key Id
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - success
-      - message
-      title: LogoutResponse
+      - ws_session
+      - state
+      title: WsCallbackRequest
   securitySchemes:
     HTTPBearer:
       type: http

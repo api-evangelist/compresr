@@ -169,6 +169,23 @@ components:
       required:
       - timestamp
       title: TimeSeriesDataPoint
+    UsageStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/UsageStatsResult'
+          - type: 'null'
+      type: object
+      title: UsageStatsResponse
     ValidationError:
       properties:
         loc:
@@ -190,38 +207,6 @@ components:
       - msg
       - type
       title: ValidationError
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
     UsageStatsResult:
       properties:
         period:
@@ -319,23 +304,38 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    UsageStatsResponse:
+    ErrorResponse:
       properties:
         success:
           type: boolean
           title: Success
-          default: true
-        message:
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
           anyOf:
           - type: string
           - type: 'null'
-          title: Message
-        data:
+          title: Detail
+        retry_after:
           anyOf:
-          - $ref: '#/components/schemas/UsageStatsResult'
+          - type: integer
           - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
       type: object
-      title: UsageStatsResponse
+      required:
+      - error
+      - code
+      title: ErrorResponse
   securitySchemes:
     HTTPBearer:
       type: http

@@ -83,6 +83,57 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    SampleText:
+      properties:
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - name
+      - text
+      title: SampleText
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DemoData:
+      properties:
+        sample_texts:
+          items:
+            $ref: '#/components/schemas/SampleText'
+          type: array
+          title: Sample Texts
+        compression_models:
+          items:
+            $ref: '#/components/schemas/DemoCompressionModelOption'
+          type: array
+          title: Compression Models
+          default: []
+      type: object
+      required:
+      - sample_texts
+      title: DemoData
     DemoDataResponse:
       properties:
         success:
@@ -122,44 +173,6 @@ components:
       - value
       - label
       title: DemoCompressionModelOption
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DemoData:
-      properties:
-        sample_texts:
-          items:
-            $ref: '#/components/schemas/SampleText'
-          type: array
-          title: Sample Texts
-        compression_models:
-          items:
-            $ref: '#/components/schemas/DemoCompressionModelOption'
-          type: array
-          title: Compression Models
-          default: []
-      type: object
-      required:
-      - sample_texts
-      title: DemoData
     HTTPValidationError:
       properties:
         detail:
@@ -169,19 +182,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SampleText:
-      properties:
-        name:
-          type: string
-          title: Name
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - name
-      - text
-      title: SampleText
   securitySchemes:
     HTTPBearer:
       type: http

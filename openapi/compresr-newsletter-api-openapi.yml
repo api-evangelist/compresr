@@ -244,27 +244,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     NewsletterSubscribeRequest:
       properties:
         email:
@@ -284,6 +263,25 @@ components:
       required:
       - email
       title: NewsletterSubscribeRequest
+    NewsletterUnsubscribeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        email:
+          type: string
+          title: Email
+          description: Unsubscribed email address
+      type: object
+      required:
+      - email
+      title: NewsletterUnsubscribeResponse
     NewsletterStatusResponse:
       properties:
         success:
@@ -318,6 +316,60 @@ components:
       - email
       - status
       title: NewsletterStatusResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    NewsletterSubscribeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        email:
+          type: string
+          title: Email
+          description: Subscribed email address
+        already_subscribed:
+          type: boolean
+          title: Already Subscribed
+          description: Whether email was already subscribed
+          default: false
+      type: object
+      required:
+      - email
+      title: NewsletterSubscribeResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ErrorResponse:
       properties:
         success:
@@ -350,58 +402,6 @@ components:
       - error
       - code
       title: ErrorResponse
-    NewsletterSubscribeResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        email:
-          type: string
-          title: Email
-          description: Subscribed email address
-        already_subscribed:
-          type: boolean
-          title: Already Subscribed
-          description: Whether email was already subscribed
-          default: false
-      type: object
-      required:
-      - email
-      title: NewsletterSubscribeResponse
-    NewsletterUnsubscribeResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        email:
-          type: string
-          title: Email
-          description: Unsubscribed email address
-      type: object
-      required:
-      - email
-      title: NewsletterUnsubscribeResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     NewsletterUnsubscribeRequest:
       properties:
         token:
