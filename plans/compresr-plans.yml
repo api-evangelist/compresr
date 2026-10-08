@@ -20,3 +20,21 @@ notes: >-
   Pricing is live from GET /api/pricing/compression-models: both public models bill at
   $0.10 per 1M input tokens with a free minimum tier. Higher billing tiers (tier1–tier5)
   gate rate limits and max API keys, keyed off monthly token volume.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: latte_v1
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: latte_v2
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
