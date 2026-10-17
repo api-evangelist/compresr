@@ -110,36 +110,15 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    CLIKeyResponse:
+    HTTPValidationError:
       properties:
-        success:
-          type: boolean
-          title: Success
-        token:
-          type: string
-          title: Token
-        message:
-          type: string
-          title: Message
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - success
-      - token
-      - message
-      title: CLIKeyResponse
-    WsCallbackResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - success
-      - message
-      title: WsCallbackResponse
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -179,15 +158,6 @@ components:
       - success
       - message
       title: LogoutResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ErrorResponse:
       properties:
         success:
@@ -233,6 +203,36 @@ components:
       - ws_session
       - state
       title: WsCallbackRequest
+    CLIKeyResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        token:
+          type: string
+          title: Token
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - token
+      - message
+      title: CLIKeyResponse
+    WsCallbackResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - message
+      title: WsCallbackResponse
   securitySchemes:
     HTTPBearer:
       type: http

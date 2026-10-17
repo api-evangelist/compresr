@@ -190,7 +190,86 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    QuerySpecificCompressionResponse:
+    Source:
+      type: string
+      enum:
+      - demo
+      - extension
+      - sdk:python
+      - sdk:typescript
+      - sdk:curl
+      - gateway:unknown
+      - gateway:anthropic
+      - gateway:openai
+      - gateway:gemini
+      - integration:litellm
+      - integration:hermes
+      title: Source
+      description: 'Source of an API request.
+
+
+        Format: source[:detail]
+
+        - demo, extension: no detail needed
+
+        - sdk:python, sdk:typescript, sdk:curl
+
+        - gateway:anthropic, gateway:openai, gateway:gemini
+
+        - integration:litellm, integration:hermes'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DemoCompressionModelOption:
+      properties:
+        value:
+          type: string
+          title: Value
+        label:
+          type: string
+          title: Label
+        description:
+          type: string
+          title: Description
+          default: ''
+        tier_scale:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier Scale
+      type: object
+      required:
+      - value
+      - label
+      title: DemoCompressionModelOption
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DemoDataResponse:
       properties:
         success:
           type: boolean
@@ -202,11 +281,11 @@ components:
           - type: 'null'
           title: Message
         data:
-          anyOf:
-          - $ref: '#/components/schemas/CompressionResult'
-          - type: 'null'
+          $ref: '#/components/schemas/DemoData'
       type: object
-      title: QuerySpecificCompressionResponse
+      required:
+      - data
+      title: DemoDataResponse
     CompressionResult:
       properties:
         original_tokens:
@@ -252,181 +331,6 @@ components:
 
 
         Used by query-specific routes, demo, and agentic responses.'
-    HealthResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: Service status
-        compression_server:
-          type: boolean
-          title: Compression Server
-          description: Whether compression server is available
-      type: object
-      required:
-      - status
-      - compression_server
-      title: HealthResponse
-    SampleText:
-      properties:
-        name:
-          type: string
-          title: Name
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - name
-      - text
-      title: SampleText
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DemoData:
-      properties:
-        sample_texts:
-          items:
-            $ref: '#/components/schemas/SampleText'
-          type: array
-          title: Sample Texts
-        compression_models:
-          items:
-            $ref: '#/components/schemas/DemoCompressionModelOption'
-          type: array
-          title: Compression Models
-          default: []
-      type: object
-      required:
-      - sample_texts
-      title: DemoData
-    QuerySpecificCompressionBatchInput:
-      properties:
-        context:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Context
-          description: Context text to compress. If null or empty, the corresponding result has compressed_context='' with zero tokens and is not billed.
-        query:
-          type: string
-          minLength: 1
-          title: Query
-          description: Query for this context (REQUIRED)
-      type: object
-      required:
-      - query
-      title: QuerySpecificCompressionBatchInput
-    Source:
-      type: string
-      enum:
-      - demo
-      - extension
-      - sdk:python
-      - sdk:typescript
-      - sdk:curl
-      - gateway:unknown
-      - gateway:anthropic
-      - gateway:openai
-      - gateway:gemini
-      - integration:litellm
-      - integration:hermes
-      title: Source
-      description: 'Source of an API request.
-
-
-        Format: source[:detail]
-
-        - demo, extension: no detail needed
-
-        - sdk:python, sdk:typescript, sdk:curl
-
-        - gateway:anthropic, gateway:openai, gateway:gemini
-
-        - integration:litellm, integration:hermes'
-    DemoDataResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          $ref: '#/components/schemas/DemoData'
-      type: object
-      required:
-      - data
-      title: DemoDataResponse
-    DemoCompressionModelOption:
-      properties:
-        value:
-          type: string
-          title: Value
-        label:
-          type: string
-          title: Label
-        description:
-          type: string
-          title: Description
-          default: ''
-        tier_scale:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier Scale
-      type: object
-      required:
-      - value
-      - label
-      title: DemoCompressionModelOption
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    QuerySpecificCompressionBatchResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/QuerySpecificCompressionBatchResult'
-          - type: 'null'
-      type: object
-      title: QuerySpecificCompressionBatchResponse
     QuerySpecificCompressionBatchRequest:
       properties:
         inputs:
@@ -489,6 +393,40 @@ components:
         Each input has its own context and query. Use this when you need different
 
         queries for different contexts.'
+    QuerySpecificCompressionBatchResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/QuerySpecificCompressionBatchResult'
+          - type: 'null'
+      type: object
+      title: QuerySpecificCompressionBatchResponse
+    DemoData:
+      properties:
+        sample_texts:
+          items:
+            $ref: '#/components/schemas/SampleText'
+          type: array
+          title: Sample Texts
+        compression_models:
+          items:
+            $ref: '#/components/schemas/DemoCompressionModelOption'
+          type: array
+          title: Compression Models
+          default: []
+      type: object
+      required:
+      - sample_texts
+      title: DemoData
     QuerySpecificCompressionBatchResult:
       properties:
         total_original_tokens:
@@ -518,6 +456,23 @@ components:
           title: Results
       type: object
       title: QuerySpecificCompressionBatchResult
+    QuerySpecificCompressionResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/CompressionResult'
+          - type: 'null'
+      type: object
+      title: QuerySpecificCompressionResponse
     QuerySpecificCompressionRequest:
       properties:
         context:
@@ -593,6 +548,51 @@ components:
         Use /batch endpoint for multiple context+query pairs.
 
         Backbone: GemFilter'
+    SampleText:
+      properties:
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - name
+      - text
+      title: SampleText
+    QuerySpecificCompressionBatchInput:
+      properties:
+        context:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Context
+          description: Context text to compress. If null or empty, the corresponding result has compressed_context='' with zero tokens and is not billed.
+        query:
+          type: string
+          minLength: 1
+          title: Query
+          description: Query for this context (REQUIRED)
+      type: object
+      required:
+      - query
+      title: QuerySpecificCompressionBatchInput
+    HealthResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Service status
+        compression_server:
+          type: boolean
+          title: Compression Server
+          description: Whether compression server is available
+      type: object
+      required:
+      - status
+      - compression_server
+      title: HealthResponse
   securitySchemes:
     HTTPBearer:
       type: http

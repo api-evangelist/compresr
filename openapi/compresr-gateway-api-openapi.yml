@@ -250,6 +250,104 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    GatewayInstallListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        installs:
+          items:
+            $ref: '#/components/schemas/GatewayInstallRecord'
+          type: array
+          title: Installs
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: GatewayInstallListResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GatewayInstallStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        period:
+          type: string
+          title: Period
+          description: Time period (last_hour, last_day, last_week, etc.)
+        period_start:
+          type: string
+          title: Period Start
+          description: Start of period (ISO)
+        period_end:
+          type: string
+          title: Period End
+          description: End of period (ISO)
+        total_installs:
+          type: integer
+          title: Total Installs
+          description: Total number of installs in period
+        by_version:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Version
+          description: Installs by version
+        top_countries:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Top Countries
+          description: Top countries
+      type: object
+      required:
+      - period
+      - period_start
+      - period_end
+      - total_installs
+      title: GatewayInstallStatsResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     GatewayStatusResult:
       properties:
         tier:
@@ -341,49 +439,6 @@ components:
       - id
       - created_at
       title: GatewayInstallRecord
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    GatewayInstallListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        installs:
-          items:
-            $ref: '#/components/schemas/GatewayInstallRecord'
-          type: array
-          title: Installs
-        total:
-          type: integer
-          title: Total
-          default: 0
-      type: object
-      title: GatewayInstallListResponse
     GatewayStatusResponse:
       properties:
         success:
@@ -401,61 +456,6 @@ components:
           - type: 'null'
       type: object
       title: GatewayStatusResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    GatewayInstallStatsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        period:
-          type: string
-          title: Period
-          description: Time period (last_hour, last_day, last_week, etc.)
-        period_start:
-          type: string
-          title: Period Start
-          description: Start of period (ISO)
-        period_end:
-          type: string
-          title: Period End
-          description: End of period (ISO)
-        total_installs:
-          type: integer
-          title: Total Installs
-          description: Total number of installs in period
-        by_version:
-          additionalProperties:
-            type: integer
-          type: object
-          title: By Version
-          description: Installs by version
-        top_countries:
-          additionalProperties:
-            type: integer
-          type: object
-          title: Top Countries
-          description: Top countries
-      type: object
-      required:
-      - period
-      - period_start
-      - period_end
-      - total_installs
-      title: GatewayInstallStatsResponse
     ErrorResponse:
       properties:
         success:

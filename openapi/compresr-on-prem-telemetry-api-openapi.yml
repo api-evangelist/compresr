@@ -200,26 +200,33 @@ paths:
                 title: Response Telemetry Health Api V1 Telemetry Health Get
 components:
   schemas:
-    TelemetryErrorResponse:
+    RegisterSigningSecretResponse:
       properties:
         success:
           type: boolean
           title: Success
-          description: Always false for errors
-          default: false
-        error:
+        message:
           type: string
-          title: Error
-          description: Error message
-        error_code:
-          type: string
-          title: Error Code
-          description: Error code for debugging
+          title: Message
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
       type: object
       required:
-      - error
-      - error_code
-      title: TelemetryErrorResponse
+      - success
+      - message
+      title: RegisterSigningSecretResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -277,6 +284,105 @@ components:
         deleted the local manifest — typically an attempt to reset a per-instance
 
         grace period or quota.'
+    RegisterSigningSecretRequest:
+      properties:
+        signing_secret:
+          type: string
+          title: Signing Secret
+          description: On-prem signing secret (opm_xxx). Mint via dashboard -> Settings -> On-Prem. cmp_ API keys are rejected.
+        instance_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instance Id
+          description: Instance identifier
+      type: object
+      required:
+      - signing_secret
+      title: RegisterSigningSecretRequest
+    TelemetryErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Always false for errors
+          default: false
+        error:
+          type: string
+          title: Error
+          description: Error message
+        error_code:
+          type: string
+          title: Error Code
+          description: Error code for debugging
+      type: object
+      required:
+      - error
+      - error_code
+      title: TelemetryErrorResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    TelemetryBatchResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether batch was accepted
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Echo of batch ID
+        events_received:
+          type: integer
+          title: Events Received
+          description: Number of events received
+        events_stored:
+          type: integer
+          title: Events Stored
+          description: Number of events stored
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Additional message
+      type: object
+      required:
+      - success
+      - batch_id
+      - events_received
+      - events_stored
+      title: TelemetryBatchResponse
     TelemetryEvent:
       properties:
         event_id:
@@ -355,15 +461,6 @@ components:
         platform verifies it server-side and rejects events with a bad tag —
 
         closing the in-flight SQLite tamper window.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     TelemetryBatchRequest:
       properties:
         batch_id:
@@ -400,103 +497,6 @@ components:
       - instance_id
       - events
       title: TelemetryBatchRequest
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
-    RegisterSigningSecretResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        message:
-          type: string
-          title: Message
-        user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Id
-      type: object
-      required:
-      - success
-      - message
-      title: RegisterSigningSecretResponse
-    RegisterSigningSecretRequest:
-      properties:
-        signing_secret:
-          type: string
-          title: Signing Secret
-          description: On-prem signing secret (opm_xxx). Mint via dashboard -> Settings -> On-Prem. cmp_ API keys are rejected.
-        instance_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Instance Id
-          description: Instance identifier
-      type: object
-      required:
-      - signing_secret
-      title: RegisterSigningSecretRequest
-    TelemetryBatchResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether batch was accepted
-        batch_id:
-          type: string
-          title: Batch Id
-          description: Echo of batch ID
-        events_received:
-          type: integer
-          title: Events Received
-          description: Number of events received
-        events_stored:
-          type: integer
-          title: Events Stored
-          description: Number of events stored
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Additional message
-      type: object
-      required:
-      - success
-      - batch_id
-      - events_received
-      - events_stored
-      title: TelemetryBatchResponse
   securitySchemes:
     HTTPBearer:
       type: http

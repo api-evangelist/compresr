@@ -284,31 +284,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    FeatureRequestCreate:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-          description: Email address
-        subject:
-          type: string
-          maxLength: 255
-          minLength: 5
-          title: Subject
-          description: Feature request subject/title
-        description:
-          type: string
-          maxLength: 2000
-          minLength: 20
-          title: Description
-          description: Detailed description of the feature request
-      type: object
-      required:
-      - email
-      - subject
-      - description
-      title: FeatureRequestCreate
     FeatureRequestPriority:
       type: string
       enum:
@@ -317,27 +292,15 @@ components:
       - high
       - critical
       title: FeatureRequestPriority
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
     FeatureRequest:
       properties:
         id:
@@ -389,6 +352,27 @@ components:
       - created_at
       - updated_at
       title: FeatureRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     FeatureRequestResponse:
       properties:
         success:
@@ -420,15 +404,19 @@ components:
       - email
       - subject
       title: FeatureRequestResponse
-    HTTPValidationError:
+    MessageResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
       type: object
-      title: HTTPValidationError
+      required:
+      - message
+      title: MessageResponse
     FeatureRequestUpdate:
       properties:
         status:
@@ -482,6 +470,31 @@ components:
       - error
       - code
       title: ErrorResponse
+    FeatureRequestCreate:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+          description: Email address
+        subject:
+          type: string
+          maxLength: 255
+          minLength: 5
+          title: Subject
+          description: Feature request subject/title
+        description:
+          type: string
+          maxLength: 2000
+          minLength: 20
+          title: Description
+          description: Detailed description of the feature request
+      type: object
+      required:
+      - email
+      - subject
+      - description
+      title: FeatureRequestCreate
     FeatureRequestListResponse:
       properties:
         success:
@@ -531,19 +544,6 @@ components:
       - completed
       - declined
       title: FeatureRequestStatus
-    MessageResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - message
-      title: MessageResponse
   securitySchemes:
     HTTPBearer:
       type: http
