@@ -10,12 +10,7 @@ paths:
       tags:
       - OAuth Authorization
       summary: Get Cli Token
-      description: 'Get or create the user''s CLI Key for Context Gateway CLI.
-
-
-        Key scope matches user''s account_type (user=prepaid, enterprise=postpaid).
-
-        SEC-001: key_plain is not stored, so existing keys are rotated.'
+      description: Get or create the user's CLI Key for Context Gateway CLI.
       operationId: get_cli_token_api_authorize_cli_token_post
       responses:
         '200':
@@ -38,7 +33,7 @@ paths:
       tags:
       - OAuth Authorization
       summary: Logout
-      description: Revoke the calling API key. Idempotent — 200 whether the key was ACTIVE or already gone.
+      description: Revoke the calling API key; report success only after confirmed revocation.
       operationId: logout_api_authorize_logout_post
       parameters:
       - name: X-API-Key
@@ -71,14 +66,7 @@ paths:
       tags:
       - OAuth Authorization
       summary: Ws Callback
-      description: 'Deliver a CLI key to a waiting WebSocket session.
-
-
-        Called by the frontend after the user authorizes in the browser.
-
-        Gets or rotates the user''s CLI Key (scope matches account_type),
-
-        then pushes it over the WebSocket to the CLI.'
+      description: Deliver a CLI key to a waiting WebSocket session (called by the frontend after browser authorization).
       operationId: ws_callback_api_authorize_ws_callback_post
       requestBody:
         content:
@@ -110,36 +98,19 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    HTTPValidationError:
+    WsCallbackResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        success:
+          type: boolean
+          title: Success
+        message:
           type: string
           title: Message
-        type:
-          type: string
-          title: Error Type
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - success
+      - message
+      title: WsCallbackResponse
     LogoutResponse:
       properties:
         success:
@@ -203,6 +174,36 @@ components:
       - ws_session
       - state
       title: WsCallbackRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     CLIKeyResponse:
       properties:
         success:
@@ -220,19 +221,6 @@ components:
       - token
       - message
       title: CLIKeyResponse
-    WsCallbackResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - success
-      - message
-      title: WsCallbackResponse
   securitySchemes:
     HTTPBearer:
       type: http

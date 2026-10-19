@@ -61,95 +61,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ModelStatsItem:
-      properties:
-        model:
-          type: string
-          title: Model
-          description: Model name
-        requests:
-          type: integer
-          title: Requests
-          description: Number of requests
-          default: 0
-        input_tokens:
-          type: integer
-          title: Input Tokens
-          description: Original input tokens
-          default: 0
-        compressed_input_tokens:
-          type: integer
-          title: Compressed Input Tokens
-          description: Compressed input tokens
-          default: 0
-        output_tokens:
-          type: integer
-          title: Output Tokens
-          description: Output tokens
-          default: 0
-        cost_usd:
-          type: number
-          title: Cost Usd
-          description: Cost in USD
-          default: 0.0
-      type: object
-      required:
-      - model
-      title: ModelStatsItem
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    DashboardStatsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/DashboardStats'
-          - type: 'null'
-      type: object
-      title: DashboardStatsResponse
-    APIKeyScope:
-      type: string
-      enum:
-      - demo
-      - user
-      - enterprise
-      title: APIKeyScope
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     EnterpriseKeyUsage:
       properties:
         api_key_id:
@@ -224,117 +135,63 @@ components:
           - type: 'null'
           title: Last Used At
           description: Last used timestamp
+        total_cost_usd:
+          type: number
+          title: Total Cost Usd
+          description: Total cost spent via this key (lifetime, USD)
+          default: 0.0
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+          description: Key creation timestamp (ISO)
+        expires_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expires At
+          description: Key expiration timestamp (ISO); null = never
       type: object
       required:
       - api_key_id
       title: EnterpriseKeyUsage
-      description: 'Usage summary for enterprise (postpaid) API keys.
-
-
-        Enterprise keys use a different billing model:
-
-        - Prepaid (regular): User pays upfront, balance deducted from user_wallets
-
-        - Postpaid (enterprise): Usage accumulated on key, invoiced monthly
-
-
-        For postpaid keys, current_balance_usd is negative (representing debt/usage).
-
-        Monthly usage resets at the start of each month and is stored in history for invoicing.'
-    ApiKeyUsageSummary:
+      description: Usage summary for enterprise (postpaid) keys; current_balance_usd is negative (debt).
+    ModelStatsItem:
       properties:
-        api_key_id:
+        model:
           type: string
-          title: Api Key Id
-          description: API key UUID
-        api_key_name:
-          type: string
-          title: Api Key Name
-          description: API key name
-        requests_this_month:
+          title: Model
+          description: Model name
+        requests:
           type: integer
-          title: Requests This Month
-          description: Requests made this month (resets monthly)
+          title: Requests
+          description: Number of requests
           default: 0
-        money_used_this_month:
+        input_tokens:
+          type: integer
+          title: Input Tokens
+          description: Original input tokens
+          default: 0
+        compressed_input_tokens:
+          type: integer
+          title: Compressed Input Tokens
+          description: Compressed input tokens
+          default: 0
+        output_tokens:
+          type: integer
+          title: Output Tokens
+          description: Output tokens
+          default: 0
+        cost_usd:
           type: number
-          title: Money Used This Month
-          description: Money used via this key this month (USD)
+          title: Cost Usd
+          description: Cost in USD
           default: 0.0
-        budget_limit:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Budget Limit
-          description: Budget limit for this key (USD)
-        budget_remaining:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Budget Remaining
-          description: Budget remaining for this key (USD)
       type: object
       required:
-      - api_key_id
-      - api_key_name
-      title: ApiKeyUsageSummary
-      description: 'Summary of usage for a single API key (dashboard view).
-
-
-        Note: requests_this_month uses current_month_requests from DB which resets monthly.'
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
-    AccountType:
-      type: string
-      enum:
-      - user
-      - enterprise
-      title: AccountType
-      description: 'Account type: determines billing mode and allowed API key scopes.
-
-
-        - USER: Prepaid wallet billing, can create user-scope keys
-
-        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
-    TierName:
-      type: string
-      enum:
-      - tier1
-      - tier2
-      - tier3
-      - tier4
-      - tier5
-      title: TierName
+      - model
+      title: ModelStatsItem
     DashboardStats:
       properties:
         total_uploaded_money:
@@ -457,6 +314,11 @@ components:
           title: Is Admin
           description: Whether user is admin (infinite usage)
           default: false
+        can_create_keys:
+          type: boolean
+          title: Can Create Keys
+          description: Approved by the Compresr team to create API keys (enterprise keys only)
+          default: false
         account_created_at:
           anyOf:
           - type: string
@@ -493,6 +355,173 @@ components:
           description: Top 3 most used models with usage stats
       type: object
       title: DashboardStats
+    ApiKeyUsageSummary:
+      properties:
+        api_key_id:
+          type: string
+          title: Api Key Id
+          description: API key UUID
+        api_key_name:
+          type: string
+          title: Api Key Name
+          description: API key name
+        requests_this_month:
+          type: integer
+          title: Requests This Month
+          description: Requests made this month (resets monthly)
+          default: 0
+        money_used_this_month:
+          type: number
+          title: Money Used This Month
+          description: Money used via this key this month (USD)
+          default: 0.0
+        budget_limit:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Limit
+          description: Budget limit for this key (USD)
+        budget_remaining:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Budget Remaining
+          description: Budget remaining for this key (USD)
+        total_requests:
+          type: integer
+          title: Total Requests
+          description: Total requests (lifetime)
+          default: 0
+        total_cost_usd:
+          type: number
+          title: Total Cost Usd
+          description: Total cost spent via this key (lifetime, USD)
+          default: 0.0
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+          description: Key creation timestamp (ISO)
+        expires_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expires At
+          description: Key expiration timestamp (ISO); null = never
+      type: object
+      required:
+      - api_key_id
+      - api_key_name
+      title: ApiKeyUsageSummary
+      description: Usage summary for a single API key (dashboard view).
+    TierName:
+      type: string
+      enum:
+      - tier1
+      - tier2
+      - tier3
+      - tier4
+      - tier5
+      title: TierName
+    APIKeyScope:
+      type: string
+      enum:
+      - demo
+      - user
+      - enterprise
+      title: APIKeyScope
+    DashboardStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/DashboardStats'
+          - type: 'null'
+      type: object
+      title: DashboardStatsResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    AccountType:
+      type: string
+      enum:
+      - user
+      - enterprise
+      title: AccountType
+      description: 'Account type: determines billing mode and allowed API key scopes.
+
+
+        - USER: Prepaid wallet billing, can create user-scope keys
+
+        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     HTTPBearer:
       type: http

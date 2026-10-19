@@ -532,23 +532,77 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    DemoDataResponse:
+    SampleText:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - name
+      - text
+      title: SampleText
+    HistoryCompressRequest:
+      properties:
+        messages:
+          items:
+            $ref: '#/components/schemas/HistoryMessage'
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Messages
+          description: Conversation history to compress (list of messages, REQUIRED, max 1000)
+        keep_recent:
+          type: integer
+          maximum: 50.0
+          minimum: 1.0
+          title: Keep Recent
+          description: 'Number of recent messages to keep uncompressed (default: 3)'
+          default: 3
+        compression_model_name:
           anyOf:
           - type: string
           - type: 'null'
-          title: Message
-        data:
-          $ref: '#/components/schemas/DemoData'
+          title: Compression Model Name
+          description: Compression model to use. Defaults to DEFAULT_MODEL_HISTORY (hcc_latte_v1).
+        target_compression_ratio:
+          type: number
+          maximum: 200.0
+          minimum: 0.0
+          title: Target Compression Ratio
+          description: 'Target compression ratio: 0-1 (strength) or >1 for factor. Max 200. Default: 0.3'
+          default: 0.3
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/Source'
+          - type: 'null'
+          description: 'Source of request: demo, extension, sdk:<client>, gateway:<provider>'
       type: object
       required:
-      - data
-      title: DemoDataResponse
+      - messages
+      title: HistoryCompressRequest
+      description: 'Request to compress conversation history.
+
+
+        The service layer injects a default query when the resolved backbone
+
+        requires one (GemFilter), so callers never pass a query directly.'
+    ToolOutputBatchRequest:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/ToolOutputCompressRequest'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Inputs
+      type: object
+      required:
+      - inputs
+      title: ToolOutputBatchRequest
     HistoryCompressResult:
       properties:
         summary:
@@ -606,11 +660,11 @@ components:
           - type: 'null'
       type: object
       title: ToolDiscoveryResponse
-    ToolOutputBatchRequest:
+    ToolDiscoveryBatchRequest:
       properties:
         inputs:
           items:
-            $ref: '#/components/schemas/ToolOutputCompressRequest'
+            $ref: '#/components/schemas/ToolDiscoveryRequest'
           type: array
           maxItems: 100
           minItems: 1
@@ -618,7 +672,16 @@ components:
       type: object
       required:
       - inputs
-      title: ToolOutputBatchRequest
+      title: ToolDiscoveryBatchRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ToolOutputCompressResponse:
       properties:
         success:
@@ -636,100 +699,6 @@ components:
           - type: 'null'
       type: object
       title: ToolOutputCompressResponse
-    Source:
-      type: string
-      enum:
-      - demo
-      - extension
-      - sdk:python
-      - sdk:typescript
-      - sdk:curl
-      - gateway:unknown
-      - gateway:anthropic
-      - gateway:openai
-      - gateway:gemini
-      - integration:litellm
-      - integration:hermes
-      title: Source
-      description: 'Source of an API request.
-
-
-        Format: source[:detail]
-
-        - demo, extension: no detail needed
-
-        - sdk:python, sdk:typescript, sdk:curl
-
-        - gateway:anthropic, gateway:openai, gateway:gemini
-
-        - integration:litellm, integration:hermes'
-    DemoCompressionModelOption:
-      properties:
-        value:
-          type: string
-          title: Value
-        label:
-          type: string
-          title: Label
-        description:
-          type: string
-          title: Description
-          default: ''
-        tier_scale:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier Scale
-      type: object
-      required:
-      - value
-      - label
-      title: DemoCompressionModelOption
-    HistoryCompressRequest:
-      properties:
-        messages:
-          items:
-            $ref: '#/components/schemas/HistoryMessage'
-          type: array
-          maxItems: 1000
-          minItems: 1
-          title: Messages
-          description: Conversation history to compress (list of messages, REQUIRED, max 1000)
-        keep_recent:
-          type: integer
-          maximum: 50.0
-          minimum: 1.0
-          title: Keep Recent
-          description: 'Number of recent messages to keep uncompressed (default: 3)'
-          default: 3
-        compression_model_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Compression Model Name
-          description: Compression model to use. Defaults to DEFAULT_MODEL_HISTORY (hcc_latte_v1).
-        target_compression_ratio:
-          type: number
-          maximum: 200.0
-          minimum: 0.0
-          title: Target Compression Ratio
-          description: 'Target compression ratio: 0-1 (strength) or >1 for factor. Max 200. Default: 0.3'
-          default: 0.3
-        source:
-          anyOf:
-          - $ref: '#/components/schemas/Source'
-          - type: 'null'
-          description: 'Source of request: demo, extension, sdk:<client>, gateway:<provider>'
-      type: object
-      required:
-      - messages
-      title: HistoryCompressRequest
-      description: 'Request to compress conversation history.
-
-
-        The service layer injects a default query when the resolved backbone
-
-        requires one (GemFilter), so callers never pass a query directly.'
     ToolDiscoveryResult:
       properties:
         relevant_tools:
@@ -763,27 +732,55 @@ components:
       - tool_count
       - original_tool_count
       title: ToolDiscoveryResult
-    ValidationError:
+    Source:
+      type: string
+      enum:
+      - demo
+      - extension
+      - sdk:python
+      - sdk:typescript
+      - sdk:curl
+      - gateway:unknown
+      - gateway:anthropic
+      - gateway:openai
+      - gateway:gemini
+      - integration:litellm
+      - integration:hermes
+      title: Source
+      description: 'Source of an API request.
+
+
+        Format: source[:detail]
+
+        - demo, extension: no detail needed
+
+        - sdk:python, sdk:typescript, sdk:curl
+
+        - gateway:anthropic, gateway:openai, gateway:gemini
+
+        - integration:litellm, integration:hermes'
+    ToolDefinition:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
           type: string
-          title: Message
-        type:
+          title: Name
+          description: Unique tool name
+        description:
           type: string
-          title: Error Type
+          title: Description
+          description: Tool description
+          default: ''
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: JSON schema for tool parameters
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - name
+      title: ToolDefinition
     ToolOutputCompressRequest:
       properties:
         tool_output:
@@ -841,69 +838,11 @@ components:
         - Lingua models (toc_americano): query PROHIBITED
 
         - GemFilter models (toc_latte): query REQUIRED'
-    ToolDefinition:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Unique tool name
-        description:
-          type: string
-          title: Description
-          description: Tool description
-          default: ''
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: JSON schema for tool parameters
-      type: object
-      required:
-      - name
-      title: ToolDefinition
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    HistoryMessage:
-      properties:
-        role:
-          type: string
-          title: Role
-          description: 'Message role: ''user'', ''assistant'', ''system'', or ''tool'''
-        content:
-          type: string
-          title: Content
-          description: Message content
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Optional name for the message sender
-        tool_call_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tool Call Id
-          description: Tool call ID for tool messages
-      type: object
-      required:
-      - role
-      - content
-      title: HistoryMessage
-    ToolDiscoveryBatchRequest:
+    HistoryBatchRequest:
       properties:
         inputs:
           items:
-            $ref: '#/components/schemas/ToolDiscoveryRequest'
+            $ref: '#/components/schemas/HistoryCompressRequest'
           type: array
           maxItems: 100
           minItems: 1
@@ -911,8 +850,62 @@ components:
       type: object
       required:
       - inputs
-      title: ToolDiscoveryBatchRequest
-    HistoryCompressResponse:
+      title: HistoryBatchRequest
+    ToolDiscoveryRequest:
+      properties:
+        query:
+          type: string
+          minLength: 1
+          title: Query
+          description: User's query to find relevant tools (REQUIRED)
+        tools:
+          items:
+            $ref: '#/components/schemas/ToolDefinition'
+          type: array
+          minItems: 1
+          title: Tools
+          description: All available tools
+        max_tools:
+          type: integer
+          maximum: 50.0
+          minimum: 1.0
+          title: Max Tools
+          description: 'Maximum number of tools to return (default: 5)'
+          default: 5
+        always_keep:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Always Keep
+          description: Tool names to always include in results
+        compression_model_name:
+          type: string
+          title: Compression Model Name
+          description: Compression model to use (e.g., 'tdc_espresso')
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/Source'
+          - type: 'null'
+          description: 'Source of request: demo, extension, sdk:<client>, gateway:<provider>'
+      type: object
+      required:
+      - query
+      - tools
+      - compression_model_name
+      title: ToolDiscoveryRequest
+      description: 'Request to discover relevant tools.
+
+
+        Backbone: SaT (conversion happens in compressor layer)
+
+        - chunks = tool descriptions
+
+        - query = user''s query
+
+        - output = filtered list of relevant tool names'
+    DemoDataResponse:
       properties:
         success:
           type: boolean
@@ -924,11 +917,32 @@ components:
           - type: 'null'
           title: Message
         data:
-          anyOf:
-          - $ref: '#/components/schemas/HistoryCompressResult'
-          - type: 'null'
+          $ref: '#/components/schemas/DemoData'
       type: object
-      title: HistoryCompressResponse
+      required:
+      - data
+      title: DemoDataResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ToolOutputCompressResult:
       properties:
         compressed_output:
@@ -985,86 +999,72 @@ components:
       required:
       - sample_texts
       title: DemoData
-    HistoryBatchRequest:
+    HistoryCompressResponse:
       properties:
-        inputs:
-          items:
-            $ref: '#/components/schemas/HistoryCompressRequest'
-          type: array
-          maxItems: 100
-          minItems: 1
-          title: Inputs
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/HistoryCompressResult'
+          - type: 'null'
+      type: object
+      title: HistoryCompressResponse
+    DemoCompressionModelOption:
+      properties:
+        value:
+          type: string
+          title: Value
+        label:
+          type: string
+          title: Label
+        description:
+          type: string
+          title: Description
+          default: ''
+        tier_scale:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier Scale
       type: object
       required:
-      - inputs
-      title: HistoryBatchRequest
-    SampleText:
+      - value
+      - label
+      title: DemoCompressionModelOption
+    HistoryMessage:
       properties:
+        role:
+          type: string
+          title: Role
+          description: 'Message role: ''user'', ''assistant'', ''system'', or ''tool'''
+        content:
+          type: string
+          title: Content
+          description: Message content
         name:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Name
-        text:
-          type: string
-          title: Text
+          description: Optional name for the message sender
+        tool_call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Call Id
+          description: Tool call ID for tool messages
       type: object
       required:
-      - name
-      - text
-      title: SampleText
-    ToolDiscoveryRequest:
-      properties:
-        query:
-          type: string
-          minLength: 1
-          title: Query
-          description: User's query to find relevant tools (REQUIRED)
-        tools:
-          items:
-            $ref: '#/components/schemas/ToolDefinition'
-          type: array
-          minItems: 1
-          title: Tools
-          description: All available tools
-        max_tools:
-          type: integer
-          maximum: 50.0
-          minimum: 1.0
-          title: Max Tools
-          description: 'Maximum number of tools to return (default: 5)'
-          default: 5
-        always_keep:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Always Keep
-          description: Tool names to always include in results
-        compression_model_name:
-          type: string
-          title: Compression Model Name
-          description: Compression model to use (e.g., 'tdc_espresso')
-        source:
-          anyOf:
-          - $ref: '#/components/schemas/Source'
-          - type: 'null'
-          description: 'Source of request: demo, extension, sdk:<client>, gateway:<provider>'
-      type: object
-      required:
-      - query
-      - tools
-      - compression_model_name
-      title: ToolDiscoveryRequest
-      description: 'Request to discover relevant tools.
-
-
-        Backbone: SaT (conversion happens in compressor layer)
-
-        - chunks = tool descriptions
-
-        - query = user''s query
-
-        - output = filtered list of relevant tool names'
+      - role
+      - content
+      title: HistoryMessage
   securitySchemes:
     HTTPBearer:
       type: http

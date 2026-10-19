@@ -23,21 +23,24 @@ paths:
           - last_day
           - last_week
           - last_month
+          - last_3_months
+          - last_6_months
           - last_90_days
           - last_year
           - current_month
           - custom
           type: string
-          description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, current_month, custom'
+          description: 'Time period: last_day, last_week, last_month, last_3_months, last_6_months, last_90_days, last_year, current_month, custom'
           default: last_day
           title: Period
-        description: 'Time period: last_day, last_week, last_month, last_90_days, last_year, current_month, custom'
+        description: 'Time period: last_day, last_week, last_month, last_3_months, last_6_months, last_90_days, last_year, current_month, custom'
       - name: start_date
         in: query
         required: false
         schema:
           anyOf:
           - type: string
+            pattern: ^\d{4}-\d{2}-\d{2}$
           - type: 'null'
           description: Start date for custom period (YYYY-MM-DD)
           title: Start Date
@@ -48,6 +51,7 @@ paths:
         schema:
           anyOf:
           - type: string
+            pattern: ^\d{4}-\d{2}-\d{2}$
           - type: 'null'
           description: End date for custom period (YYYY-MM-DD)
           title: End Date
@@ -129,53 +133,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    UsageStatsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/UsageStatsResult'
-          - type: 'null'
-      type: object
-      title: UsageStatsResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     TimeSeriesDataPoint:
       properties:
         timestamp:
@@ -336,6 +293,53 @@ components:
       - error
       - code
       title: ErrorResponse
+    UsageStatsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/UsageStatsResult'
+          - type: 'null'
+      type: object
+      title: UsageStatsResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     HTTPBearer:
       type: http

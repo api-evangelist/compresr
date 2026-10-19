@@ -96,15 +96,26 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    CompressionModelsResponse:
       properties:
-        detail:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/CompressionModelInfo'
           type: array
-          title: Detail
+          title: Data
       type: object
-      title: HTTPValidationError
+      required:
+      - data
+      title: CompressionModelsResponse
     CompressionModelInfo:
       properties:
         name:
@@ -136,27 +147,6 @@ components:
       - description
       - input_price_per_1m
       title: CompressionModelInfo
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     EstimateCostRequest:
       properties:
         compression_model:
@@ -197,26 +187,6 @@ components:
       required:
       - data
       title: EstimateCostResponse
-    CompressionModelsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          items:
-            $ref: '#/components/schemas/CompressionModelInfo'
-          type: array
-          title: Data
-      type: object
-      required:
-      - data
-      title: CompressionModelsResponse
     ErrorResponse:
       properties:
         success:
@@ -249,6 +219,36 @@ components:
       - error
       - code
       title: ErrorResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     CostBreakdown:
       properties:
         input_tokens:

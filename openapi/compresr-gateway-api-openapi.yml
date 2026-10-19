@@ -250,37 +250,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    GatewayInstallListResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        installs:
-          items:
-            $ref: '#/components/schemas/GatewayInstallRecord'
-          type: array
-          title: Installs
-        total:
-          type: integer
-          title: Total
-          default: 0
-      type: object
-      title: GatewayInstallListResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     GatewayInstallStatsResponse:
       properties:
         success:
@@ -348,6 +317,28 @@ components:
       - msg
       - type
       title: ValidationError
+    GatewayInstallListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        installs:
+          items:
+            $ref: '#/components/schemas/GatewayInstallRecord'
+          type: array
+          title: Installs
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: GatewayInstallListResponse
     GatewayStatusResult:
       properties:
         tier:
@@ -404,6 +395,64 @@ components:
         Provides a lightweight summary for the gateway to display
 
         balance and usage info to users during operation.'
+    GatewayStatusResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/GatewayStatusResult'
+          - type: 'null'
+      type: object
+      title: GatewayStatusResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
     GatewayInstallRecord:
       properties:
         id:
@@ -439,55 +488,6 @@ components:
       - id
       - created_at
       title: GatewayInstallRecord
-    GatewayStatusResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/GatewayStatusResult'
-          - type: 'null'
-      type: object
-      title: GatewayStatusResponse
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
   securitySchemes:
     HTTPBearer:
       type: http

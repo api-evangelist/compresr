@@ -284,23 +284,139 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    FeatureRequestPriority:
+    FeatureRequestListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        requests:
+          items:
+            $ref: '#/components/schemas/FeatureRequest'
+          type: array
+          title: Requests
+          default: []
+        total:
+          type: integer
+          title: Total
+          default: 0
+        pending_count:
+          type: integer
+          title: Pending Count
+          default: 0
+        under_review_count:
+          type: integer
+          title: Under Review Count
+          default: 0
+        planned_count:
+          type: integer
+          title: Planned Count
+          default: 0
+        in_progress_count:
+          type: integer
+          title: In Progress Count
+          default: 0
+      type: object
+      title: FeatureRequestListResponse
+    FeatureRequestStatus:
       type: string
       enum:
-      - low
-      - normal
-      - high
-      - critical
-      title: FeatureRequestPriority
-    HTTPValidationError:
+      - pending
+      - under_review
+      - planned
+      - in_progress
+      - completed
+      - declined
+      title: FeatureRequestStatus
+    FeatureRequestUpdate:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/FeatureRequestStatus'
+          - type: 'null'
+          description: New status
+        priority:
+          anyOf:
+          - $ref: '#/components/schemas/FeatureRequestPriority'
+          - type: 'null'
+          description: Priority level
+        admin_notes:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Admin Notes
+          description: Internal admin notes
       type: object
-      title: HTTPValidationError
+      title: FeatureRequestUpdate
+    FeatureRequestResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+          description: Request ID (None on error)
+        email:
+          type: string
+          title: Email
+          description: Submitted email
+        subject:
+          type: string
+          title: Subject
+          description: Feature subject
+      type: object
+      required:
+      - email
+      - subject
+      title: FeatureRequestResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
     FeatureRequest:
       properties:
         id:
@@ -352,124 +468,14 @@ components:
       - created_at
       - updated_at
       title: FeatureRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    FeatureRequestResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-          description: Request ID (None on error)
-        email:
-          type: string
-          title: Email
-          description: Submitted email
-        subject:
-          type: string
-          title: Subject
-          description: Feature subject
-      type: object
-      required:
-      - email
-      - subject
-      title: FeatureRequestResponse
-    MessageResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - message
-      title: MessageResponse
-    FeatureRequestUpdate:
-      properties:
-        status:
-          anyOf:
-          - $ref: '#/components/schemas/FeatureRequestStatus'
-          - type: 'null'
-          description: New status
-        priority:
-          anyOf:
-          - $ref: '#/components/schemas/FeatureRequestPriority'
-          - type: 'null'
-          description: Priority level
-        admin_notes:
-          anyOf:
-          - type: string
-            maxLength: 2000
-          - type: 'null'
-          title: Admin Notes
-          description: Internal admin notes
-      type: object
-      title: FeatureRequestUpdate
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
+    FeatureRequestPriority:
+      type: string
+      enum:
+      - low
+      - normal
+      - high
+      - critical
+      title: FeatureRequestPriority
     FeatureRequestCreate:
       properties:
         email:
@@ -495,55 +501,49 @@ components:
       - subject
       - description
       title: FeatureRequestCreate
-    FeatureRequestListResponse:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    MessageResponse:
       properties:
         success:
           type: boolean
           title: Success
           default: true
         message:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Message
-        requests:
-          items:
-            $ref: '#/components/schemas/FeatureRequest'
-          type: array
-          title: Requests
-          default: []
-        total:
-          type: integer
-          title: Total
-          default: 0
-        pending_count:
-          type: integer
-          title: Pending Count
-          default: 0
-        under_review_count:
-          type: integer
-          title: Under Review Count
-          default: 0
-        planned_count:
-          type: integer
-          title: Planned Count
-          default: 0
-        in_progress_count:
-          type: integer
-          title: In Progress Count
-          default: 0
       type: object
-      title: FeatureRequestListResponse
-    FeatureRequestStatus:
-      type: string
-      enum:
-      - pending
-      - under_review
-      - planned
-      - in_progress
-      - completed
-      - declined
-      title: FeatureRequestStatus
+      required:
+      - message
+      title: MessageResponse
   securitySchemes:
     HTTPBearer:
       type: http

@@ -26,7 +26,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MessageResponse'
+                $ref: '#/components/schemas/ProfileCreateResponse'
         '400':
           description: Bad Request
           content:
@@ -210,116 +210,7 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    ProfileUpdateRequest:
-      properties:
-        full_name:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
-          title: Full Name
-          description: User's full name
-        company_name:
-          anyOf:
-          - type: string
-            maxLength: 255
-          - type: 'null'
-          title: Company Name
-          description: Company name
-        country:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Country
-          description: Country
-        extra_usage_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Extra Usage Enabled
-          description: Enable extra usage (use wallet balance when subscription credits exhausted)
-        extra_usage_limit:
-          anyOf:
-          - type: number
-            maximum: 100.0
-            minimum: 0.0
-          - type: 'null'
-          title: Extra Usage Limit
-          description: Spending limit for extra wallet usage in USD (max $100)
-      type: object
-      title: ProfileUpdateRequest
-      description: 'Request to update profile.
-
-
-        Note: subscription-related fields (extra_usage_*) are now in user_subscriptions
-
-        but can still be updated via this endpoint for convenience.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ProfileCreateRequest:
-      properties:
-        account_type:
-          anyOf:
-          - $ref: '#/components/schemas/AccountType'
-          - type: 'null'
-          description: 'Account type selected at onboarding: ''user'' (prepaid) or ''enterprise'' (postpaid)'
-      additionalProperties: false
-      type: object
-      title: ProfileCreateRequest
-    AccountType:
-      type: string
-      enum:
-      - user
-      - enterprise
-      title: AccountType
-      description: 'Account type: determines billing mode and allowed API key scopes.
-
-
-        - USER: Prepaid wallet billing, can create user-scope keys
-
-        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
-    DeleteAccountRequest:
-      properties:
-        confirmation:
-          type: string
-          const: DELETE
-          title: Confirmation
-          description: Must be 'DELETE' to confirm
-      type: object
-      required:
-      - confirmation
-      title: DeleteAccountRequest
-    RateLimitsResponse:
+    ProfileUpdateResponse:
       properties:
         success:
           type: boolean
@@ -332,10 +223,28 @@ components:
           title: Message
         data:
           anyOf:
-          - $ref: '#/components/schemas/RateLimits'
+          - $ref: '#/components/schemas/Profile'
           - type: 'null'
       type: object
-      title: RateLimitsResponse
+      title: ProfileUpdateResponse
+    DeleteAccountRequest:
+      properties:
+        confirmation:
+          type: string
+          const: DELETE
+          title: Confirmation
+          description: Must be 'DELETE' to confirm
+        reason:
+          anyOf:
+          - type: string
+            maxLength: 1000
+          - type: 'null'
+          title: Reason
+          description: Optional reason for deletion
+      type: object
+      required:
+      - confirmation
+      title: DeleteAccountRequest
     DeleteAccountInfo:
       properties:
         can_delete:
@@ -374,117 +283,6 @@ components:
           - type: 'null'
       type: object
       title: ProfileResponse
-    RoleResponse:
-      properties:
-        role:
-          type: string
-          title: Role
-          description: 'User role: user, admin, support'
-        is_admin:
-          type: boolean
-          title: Is Admin
-          description: Whether user is admin or support
-        account_type:
-          type: string
-          title: Account Type
-          description: 'Account type: user or enterprise'
-      type: object
-      required:
-      - role
-      - is_admin
-      - account_type
-      title: RoleResponse
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
-    MessageResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - message
-      title: MessageResponse
-    RateLimits:
-      properties:
-        tier:
-          $ref: '#/components/schemas/TierName'
-          description: Tier name
-        rpm:
-          type: integer
-          title: Rpm
-          description: Requests per minute (-1 = unlimited)
-        tpm:
-          type: integer
-          title: Tpm
-          description: Tokens per minute (-1 = unlimited)
-        rpd:
-          type: integer
-          title: Rpd
-          description: Requests per day (-1 = unlimited)
-        max_api_keys:
-          type: integer
-          title: Max Api Keys
-          description: Max API keys (-1 = unlimited)
-      type: object
-      required:
-      - tier
-      - rpm
-      - tpm
-      - rpd
-      - max_api_keys
-      title: RateLimits
-    ProfileUpdateResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          anyOf:
-          - $ref: '#/components/schemas/Profile'
-          - type: 'null'
-      type: object
-      title: ProfileUpdateResponse
     TierName:
       type: string
       enum:
@@ -494,23 +292,53 @@ components:
       - tier4
       - tier5
       title: TierName
-    DeleteAccountResponse:
+    ProfileUpdateRequest:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
+        full_name:
           anyOf:
           - type: string
+            maxLength: 255
+            minLength: 1
           - type: 'null'
-          title: Message
-        data:
+          title: Full Name
+          description: User's full name
+        company_name:
           anyOf:
-          - $ref: '#/components/schemas/DeleteAccountInfo'
+          - type: string
+            maxLength: 255
           - type: 'null'
+          title: Company Name
+          description: Company name
+        country:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Country
+          description: Country
+        extra_usage_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Extra Usage Enabled
+          description: Enable extra usage (use wallet balance when subscription credits exhausted)
+        extra_usage_limit:
+          anyOf:
+          - type: number
+            maximum: 100.0
+            minimum: 0.0
+          - type: 'null'
+          title: Extra Usage Limit
+          description: Spending limit for extra wallet usage in USD (max $100)
+      additionalProperties: false
       type: object
-      title: DeleteAccountResponse
+      title: ProfileUpdateRequest
+      description: 'Request to update profile.
+
+
+        Note: subscription-related fields (extra_usage_*) are now in user_subscriptions
+
+        but can still be updated via this endpoint for convenience.'
     Profile:
       properties:
         user_id:
@@ -599,6 +427,236 @@ components:
         Note: Enterprise status is determined by active enterprise API tokens,
 
         not the plan column (which is no longer used).'
+    RoleResponse:
+      properties:
+        role:
+          type: string
+          title: Role
+          description: 'User role: user, admin, support'
+        is_admin:
+          type: boolean
+          title: Is Admin
+          description: Whether user is admin or support
+        account_type:
+          type: string
+          title: Account Type
+          description: 'Account type: user or enterprise'
+      type: object
+      required:
+      - role
+      - is_admin
+      - account_type
+      title: RoleResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    AccountType:
+      type: string
+      enum:
+      - user
+      - enterprise
+      title: AccountType
+      description: 'Account type: determines billing mode and allowed API key scopes.
+
+
+        - USER: Prepaid wallet billing, can create user-scope keys
+
+        - ENTERPRISE: Postpaid invoice billing, can create enterprise-scope keys'
+    DeleteAccountResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/DeleteAccountInfo'
+          - type: 'null'
+      type: object
+      title: DeleteAccountResponse
+    RateLimitsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          anyOf:
+          - $ref: '#/components/schemas/RateLimits'
+          - type: 'null'
+      type: object
+      title: RateLimitsResponse
+    ProfileCreateRequest:
+      properties:
+        account_type:
+          anyOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+          description: Ignored for new profiles, which are always 'enterprise' (postpaid); kept for older clients
+        full_name:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
+          title: Full Name
+          description: Full name from the signup form
+        company_name:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Company Name
+          description: Company name from the signup form
+        country:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Country
+          description: Country from the signup form
+      additionalProperties: false
+      type: object
+      title: ProfileCreateRequest
+    ProfileCreateResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+        already_existed:
+          type: boolean
+          title: Already Existed
+          default: false
+        account_type:
+          anyOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+        account_type_mismatch:
+          type: boolean
+          title: Account Type Mismatch
+          default: false
+      type: object
+      required:
+      - message
+      title: ProfileCreateResponse
+      description: 'Response for POST /profile/create. account_type is the STORED value; a
+
+        mismatch means the request asked for a different one (no mutation — admin-only).'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RateLimits:
+      properties:
+        tier:
+          $ref: '#/components/schemas/TierName'
+          description: Tier name
+        rpm:
+          type: integer
+          title: Rpm
+          description: Requests per minute (-1 = unlimited)
+        tpm:
+          type: integer
+          title: Tpm
+          description: Tokens per minute (-1 = unlimited)
+        rpd:
+          type: integer
+          title: Rpd
+          description: Requests per day (-1 = unlimited)
+        max_api_keys:
+          type: integer
+          title: Max Api Keys
+          description: Max API keys (-1 = unlimited)
+      type: object
+      required:
+      - tier
+      - rpm
+      - tpm
+      - rpd
+      - max_api_keys
+      title: RateLimits
+    MessageResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
   securitySchemes:
     HTTPBearer:
       type: http

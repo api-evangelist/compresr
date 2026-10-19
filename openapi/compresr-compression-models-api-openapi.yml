@@ -83,15 +83,19 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    SampleText:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          title: Name
+        text:
+          type: string
+          title: Text
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      - text
+      title: SampleText
     DemoCompressionModelOption:
       properties:
         value:
@@ -114,6 +118,32 @@ components:
       - value
       - label
       title: DemoCompressionModelOption
+    DemoDataResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+        data:
+          $ref: '#/components/schemas/DemoData'
+      type: object
+      required:
+      - data
+      title: DemoDataResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -135,23 +165,6 @@ components:
       - msg
       - type
       title: ValidationError
-    DemoDataResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-        data:
-          $ref: '#/components/schemas/DemoData'
-      type: object
-      required:
-      - data
-      title: DemoDataResponse
     DemoData:
       properties:
         sample_texts:
@@ -169,19 +182,6 @@ components:
       required:
       - sample_texts
       title: DemoData
-    SampleText:
-      properties:
-        name:
-          type: string
-          title: Name
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - name
-      - text
-      title: SampleText
   securitySchemes:
     HTTPBearer:
       type: http

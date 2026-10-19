@@ -146,64 +146,62 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    WhitelistListResponse:
+    WhitelistMatchesResponse:
       properties:
         success:
           type: boolean
           title: Success
           default: true
-        entries:
+        rule_id:
+          type: string
+          title: Rule Id
+        pattern:
+          type: string
+          title: Pattern
+        matches:
           items:
-            $ref: '#/components/schemas/WhitelistEntry'
+            $ref: '#/components/schemas/WhitelistMatchedUser'
           type: array
-          title: Entries
+          title: Matches
         total:
           type: integer
           title: Total
           default: 0
       type: object
-      title: WhitelistListResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    WhitelistMatchPreviewRequest:
+      - rule_id
+      - pattern
+      title: WhitelistMatchesResponse
+    WhitelistCreateRequest:
       properties:
-        email:
+        pattern:
           type: string
           maxLength: 254
           minLength: 3
-          title: Email
+          title: Pattern
+        credit_limit_usd:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Credit Limit Usd
+        notes:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Notes
+        source:
+          type: string
+          enum:
+          - manual
+          - key_approval
+          title: Source
+          default: manual
       type: object
       required:
-      - email
-      title: WhitelistMatchPreviewRequest
+      - pattern
+      title: WhitelistCreateRequest
     WhitelistEntry:
       properties:
         id:
@@ -231,6 +229,10 @@ components:
         created_at:
           type: string
           title: Created At
+        source:
+          type: string
+          title: Source
+          default: manual
         detected_user_count:
           anyOf:
           - type: integer
@@ -242,6 +244,55 @@ components:
       - pattern
       - created_at
       title: WhitelistEntry
+    WhitelistMatchPreviewRequest:
+      properties:
+        email:
+          type: string
+          maxLength: 254
+          minLength: 3
+          title: Email
+      type: object
+      required:
+      - email
+      title: WhitelistMatchPreviewRequest
+    WhitelistMatchPreviewResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        match:
+          anyOf:
+          - $ref: '#/components/schemas/WhitelistEntry'
+          - type: 'null'
+      type: object
+      title: WhitelistMatchPreviewResponse
+    WhitelistListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        entries:
+          items:
+            $ref: '#/components/schemas/WhitelistEntry'
+          type: array
+          title: Entries
+        total:
+          type: integer
+          title: Total
+          default: 0
+      type: object
+      title: WhitelistListResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     WhitelistMatchedUser:
       properties:
         user_id:
@@ -255,72 +306,37 @@ components:
           - type: string
           - type: 'null'
           title: Full Name
+        company_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company Name
       type: object
       required:
       - user_id
       - email
       title: WhitelistMatchedUser
-    WhitelistMatchPreviewResponse:
+    ValidationError:
       properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        match:
-          anyOf:
-          - $ref: '#/components/schemas/WhitelistEntry'
-          - type: 'null'
-      type: object
-      title: WhitelistMatchPreviewResponse
-    WhitelistCreateRequest:
-      properties:
-        pattern:
-          type: string
-          maxLength: 254
-          minLength: 3
-          title: Pattern
-        credit_limit_usd:
-          anyOf:
-          - type: number
-            minimum: 0.0
-          - type: 'null'
-          title: Credit Limit Usd
-        notes:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Notes
-      type: object
-      required:
-      - pattern
-      title: WhitelistCreateRequest
-    WhitelistMatchesResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        rule_id:
-          type: string
-          title: Rule Id
-        pattern:
-          type: string
-          title: Pattern
-        matches:
+        loc:
           items:
-            $ref: '#/components/schemas/WhitelistMatchedUser'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Matches
-        total:
-          type: integer
-          title: Total
-          default: 0
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - rule_id
-      - pattern
-      title: WhitelistMatchesResponse
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     HTTPBearer:
       type: http

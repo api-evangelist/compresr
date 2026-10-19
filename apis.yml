@@ -161,24 +161,6 @@ apis:
     url: https://compresr.ai/docs/quick-start
   - type: Authentication
     url: https://compresr.ai/docs/authentication
-- aid: compresr:compresr-careers-api
-  name: Compresr Careers API
-  description: The Careers API from Compresr — 12 operation(s) for careers.
-  humanURL: https://compresr.ai/docs
-  baseURL: https://api.compresr.ai
-  tags:
-  - Careers
-  properties:
-  - type: OpenAPI
-    url: openapi/compresr-careers-api-openapi.yml
-  - type: Documentation
-    url: https://compresr.ai/docs
-  - type: APIReference
-    url: https://compresr.ai/docs/api-reference/conventions
-  - type: GettingStarted
-    url: https://compresr.ai/docs/quick-start
-  - type: Authentication
-    url: https://compresr.ai/docs/authentication
 - aid: compresr:compresr-compresr-platform-api-api
   name: Compresr Platform API
   description: The Compresr Platform API API from Compresr — 1 operation(s) for compresr platform api.

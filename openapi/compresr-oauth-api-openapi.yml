@@ -226,77 +226,6 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AuthorizationRequestInfo:
-      properties:
-        request_id:
-          type: string
-          title: Request Id
-        client_id:
-          type: string
-          title: Client Id
-        scope:
-          type: string
-          title: Scope
-        org:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Org
-        redirect_uri:
-          type: string
-          title: Redirect Uri
-      type: object
-      required:
-      - request_id
-      - client_id
-      - scope
-      - redirect_uri
-      title: AuthorizationRequestInfo
-      description: Consent-screen render data for a pending authorization request.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DeviceDecisionRequest:
-      properties:
-        user_code:
-          type: string
-          title: User Code
-        approve:
-          type: boolean
-          title: Approve
-          default: true
-      type: object
-      required:
-      - user_code
-      title: DeviceDecisionRequest
-      description: User's approve/deny decision for a device authorization.
     Body_device_authorization_oauth_device_authorization_post:
       properties:
         client_id:
@@ -325,34 +254,28 @@ components:
       - message
       title: DeviceDecisionResponse
       description: Result of a device authorization decision.
-    AuthorizationDecisionResponse:
+    DeviceDecisionRequest:
       properties:
-        redirect_uri:
+        user_code:
           type: string
-          title: Redirect Uri
-          description: Full loopback URL including code+state, or error=access_denied
+          title: User Code
+        approve:
+          type: boolean
+          title: Approve
+          default: true
       type: object
       required:
-      - redirect_uri
-      title: AuthorizationDecisionResponse
-      description: Full loopback redirect URL incl. code+state OR error=access_denied.
-    TokenResponse:
+      - user_code
+      title: DeviceDecisionRequest
+      description: User's approve/deny decision for a device authorization.
+    AuthorizationRequestInfo:
       properties:
-        access_token:
+        request_id:
           type: string
-          title: Access Token
-        refresh_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refresh Token
-        token_type:
+          title: Request Id
+        client_id:
           type: string
-          title: Token Type
-          default: Bearer
-        expires_in:
-          type: integer
-          title: Expires In
+          title: Client Id
         scope:
           type: string
           title: Scope
@@ -361,18 +284,17 @@ components:
           - type: string
           - type: 'null'
           title: Org
-        tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier
+        redirect_uri:
+          type: string
+          title: Redirect Uri
       type: object
       required:
-      - access_token
-      - expires_in
+      - request_id
+      - client_id
       - scope
-      title: TokenResponse
-      description: RFC 6749 token endpoint success response.
+      - redirect_uri
+      title: AuthorizationRequestInfo
+      description: Consent-screen render data for a pending authorization request.
     DeviceAuthorizationResponse:
       properties:
         device_code:
@@ -403,6 +325,40 @@ components:
       - interval
       title: DeviceAuthorizationResponse
       description: RFC 8628 device authorization response.
+    AuthorizationDecisionResponse:
+      properties:
+        redirect_uri:
+          type: string
+          title: Redirect Uri
+          description: Full loopback URL including code+state, or error=access_denied
+      type: object
+      required:
+      - redirect_uri
+      title: AuthorizationDecisionResponse
+      description: Full loopback redirect URL incl. code+state OR error=access_denied.
+    AuthorizationDecisionRequest:
+      properties:
+        request_id:
+          type: string
+          title: Request Id
+        approve:
+          type: boolean
+          title: Approve
+          default: true
+      type: object
+      required:
+      - request_id
+      title: AuthorizationDecisionRequest
+      description: User's approve/deny decision for an authorization request.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Body_token_oauth_token_post:
       properties:
         grant_type:
@@ -442,20 +398,64 @@ components:
       required:
       - grant_type
       title: Body_token_oauth_token_post
-    AuthorizationDecisionRequest:
+    ValidationError:
       properties:
-        request_id:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Request Id
-        approve:
-          type: boolean
-          title: Approve
-          default: true
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - request_id
-      title: AuthorizationDecisionRequest
-      description: User's approve/deny decision for an authorization request.
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: Bearer
+        expires_in:
+          type: integer
+          title: Expires In
+        scope:
+          type: string
+          title: Scope
+        org:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Org
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+      type: object
+      required:
+      - access_token
+      - expires_in
+      - scope
+      title: TokenResponse
+      description: RFC 6749 token endpoint success response.
   securitySchemes:
     HTTPBearer:
       type: http

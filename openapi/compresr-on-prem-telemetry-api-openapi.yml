@@ -15,9 +15,11 @@ paths:
 
         Call once before sending telemetry (optional — the first batch auto-
 
-        registers). The secret is encrypted at rest. `cmp_` API keys are rejected;
+        registers). The secret is encrypted at rest. `cmp_` API keys are rejected:
 
-        mint an `opm_` credential in the dashboard under Settings -> On-Prem.
+        the on-prem image generates its own `opm_` credential on start, so upgrade
+
+        the image rather than supplying one by hand.
 
 
         **Required Headers:**
@@ -53,6 +55,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RegisterSigningSecretResponse'
+        '409':
+          description: Secret already registered to a different account. Retrying cannot clear this; generate a new secret for this deployment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '422':
           description: Validation Error
           content:
@@ -83,9 +97,9 @@ paths:
 
         Include `signing_secret` (`opm_xxx`) in the body - it will be registered
 
-        automatically. `cmp_` API keys are rejected; mint an `opm_` credential
+        automatically. The on-prem image generates this credential itself; `cmp_`
 
-        in the dashboard under Settings -> On-Prem first.
+        API keys are rejected.
 
 
         **Signature Format:**
@@ -108,10 +122,12 @@ paths:
 
         **Idempotency:**
 
-        Same batch_id within 24h returns success without reprocessing.'
+        Same batch_id within 24h returns success without reprocessing. A batch
+
+        with failed events stays replayable: retry it and already-billed events
+
+        are returned as status "duplicate" (never billed twice).'
       operationId: ingest_telemetry_batch_api_v1_telemetry_batch_post
-      security:
-      - HTTPBearer: []
       parameters:
       - name: x-instance-id
         in: header
@@ -164,12 +180,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '409':
-          description: Duplicate batch (idempotency)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TelemetryErrorResponse'
         '500':
           description: Internal server error
           content:
@@ -200,189 +210,33 @@ paths:
                 title: Response Telemetry Health Api V1 Telemetry Health Get
 components:
   schemas:
-    RegisterSigningSecretResponse:
+    TelemetryEventResult:
       properties:
-        success:
-          type: boolean
-          title: Success
-        message:
+        event_id:
           type: string
-          title: Message
-        user_id:
+          title: Event Id
+          description: Echo of the on-prem event ID
+        status:
+          type: string
+          enum:
+          - billed
+          - recorded_unbilled
+          - failed
+          - duplicate
+          title: Status
+          description: 'Billing outcome: billed | recorded_unbilled | failed | duplicate'
+        reason:
           anyOf:
           - type: string
           - type: 'null'
-          title: User Id
+          title: Reason
+          description: Reason code when status is not 'billed'
       type: object
       required:
-      - success
-      - message
-      title: RegisterSigningSecretResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    IdentityManifest:
-      properties:
-        instance_id:
-          type: string
-          title: Instance Id
-          description: UUID matching /data/identity.json
-        api_key_hash:
-          type: string
-          pattern: ^[a-f0-9]{64}$
-          title: Api Key Hash
-          description: SHA-256 hex of the api_key the on-prem instance was first bound to
-        created_at:
-          type: string
-          title: Created At
-          description: ISO-8601 timestamp manifest was created
-      additionalProperties: true
-      type: object
-      required:
-      - instance_id
-      - api_key_hash
-      - created_at
-      title: IdentityManifest
-      description: 'On-prem identity manifest, sent in each upload for rebirth detection.
-
-
-        The on-prem instance persists this manifest in ``/data/identity.json``
-
-        HMAC-bound to the api_key on first authenticated request. Subsequent
-
-        uploads carry the same values. If we see a *new* ``instance_id`` or an
-
-        earlier ``created_at`` for the same api_key, it signals that the operator
-
-        deleted the local manifest — typically an attempt to reset a per-instance
-
-        grace period or quota.'
-    RegisterSigningSecretRequest:
-      properties:
-        signing_secret:
-          type: string
-          title: Signing Secret
-          description: On-prem signing secret (opm_xxx). Mint via dashboard -> Settings -> On-Prem. cmp_ API keys are rejected.
-        instance_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Instance Id
-          description: Instance identifier
-      type: object
-      required:
-      - signing_secret
-      title: RegisterSigningSecretRequest
-    TelemetryErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Always false for errors
-          default: false
-        error:
-          type: string
-          title: Error
-          description: Error message
-        error_code:
-          type: string
-          title: Error Code
-          description: Error code for debugging
-      type: object
-      required:
-      - error
-      - error_code
-      title: TelemetryErrorResponse
-    ErrorResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: false
-        error:
-          type: string
-          title: Error
-        code:
-          type: string
-          title: Code
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-        retry_after:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Retry After
-        field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Field
-      type: object
-      required:
-      - error
-      - code
-      title: ErrorResponse
-    TelemetryBatchResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether batch was accepted
-        batch_id:
-          type: string
-          title: Batch Id
-          description: Echo of batch ID
-        events_received:
-          type: integer
-          title: Events Received
-          description: Number of events received
-        events_stored:
-          type: integer
-          title: Events Stored
-          description: Number of events stored
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Additional message
-      type: object
-      required:
-      - success
-      - batch_id
-      - events_received
-      - events_stored
-      title: TelemetryBatchResponse
+      - event_id
+      - status
+      title: TelemetryEventResult
+      description: "Per-event billing outcome, echoed back to the on-prem appliance.\n\n- ``billed``: cost was charged through the standard billing pipeline\n  (prepaid wallet deduction or postpaid enterprise accumulation).\n- ``recorded_unbilled``: usage was recorded but not charged; ``reason``\n  carries the code (e.g. INSUFFICIENT_CREDITS,\n  ENTERPRISE_CREDIT_LIMIT_EXCEEDED, DEMO_SCOPE).\n- ``failed``: the event was not recorded (e.g. EVENT_HMAC_INVALID,\n  RECORDING_FAILED, INTERNAL_ERROR).\n- ``duplicate``: the event was already billed by an earlier delivery of\n  this batch (replay) and was skipped — not billed and not re-recorded."
     TelemetryEvent:
       properties:
         event_id:
@@ -461,6 +315,190 @@ components:
         platform verifies it server-side and rejects events with a bad tag —
 
         closing the in-flight SQLite tamper window.'
+    IdentityManifest:
+      properties:
+        instance_id:
+          type: string
+          title: Instance Id
+          description: UUID matching /data/identity.json
+        api_key_hash:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+          title: Api Key Hash
+          description: SHA-256 hex of the api_key the on-prem instance was first bound to
+        created_at:
+          type: string
+          title: Created At
+          description: ISO-8601 timestamp manifest was created
+      additionalProperties: true
+      type: object
+      required:
+      - instance_id
+      - api_key_hash
+      - created_at
+      title: IdentityManifest
+      description: 'On-prem identity manifest, sent in each upload for rebirth detection.
+
+
+        The on-prem instance persists this manifest in ``/data/identity.json``
+
+        HMAC-bound to the api_key on first authenticated request. Subsequent
+
+        uploads carry the same values. If we see a *new* ``instance_id`` or an
+
+        earlier ``created_at`` for the same api_key, it signals that the operator
+
+        deleted the local manifest — typically an attempt to reset a per-instance
+
+        grace period or quota.'
+    RegisterSigningSecretResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          type: string
+          title: Message
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+      type: object
+      required:
+      - success
+      - message
+      title: RegisterSigningSecretResponse
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: false
+        error:
+          type: string
+          title: Error
+        code:
+          type: string
+          title: Code
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+        retry_after:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retry After
+        field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Field
+      type: object
+      required:
+      - error
+      - code
+      title: ErrorResponse
+    RegisterSigningSecretRequest:
+      properties:
+        signing_secret:
+          type: string
+          title: Signing Secret
+          description: On-prem signing secret (opm_xxx), generated by the on-prem image and sent automatically. cmp_ API keys are rejected.
+        instance_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instance Id
+          description: Instance identifier
+      type: object
+      required:
+      - signing_secret
+      title: RegisterSigningSecretRequest
+    TelemetryBatchResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether batch was accepted
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Echo of batch ID
+        events_received:
+          type: integer
+          title: Events Received
+          description: Number of events received
+        events_stored:
+          type: integer
+          title: Events Stored
+          description: Number of events stored
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Additional message
+        events_rejected:
+          type: integer
+          title: Events Rejected
+          description: Events outside the reporting window; will never be billed
+          default: 0
+        rejected_reasons:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Rejected Reasons
+          description: Rejection reason -> count
+        signing_secret_registered:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Signing Secret Registered
+          description: Whether the signing_secret in this request is now stored. Cache 'registered' only on an explicit true - null also means an older server that predates this field, so treating null as success is the very bug this field exists to fix. Anything else means keep sending the secret on subsequent batches, because the server has nothing to verify future uploads against and they will 401.
+        signing_secret_error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Signing Secret Error
+          description: 'Machine-readable reason registration did not happen. ''hash_owned_by_other_account'': this deployment is using a signing secret belonging to a different account - usually a cloned data volume - and only an operator can clear it, so do not retry on it. ''not_attempted_duplicate_batch'': idempotent replay, the next batch will register. ''registration_failed'': transient, retry.'
+        events_billed:
+          type: integer
+          title: Events Billed
+          description: Compression events charged through the billing pipeline
+          default: 0
+        events_unbilled:
+          type: integer
+          title: Events Unbilled
+          description: Compression events recorded but not charged
+          default: 0
+        events_duplicate:
+          type: integer
+          title: Events Duplicate
+          description: Compression events skipped because an earlier delivery of this batch already billed them (replay protection)
+          default: 0
+        events_failed:
+          type: integer
+          title: Events Failed
+          description: Compression events that were not recorded; the batch is left replayable so a retry reprocesses exactly these events
+          default: 0
+        event_results:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TelemetryEventResult'
+            type: array
+          - type: 'null'
+          title: Event Results
+          description: Per-event billing outcomes for compression events
+      type: object
+      required:
+      - success
+      - batch_id
+      - events_received
+      - events_stored
+      title: TelemetryBatchResponse
     TelemetryBatchRequest:
       properties:
         batch_id:
@@ -497,6 +535,56 @@ components:
       - instance_id
       - events
       title: TelemetryBatchRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TelemetryErrorResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Always false for errors
+          default: false
+        error:
+          type: string
+          title: Error
+          description: Error message
+        error_code:
+          type: string
+          title: Error Code
+          description: Error code for debugging
+      type: object
+      required:
+      - error
+      - error_code
+      title: TelemetryErrorResponse
   securitySchemes:
     HTTPBearer:
       type: http
