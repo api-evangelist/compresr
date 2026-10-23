@@ -555,6 +555,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/compresr/overview
 - url: https://compresr.ai/changelog/feed.xml
   type: BlogRSS
 - type: Website
