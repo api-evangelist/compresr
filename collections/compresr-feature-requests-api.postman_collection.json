@@ -1,1449 +1,1504 @@
 {
+  "info": {
+    "_postman_id": "98cdece8-bda7-40cd-9093-b83a4a1fb997",
+    "name": "Compresr Platform Feature Requests API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:22:17.000Z",
+    "updatedAt": "2026-10-21T21:22:18.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-98cdece8-bda7-40cd-9093-b83a4a1fb997"
+  },
   "item": [
     {
-      "id": "43cc9cd0-5cd8-4f5f-a080-4a2a5b606815",
-      "name": "Feature Requests",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "5313f0d7-d681-4528-bdd4-76391ac50918",
-          "name": "Submit Feature Request",
-          "request": {
-            "name": "Submit Feature Request",
-            "description": {
-              "content": "Submit a feature request.\n\n- No authentication required\n- Validates email, subject, and description\n- Stores request for admin review\n- Rate limited: 5 requests per hour per IP",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "feature",
-                "request"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "feature",
+          "item": [
             {
-              "id": "19dd2036-b820-4041-901a-bf9cd41fc6b7",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "request"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "header": [
+              "name": "request",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "Submit Feature Request",
+                  "id": "dee7bbec-4ae0-4931-a655-ecd13881fc05",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/feature/request",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "feature",
+                        "request"
+                      ]
+                    },
+                    "description": "Submit a feature request.\n\n- No authentication required\n- Validates email, subject, and description\n- Stores request for admin review\n- Rate limited: 5 requests per hour per IP"
+                  },
+                  "response": [
+                    {
+                      "id": "d030808e-03ed-43e0-bbeb-8fa70f97a0fe",
+                      "name": "Successful Response",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/feature/request",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "feature",
+                            "request"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"email\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"success\": true,\n  \"message\": \"<string>\",\n  \"id\": \"<uuid>\"\n}",
+                      "createdAt": "2026-10-21T21:22:18.000Z",
+                      "updatedAt": "2026-10-21T21:22:18.000Z",
+                      "uid": "35240-d030808e-03ed-43e0-bbeb-8fa70f97a0fe"
+                    },
+                    {
+                      "id": "2fcef7dc-1115-4293-82c9-307288cbb0f6",
+                      "name": "Bad Request",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/feature/request",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "feature",
+                            "request"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                      "createdAt": "2026-10-21T21:22:18.000Z",
+                      "updatedAt": "2026-10-21T21:22:18.000Z",
+                      "uid": "35240-2fcef7dc-1115-4293-82c9-307288cbb0f6"
+                    },
+                    {
+                      "id": "2d0c10c1-a66f-47f2-80c9-2d3a6a802aad",
+                      "name": "Validation Error",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/feature/request",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "feature",
+                            "request"
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-21T21:22:18.000Z",
+                      "updatedAt": "2026-10-21T21:22:18.000Z",
+                      "uid": "35240-2d0c10c1-a66f-47f2-80c9-2d3a6a802aad"
+                    },
+                    {
+                      "id": "ec3a2289-8506-4cc1-bd7a-93712a794dcb",
+                      "name": "Rate limit exceeded",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/feature/request",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "feature",
+                            "request"
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-21T21:22:18.000Z",
+                      "updatedAt": "2026-10-21T21:22:18.000Z",
+                      "uid": "35240-ec3a2289-8506-4cc1-bd7a-93712a794dcb"
+                    },
+                    {
+                      "id": "671b34e1-448c-46ed-8639-9109dd4dbc2c",
+                      "name": "Internal Server Error",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/feature/request",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "feature",
+                            "request"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                      "createdAt": "2026-10-21T21:22:18.000Z",
+                      "updatedAt": "2026-10-21T21:22:18.000Z",
+                      "uid": "35240-671b34e1-448c-46ed-8639-9109dd4dbc2c"
+                    }
+                  ],
+                  "createdAt": "2026-10-21T21:22:18.000Z",
+                  "updatedAt": "2026-10-21T21:22:18.000Z",
+                  "uid": "35240-dee7bbec-4ae0-4931-a655-ecd13881fc05"
                 }
               ],
-              "body": "{\n  \"email\": \"string\",\n  \"subject\": \"string\",\n  \"success\": true,\n  \"message\": \"string\",\n  \"id\": \"ff8c6e7f-3f1c-f989-f2e6-2e6f9f70a2e4\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "a7db3fdc-ba9a-4393-8eff-2d3bace7ee58",
+              "createdAt": "2026-10-21T21:22:18.000Z",
+              "updatedAt": "2026-10-21T21:22:18.000Z",
+              "uid": "35240-a7db3fdc-ba9a-4393-8eff-2d3bace7ee58"
             },
             {
-              "id": "0a58fcf8-0572-46ea-841b-b4b4ab6ea0ac",
-              "name": "Bad Request",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "request"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "header": [
+              "name": "admin",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "requests",
+                  "item": [
+                    {
+                      "name": "{request_id}",
+                      "item": [
+                        {
+                          "name": "Get Feature Request",
+                          "id": "81fafd8c-7c5f-4026-b765-5beab50625ec",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{bearerToken}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "feature",
+                                "admin",
+                                "requests",
+                                ":request_id"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "498203f8-2127-421c-b957-0c2604329382",
+                                  "key": "request_id",
+                                  "value": "<uuid>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Get a single feature request by ID.\n\n- Requires Support or Admin role"
+                          },
+                          "response": [
+                            {
+                              "id": "9a34aacf-0fd9-409c-aef5-4ffb138ec811",
+                              "name": "Successful Response",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"id\": \"<uuid>\",\n  \"email\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\",\n  \"status\": \"<string>\",\n  \"priority\": \"<string>\",\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\",\n  \"admin_notes\": \"<string>\",\n  \"reviewed_at\": \"<dateTime>\"\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-9a34aacf-0fd9-409c-aef5-4ffb138ec811"
+                            },
+                            {
+                              "id": "bef9c378-c53b-4052-80ff-c6a29988baee",
+                              "name": "Not Found",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-bef9c378-c53b-4052-80ff-c6a29988baee"
+                            },
+                            {
+                              "id": "0f75a19d-3633-4265-9bd4-7cf637d4f376",
+                              "name": "Validation Error",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                              "code": 422,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-0f75a19d-3633-4265-9bd4-7cf637d4f376"
+                            },
+                            {
+                              "id": "23de0864-05b6-470d-8d8e-d812156ab637",
+                              "name": "Internal Server Error",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-23de0864-05b6-470d-8d8e-d812156ab637"
+                            }
+                          ],
+                          "createdAt": "2026-10-21T21:22:18.000Z",
+                          "updatedAt": "2026-10-21T21:22:18.000Z",
+                          "uid": "35240-81fafd8c-7c5f-4026-b765-5beab50625ec"
+                        },
+                        {
+                          "name": "Update Feature Request",
+                          "id": "f2b320a0-c88f-4d03-9a0b-a283c827e9dc",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{bearerToken}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"status\": \"completed\",\n  \"priority\": \"low\",\n  \"admin_notes\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "feature",
+                                "admin",
+                                "requests",
+                                ":request_id"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "592f3c4f-8462-4f3b-95bc-1dc90363749e",
+                                  "key": "request_id",
+                                  "value": "<uuid>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Update a feature request status, priority, or notes.\n\n- Requires Admin role"
+                          },
+                          "response": [
+                            {
+                              "id": "1be0930e-26a5-4348-8623-7a428d1da7e7",
+                              "name": "Successful Response",
+                              "originalRequest": {
+                                "method": "PATCH",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"status\": \"completed\",\n  \"priority\": \"low\",\n  \"admin_notes\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"id\": \"<uuid>\",\n  \"email\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\",\n  \"status\": \"<string>\",\n  \"priority\": \"<string>\",\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\",\n  \"admin_notes\": \"<string>\",\n  \"reviewed_at\": \"<dateTime>\"\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-1be0930e-26a5-4348-8623-7a428d1da7e7"
+                            },
+                            {
+                              "id": "18f576c5-8933-4a36-8ec1-7dab7f863de3",
+                              "name": "Not Found",
+                              "originalRequest": {
+                                "method": "PATCH",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"status\": \"completed\",\n  \"priority\": \"low\",\n  \"admin_notes\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-18f576c5-8933-4a36-8ec1-7dab7f863de3"
+                            },
+                            {
+                              "id": "f2857485-97d0-414e-9884-8b919b87ab3c",
+                              "name": "Validation Error",
+                              "originalRequest": {
+                                "method": "PATCH",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"status\": \"completed\",\n  \"priority\": \"low\",\n  \"admin_notes\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                              "code": 422,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-f2857485-97d0-414e-9884-8b919b87ab3c"
+                            },
+                            {
+                              "id": "f601b326-c299-4dfa-b128-ad171d2c1d69",
+                              "name": "Internal Server Error",
+                              "originalRequest": {
+                                "method": "PATCH",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"status\": \"completed\",\n  \"priority\": \"low\",\n  \"admin_notes\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-f601b326-c299-4dfa-b128-ad171d2c1d69"
+                            }
+                          ],
+                          "createdAt": "2026-10-21T21:22:18.000Z",
+                          "updatedAt": "2026-10-21T21:22:18.000Z",
+                          "uid": "35240-f2b320a0-c88f-4d03-9a0b-a283c827e9dc"
+                        },
+                        {
+                          "name": "Delete Feature Request",
+                          "id": "f4ad0b05-7a1d-42fb-ae99-a19901679375",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{bearerToken}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "feature",
+                                "admin",
+                                "requests",
+                                ":request_id"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "7a18e06a-d7fa-437c-9df1-dd3e48644a1a",
+                                  "key": "request_id",
+                                  "value": "<uuid>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Delete a feature request.\n\n- Requires Admin role\n- This action is permanent"
+                          },
+                          "response": [
+                            {
+                              "id": "56efbeab-d106-4e1f-9fca-0c7826ccad89",
+                              "name": "Successful Response",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"message\": \"<string>\",\n  \"success\": true\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-56efbeab-d106-4e1f-9fca-0c7826ccad89"
+                            },
+                            {
+                              "id": "2d9c9f23-a9bd-4458-9f6d-e34b9a6ad602",
+                              "name": "Not Found",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-2d9c9f23-a9bd-4458-9f6d-e34b9a6ad602"
+                            },
+                            {
+                              "id": "e525abaf-7f53-43e3-9b45-f527815b4d50",
+                              "name": "Validation Error",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                              "code": 422,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-e525abaf-7f53-43e3-9b45-f527815b4d50"
+                            },
+                            {
+                              "id": "d5ba628c-22e7-4b1c-807a-3d5e855c65bc",
+                              "name": "Internal Server Error",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/feature/admin/requests/:request_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "feature",
+                                    "admin",
+                                    "requests",
+                                    ":request_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "request_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                              "createdAt": "2026-10-21T21:22:18.000Z",
+                              "updatedAt": "2026-10-21T21:22:18.000Z",
+                              "uid": "35240-d5ba628c-22e7-4b1c-807a-3d5e855c65bc"
+                            }
+                          ],
+                          "createdAt": "2026-10-21T21:22:18.000Z",
+                          "updatedAt": "2026-10-21T21:22:18.000Z",
+                          "uid": "35240-f4ad0b05-7a1d-42fb-ae99-a19901679375"
+                        }
+                      ],
+                      "id": "5d92eea0-7f9e-4de0-ac3c-a0a85fee608a",
+                      "createdAt": "2026-10-21T21:22:18.000Z",
+                      "updatedAt": "2026-10-21T21:22:18.000Z",
+                      "uid": "35240-5d92eea0-7f9e-4de0-ac3c-a0a85fee608a"
+                    },
+                    {
+                      "name": "List Feature Requests",
+                      "id": "631e50f3-155b-43f9-9cc4-fe056e08754e",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/feature/admin/requests?status=<string>&priority=<string>&search=<string>&limit=50&offset=0",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "feature",
+                            "admin",
+                            "requests"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter by status",
+                              "key": "status",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Filter by priority",
+                              "key": "priority",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Search in email, subject, or description",
+                              "key": "search",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Max results",
+                              "key": "limit",
+                              "value": "50"
+                            },
+                            {
+                              "description": "Pagination offset",
+                              "key": "offset",
+                              "value": "0"
+                            }
+                          ]
+                        },
+                        "description": "List all feature requests with filtering.\n\n- Requires Support or Admin role\n- Supports filtering by status and priority\n- Supports search in email, subject, and description"
+                      },
+                      "response": [
+                        {
+                          "id": "62c617f4-43ea-4afa-b5fd-16fd0604e5ba",
+                          "name": "Successful Response",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/feature/admin/requests?status=<string>&priority=<string>&search=<string>&limit=50&offset=0",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "feature",
+                                "admin",
+                                "requests"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter by status",
+                                  "key": "status",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Filter by priority",
+                                  "key": "priority",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Search in email, subject, or description",
+                                  "key": "search",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Max results",
+                                  "key": "limit",
+                                  "value": "50"
+                                },
+                                {
+                                  "description": "Pagination offset",
+                                  "key": "offset",
+                                  "value": "0"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"success\": true,\n  \"message\": \"<string>\",\n  \"total\": 0,\n  \"pending_count\": 0,\n  \"under_review_count\": 0,\n  \"planned_count\": 0,\n  \"in_progress_count\": 0\n}",
+                          "createdAt": "2026-10-21T21:22:18.000Z",
+                          "updatedAt": "2026-10-21T21:22:18.000Z",
+                          "uid": "35240-62c617f4-43ea-4afa-b5fd-16fd0604e5ba"
+                        },
+                        {
+                          "id": "c21f9ba1-281b-4a5e-90ce-9e378a02fb8a",
+                          "name": "Validation Error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/feature/admin/requests?status=<string>&priority=<string>&search=<string>&limit=50&offset=0",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "feature",
+                                "admin",
+                                "requests"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter by status",
+                                  "key": "status",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Filter by priority",
+                                  "key": "priority",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Search in email, subject, or description",
+                                  "key": "search",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Max results",
+                                  "key": "limit",
+                                  "value": "50"
+                                },
+                                {
+                                  "description": "Pagination offset",
+                                  "key": "offset",
+                                  "value": "0"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                          "code": 422,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-21T21:22:18.000Z",
+                          "updatedAt": "2026-10-21T21:22:18.000Z",
+                          "uid": "35240-c21f9ba1-281b-4a5e-90ce-9e378a02fb8a"
+                        },
+                        {
+                          "id": "7c814e99-968f-470a-a337-15d05d4eed8b",
+                          "name": "Internal Server Error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/feature/admin/requests?status=<string>&priority=<string>&search=<string>&limit=50&offset=0",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "feature",
+                                "admin",
+                                "requests"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter by status",
+                                  "key": "status",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Filter by priority",
+                                  "key": "priority",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Search in email, subject, or description",
+                                  "key": "search",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Max results",
+                                  "key": "limit",
+                                  "value": "50"
+                                },
+                                {
+                                  "description": "Pagination offset",
+                                  "key": "offset",
+                                  "value": "0"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                          "createdAt": "2026-10-21T21:22:18.000Z",
+                          "updatedAt": "2026-10-21T21:22:18.000Z",
+                          "uid": "35240-7c814e99-968f-470a-a337-15d05d4eed8b"
+                        }
+                      ],
+                      "createdAt": "2026-10-21T21:22:18.000Z",
+                      "updatedAt": "2026-10-21T21:22:18.000Z",
+                      "uid": "35240-631e50f3-155b-43f9-9cc4-fe056e08754e"
+                    }
+                  ],
+                  "id": "71271a90-66a5-4891-8008-22ea29a80c22",
+                  "createdAt": "2026-10-21T21:22:18.000Z",
+                  "updatedAt": "2026-10-21T21:22:18.000Z",
+                  "uid": "35240-71271a90-66a5-4891-8008-22ea29a80c22"
                 }
               ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 1896,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "1995a91c-9398-4518-af59-cacd29e9fde7",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "request"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "89a8fc94-3384-4290-a299-919a31c13883",
-              "name": "Rate limit exceeded",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "request"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Too Many Requests",
-              "code": 429,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "253d3568-66c3-4140-be9c-2e421a721c3c",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "request"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"<email>\",\n  \"subject\": \"<string>\",\n  \"description\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 1896,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "2ec09bb9-6a5e-4ad9-940e-3eb7ed86027b",
+              "createdAt": "2026-10-21T21:22:18.000Z",
+              "updatedAt": "2026-10-21T21:22:18.000Z",
+              "uid": "35240-2ec09bb9-6a5e-4ad9-940e-3eb7ed86027b"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "cbfb1631-d933-4f20-829f-ca886ba34b93",
-          "name": "List Feature Requests",
-          "request": {
-            "name": "List Feature Requests",
-            "description": {
-              "content": "List all feature requests with filtering.\n\n- Requires Support or Admin role\n- Supports filtering by status and priority\n- Supports search in email, subject, and description",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "feature",
-                "admin",
-                "requests"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "status",
-                  "value": "<string>",
-                  "description": "Filter by status"
-                },
-                {
-                  "disabled": false,
-                  "key": "priority",
-                  "value": "<string>",
-                  "description": "Filter by priority"
-                },
-                {
-                  "disabled": false,
-                  "key": "search",
-                  "value": "<string>",
-                  "description": "Search in email, subject, or description"
-                },
-                {
-                  "disabled": false,
-                  "key": "limit",
-                  "value": "50",
-                  "description": "Max results"
-                },
-                {
-                  "disabled": false,
-                  "key": "offset",
-                  "value": "0",
-                  "description": "Pagination offset"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "1b8030fa-9500-4558-ba8c-2af7535f6607",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "status",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "priority",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "search",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "50"
-                    },
-                    {
-                      "key": "offset",
-                      "value": "0"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"total\": 0,\n  \"pending_count\": 0,\n  \"under_review_count\": 0,\n  \"planned_count\": 0,\n  \"in_progress_count\": 0\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "540ed38d-2bc5-4dff-b557-4f58c125d373",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "status",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "priority",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "search",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "50"
-                    },
-                    {
-                      "key": "offset",
-                      "value": "0"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "6aad080b-dea3-4c02-8e89-4e8bacfc9f96",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "status",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "priority",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "search",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "50"
-                    },
-                    {
-                      "key": "offset",
-                      "value": "0"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 1896,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "8c351553-3001-4847-9ed5-4d18bbc72ca1",
-          "name": "Get Feature Request",
-          "request": {
-            "name": "Get Feature Request",
-            "description": {
-              "content": "Get a single feature request by ID.\n\n- Requires Support or Admin role",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "feature",
-                "admin",
-                "requests",
-                ":request_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<uuid>",
-                  "key": "request_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "5b7bc02d-12e4-4909-bbd3-10fe2d4638fe",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"id\": \"1518cd8c-6a68-c34a-5e2a-b2a65399ee7d\",\n  \"email\": \"string\",\n  \"subject\": \"string\",\n  \"description\": \"string\",\n  \"status\": \"string\",\n  \"priority\": \"string\",\n  \"created_at\": \"2011-12-22T12:54:30.120Z\",\n  \"updated_at\": \"2009-01-25T22:21:50.599Z\",\n  \"admin_notes\": \"string\",\n  \"reviewed_at\": \"1966-07-12T20:57:03.554Z\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "f13bd452-d42c-49d1-97a1-4cec0df82dac",
-              "name": "Not Found",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Not Found",
-              "code": 404,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 1896,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "7abdc589-e23f-42e5-beb5-8684d01c4980",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "4c1b77e8-e537-4500-a567-0444fe2aa36f",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 1896,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "b789b177-d00a-498a-81b4-a0b94d39a04e",
-          "name": "Update Feature Request",
-          "request": {
-            "name": "Update Feature Request",
-            "description": {
-              "content": "Update a feature request status, priority, or notes.\n\n- Requires Admin role",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "feature",
-                "admin",
-                "requests",
-                ":request_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<uuid>",
-                  "key": "request_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "PATCH",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"status\": \"<string>\",\n  \"priority\": \"<string>\",\n  \"admin_notes\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "be82d762-218b-419a-92c2-5d7fb1b38ecf",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "PATCH",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"status\": \"planned\",\n  \"priority\": \"high\",\n  \"admin_notes\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"id\": \"1518cd8c-6a68-c34a-5e2a-b2a65399ee7d\",\n  \"email\": \"string\",\n  \"subject\": \"string\",\n  \"description\": \"string\",\n  \"status\": \"string\",\n  \"priority\": \"string\",\n  \"created_at\": \"2011-12-22T12:54:30.120Z\",\n  \"updated_at\": \"2009-01-25T22:21:50.599Z\",\n  \"admin_notes\": \"string\",\n  \"reviewed_at\": \"1966-07-12T20:57:03.554Z\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "8592dbfb-1ec7-4ecd-95d3-21368a898d69",
-              "name": "Not Found",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "PATCH",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"status\": \"planned\",\n  \"priority\": \"high\",\n  \"admin_notes\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Not Found",
-              "code": 404,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 1896,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "6aebe30d-313b-49fd-8023-372efa0c2401",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "PATCH",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"status\": \"planned\",\n  \"priority\": \"high\",\n  \"admin_notes\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "adbb1f74-d153-47b4-9891-5e402aab25e9",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "PATCH",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"status\": \"planned\",\n  \"priority\": \"high\",\n  \"admin_notes\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 1896,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "009f4212-a3a9-4f4e-92a0-9dfba62fd738",
-          "name": "Delete Feature Request",
-          "request": {
-            "name": "Delete Feature Request",
-            "description": {
-              "content": "Delete a feature request.\n\n- Requires Admin role\n- This action is permanent",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "feature",
-                "admin",
-                "requests",
-                ":request_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<uuid>",
-                  "key": "request_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "DELETE",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "3778dc6f-ed40-4ef9-b2d8-8ae00605f3c5",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"message\": \"string\",\n  \"success\": true\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "156edf0f-761a-4cd8-ad9f-7c37e22ee4b1",
-              "name": "Not Found",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "Not Found",
-              "code": 404,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 1896,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "274abf8f-0c64-48a2-9189-2fb395164d80",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "50bc0fab-d866-4f07-8933-b830e09fe620",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "feature",
-                    "admin",
-                    "requests",
-                    ":request_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<uuid>",
-                      "key": "request_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 1896,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "ad299f43-d5e5-46ba-a7c0-7098d8a0f4a4",
+          "createdAt": "2026-10-21T21:22:18.000Z",
+          "updatedAt": "2026-10-21T21:22:18.000Z",
+          "uid": "35240-ad299f43-d5e5-46ba-a7c0-7098d8a0f4a4"
         }
       ],
-      "event": []
+      "id": "90c98e3e-9c48-49e1-9cf6-d8533f5114f0",
+      "createdAt": "2026-10-21T21:22:18.000Z",
+      "updatedAt": "2026-10-21T21:22:18.000Z",
+      "uid": "35240-90c98e3e-9c48-49e1-9cf6-d8533f5114f0"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "ea748e74-b45a-4235-95b0-7e8cddfdae43",
-    "name": "Compresr Platform Admin Feature Requests API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

@@ -1,780 +1,816 @@
 {
+  "info": {
+    "_postman_id": "54e8bf13-e613-498c-9639-6b5434db5adf",
+    "name": "Compresr Platform Admin - Whitelist API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:21:14.000Z",
+    "updatedAt": "2026-10-21T21:21:15.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-54e8bf13-e613-498c-9639-6b5434db5adf"
+  },
   "item": [
     {
-      "id": "032218b9-91b5-456d-90d1-896cbc2a1f79",
-      "name": "Admin - Whitelist",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "781251cd-6db1-4872-bf0c-9a247ab35d65",
-          "name": "List Whitelist",
-          "request": {
-            "name": "List Whitelist",
-            "description": {
-              "content": "Return every whitelist rule, newest first, with per-rule detected-user counts.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "admin",
-                "whitelist"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
+          "name": "admin",
+          "item": [
             {
-              "id": "eb0bbbe8-a207-4022-ae01-07e5fe24be77",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "admin",
-                    "whitelist"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "whitelist",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"success\": true,\n  \"entries\": [\n    {\n      \"id\": \"string\",\n      \"pattern\": \"string\",\n      \"created_at\": \"string\",\n      \"credit_limit_usd\": 2447.251045313028,\n      \"created_by\": \"string\",\n      \"notes\": \"string\",\n      \"detected_user_count\": 2676\n    },\n    {\n      \"id\": \"string\",\n      \"pattern\": \"string\",\n      \"created_at\": \"string\",\n      \"credit_limit_usd\": 3692.930367177298,\n      \"created_by\": \"string\",\n      \"notes\": \"string\",\n      \"detected_user_count\": 2666\n    }\n  ],\n  \"total\": 0\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "86f23c78-fd82-4eb2-913e-4c358502e812",
-          "name": "Add Whitelist",
-          "request": {
-            "name": "Add Whitelist",
-            "description": {
-              "content": "Add a whitelist rule. 409-equivalent if the pattern already exists.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "admin",
-                "whitelist"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"pattern\": \"<string>\",\n  \"credit_limit_usd\": \"<number>\",\n  \"notes\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "f41e12cc-e858-45e4-ba07-b0b6e316dd3a",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "admin",
-                    "whitelist"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"pattern\": \"<string>\",\n  \"credit_limit_usd\": \"<number>\",\n  \"notes\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"id\": \"string\",\n  \"pattern\": \"string\",\n  \"created_at\": \"string\",\n  \"credit_limit_usd\": 8208.68339168005,\n  \"created_by\": \"string\",\n  \"notes\": \"string\",\n  \"detected_user_count\": 172\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "b4c3465c-43c9-42c7-814b-db2b10c4f415",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "admin",
-                    "whitelist"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"pattern\": \"<string>\",\n  \"credit_limit_usd\": \"<number>\",\n  \"notes\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "0b926407-03f5-4622-b448-b23a36b8a1ed",
-          "name": "Whitelist Matches",
-          "request": {
-            "name": "Whitelist Matches",
-            "description": {
-              "content": "Return the users currently matched by a specific whitelist rule.\n\nData source is the cached Supabase auth email map + platform user_profiles\nfor full names, so the query is cheap even with many rules on the page.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "admin",
-                "whitelist",
-                ":rule_id",
-                "matches"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "rule_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "201d0b67-76b9-44fd-9491-5f17b7bc4123",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "admin",
-                    "whitelist",
-                    ":rule_id",
-                    "matches"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
+                  "name": "{rule_id}",
+                  "item": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "rule_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
+                      "name": "matches",
+                      "item": [
+                        {
+                          "name": "Whitelist Matches",
+                          "id": "98e1ccbe-ce87-4502-be0e-42f07c04c5b7",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{bearerToken}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/admin/whitelist/:rule_id/matches",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "admin",
+                                "whitelist",
+                                ":rule_id",
+                                "matches"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "a3206cad-33a9-498c-8652-15ba6118e24b",
+                                  "key": "rule_id",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Return the users currently matched by a specific whitelist rule.\n\nData source is the cached Supabase auth email map + platform user_profiles\nfor full names, so the query is cheap even with many rules on the page."
+                          },
+                          "response": [
+                            {
+                              "id": "d7a3b825-fe62-4ca7-ae6a-a40cb1ead94e",
+                              "name": "Successful Response",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/admin/whitelist/:rule_id/matches",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "admin",
+                                    "whitelist",
+                                    ":rule_id",
+                                    "matches"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "rule_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"rule_id\": \"<string>\",\n  \"pattern\": \"<string>\",\n  \"success\": true,\n  \"matches\": [\n    {\n      \"user_id\": \"<string>\",\n      \"email\": \"<string>\",\n      \"full_name\": \"<string>\",\n      \"company_name\": \"<string>\"\n    },\n    {\n      \"user_id\": \"<string>\",\n      \"email\": \"<string>\",\n      \"full_name\": \"<string>\",\n      \"company_name\": \"<string>\"\n    }\n  ],\n  \"total\": 0\n}",
+                              "createdAt": "2026-10-21T21:21:15.000Z",
+                              "updatedAt": "2026-10-21T21:21:15.000Z",
+                              "uid": "35240-d7a3b825-fe62-4ca7-ae6a-a40cb1ead94e"
+                            },
+                            {
+                              "id": "9ecae60f-72c1-4af7-a239-cf76c6b169ac",
+                              "name": "Validation Error",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/admin/whitelist/:rule_id/matches",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "admin",
+                                    "whitelist",
+                                    ":rule_id",
+                                    "matches"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "rule_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                              "code": 422,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-10-21T21:21:15.000Z",
+                              "updatedAt": "2026-10-21T21:21:15.000Z",
+                              "uid": "35240-9ecae60f-72c1-4af7-a239-cf76c6b169ac"
+                            }
+                          ],
+                          "createdAt": "2026-10-21T21:21:15.000Z",
+                          "updatedAt": "2026-10-21T21:21:15.000Z",
+                          "uid": "35240-98e1ccbe-ce87-4502-be0e-42f07c04c5b7"
+                        }
+                      ],
+                      "id": "692cdf60-4353-4480-8f9d-34487b6410b9",
+                      "createdAt": "2026-10-21T21:21:15.000Z",
+                      "updatedAt": "2026-10-21T21:21:15.000Z",
+                      "uid": "35240-692cdf60-4353-4480-8f9d-34487b6410b9"
                     },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"rule_id\": \"string\",\n  \"pattern\": \"string\",\n  \"success\": true,\n  \"matches\": [\n    {\n      \"user_id\": \"string\",\n      \"email\": \"string\",\n      \"full_name\": \"string\"\n    },\n    {\n      \"user_id\": \"string\",\n      \"email\": \"string\",\n      \"full_name\": \"string\"\n    }\n  ],\n  \"total\": 0\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "3c9962a2-2109-40d5-ab82-96eaef3f52e6",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "admin",
-                    "whitelist",
-                    ":rule_id",
-                    "matches"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "rule_id",
-                      "description": "(Required) "
+                      "name": "Delete Whitelist",
+                      "id": "e4353b6c-ccfd-4b44-9db1-4dccb0868fe4",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/admin/whitelist/:rule_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "admin",
+                            "whitelist",
+                            ":rule_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "cb652735-c359-4ed7-93db-606db51db06f",
+                              "key": "rule_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Remove a whitelist rule by id."
+                      },
+                      "response": [
+                        {
+                          "id": "beffcc47-9ed7-49ec-9fee-dfe851f9f5d2",
+                          "name": "Successful Response",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/admin/whitelist/:rule_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "admin",
+                                "whitelist",
+                                ":rule_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "rule_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"voluptate_e\": \"dolor cupidatat nisi ut\"\n}",
+                          "createdAt": "2026-10-21T21:21:15.000Z",
+                          "updatedAt": "2026-10-21T21:21:15.000Z",
+                          "uid": "35240-beffcc47-9ed7-49ec-9fee-dfe851f9f5d2"
+                        },
+                        {
+                          "id": "c02fa234-d6f0-4b2a-b403-ccbb54f57873",
+                          "name": "Validation Error",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/admin/whitelist/:rule_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "admin",
+                                "whitelist",
+                                ":rule_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "rule_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                          "code": 422,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-21T21:21:15.000Z",
+                          "updatedAt": "2026-10-21T21:21:15.000Z",
+                          "uid": "35240-c02fa234-d6f0-4b2a-b403-ccbb54f57873"
+                        }
+                      ],
+                      "createdAt": "2026-10-21T21:21:15.000Z",
+                      "updatedAt": "2026-10-21T21:21:15.000Z",
+                      "uid": "35240-e4353b6c-ccfd-4b44-9db1-4dccb0868fe4"
                     }
-                  ]
+                  ],
+                  "id": "261472ed-c3bd-4adf-ab04-edbc8273cb3c",
+                  "createdAt": "2026-10-21T21:21:15.000Z",
+                  "updatedAt": "2026-10-21T21:21:15.000Z",
+                  "uid": "35240-261472ed-c3bd-4adf-ab04-edbc8273cb3c"
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "preview",
+                  "item": [
+                    {
+                      "name": "Preview Match",
+                      "id": "1783c193-ccfa-4994-81ac-d54e43aa45f0",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/admin/whitelist/preview",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "admin",
+                            "whitelist",
+                            "preview"
+                          ]
+                        },
+                        "description": "Test an email against the current ruleset without side effects.\n\nUseful for admins verifying a rule before onboarding a customer."
+                      },
+                      "response": [
+                        {
+                          "id": "935fdd61-9de9-4f60-8084-cc57bba6f9dd",
+                          "name": "Successful Response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"email\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/admin/whitelist/preview",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "admin",
+                                "whitelist",
+                                "preview"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"success\": true,\n  \"match\": {\n    \"id\": \"<string>\",\n    \"pattern\": \"<string>\",\n    \"created_at\": \"<string>\",\n    \"credit_limit_usd\": \"<number>\",\n    \"created_by\": \"<string>\",\n    \"notes\": \"<string>\",\n    \"source\": \"manual\",\n    \"detected_user_count\": \"<integer>\"\n  }\n}",
+                          "createdAt": "2026-10-21T21:21:15.000Z",
+                          "updatedAt": "2026-10-21T21:21:15.000Z",
+                          "uid": "35240-935fdd61-9de9-4f60-8084-cc57bba6f9dd"
+                        },
+                        {
+                          "id": "84f003c8-d248-40ce-9cfc-4dd5dcdd2ca3",
+                          "name": "Validation Error",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"email\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/admin/whitelist/preview",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "admin",
+                                "whitelist",
+                                "preview"
+                              ]
+                            }
+                          },
+                          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                          "code": 422,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-21T21:21:15.000Z",
+                          "updatedAt": "2026-10-21T21:21:15.000Z",
+                          "uid": "35240-84f003c8-d248-40ce-9cfc-4dd5dcdd2ca3"
+                        }
+                      ],
+                      "createdAt": "2026-10-21T21:21:15.000Z",
+                      "updatedAt": "2026-10-21T21:21:15.000Z",
+                      "uid": "35240-1783c193-ccfa-4994-81ac-d54e43aa45f0"
+                    }
+                  ],
+                  "id": "b55defcd-32cf-477a-bb0c-038fa662c9d7",
+                  "createdAt": "2026-10-21T21:21:15.000Z",
+                  "updatedAt": "2026-10-21T21:21:15.000Z",
+                  "uid": "35240-b55defcd-32cf-477a-bb0c-038fa662c9d7"
+                },
+                {
+                  "name": "List Whitelist",
+                  "id": "28a21715-de33-43a2-82fc-fdfeb2e1bb11",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/admin/whitelist",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "whitelist"
+                      ]
+                    },
+                    "description": "Return every whitelist rule, newest first, with per-rule detected-user counts."
+                  },
+                  "response": [
+                    {
+                      "id": "4c57ed83-b6c5-4c2f-9fc5-54dcbef92180",
+                      "name": "Successful Response",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/admin/whitelist",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "admin",
+                            "whitelist"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"success\": true,\n  \"entries\": [\n    {\n      \"id\": \"<string>\",\n      \"pattern\": \"<string>\",\n      \"created_at\": \"<string>\",\n      \"credit_limit_usd\": \"<number>\",\n      \"created_by\": \"<string>\",\n      \"notes\": \"<string>\",\n      \"source\": \"manual\",\n      \"detected_user_count\": \"<integer>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"pattern\": \"<string>\",\n      \"created_at\": \"<string>\",\n      \"credit_limit_usd\": \"<number>\",\n      \"created_by\": \"<string>\",\n      \"notes\": \"<string>\",\n      \"source\": \"manual\",\n      \"detected_user_count\": \"<integer>\"\n    }\n  ],\n  \"total\": 0\n}",
+                      "createdAt": "2026-10-21T21:21:15.000Z",
+                      "updatedAt": "2026-10-21T21:21:15.000Z",
+                      "uid": "35240-4c57ed83-b6c5-4c2f-9fc5-54dcbef92180"
+                    }
+                  ],
+                  "createdAt": "2026-10-21T21:21:15.000Z",
+                  "updatedAt": "2026-10-21T21:21:15.000Z",
+                  "uid": "35240-28a21715-de33-43a2-82fc-fdfeb2e1bb11"
+                },
+                {
+                  "name": "Add Whitelist",
+                  "id": "fc902de1-63ef-4936-a7b9-d7d2eaa5d5b1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"pattern\": \"<string>\",\n  \"credit_limit_usd\": \"<number>\",\n  \"notes\": \"<string>\",\n  \"source\": \"manual\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/admin/whitelist",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "admin",
+                        "whitelist"
+                      ]
+                    },
+                    "description": "Add a whitelist rule. 409-equivalent if the pattern already exists."
+                  },
+                  "response": [
+                    {
+                      "id": "54a20cf2-f865-4790-a6dc-9abe1bcd8e50",
+                      "name": "Successful Response",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"pattern\": \"<string>\",\n  \"credit_limit_usd\": \"<number>\",\n  \"notes\": \"<string>\",\n  \"source\": \"manual\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/admin/whitelist",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "admin",
+                            "whitelist"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<string>\",\n  \"pattern\": \"<string>\",\n  \"created_at\": \"<string>\",\n  \"credit_limit_usd\": \"<number>\",\n  \"created_by\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"source\": \"manual\",\n  \"detected_user_count\": \"<integer>\"\n}",
+                      "createdAt": "2026-10-21T21:21:15.000Z",
+                      "updatedAt": "2026-10-21T21:21:15.000Z",
+                      "uid": "35240-54a20cf2-f865-4790-a6dc-9abe1bcd8e50"
+                    },
+                    {
+                      "id": "acd17c8f-2e30-4f49-afbf-0cfeceacd9c8",
+                      "name": "Validation Error",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"pattern\": \"<string>\",\n  \"credit_limit_usd\": \"<number>\",\n  \"notes\": \"<string>\",\n  \"source\": \"manual\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/admin/whitelist",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "admin",
+                            "whitelist"
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-21T21:21:15.000Z",
+                      "updatedAt": "2026-10-21T21:21:15.000Z",
+                      "uid": "35240-acd17c8f-2e30-4f49-afbf-0cfeceacd9c8"
+                    }
+                  ],
+                  "createdAt": "2026-10-21T21:21:15.000Z",
+                  "updatedAt": "2026-10-21T21:21:15.000Z",
+                  "uid": "35240-fc902de1-63ef-4936-a7b9-d7d2eaa5d5b1"
                 }
               ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "11ad42dc-8226-4b2c-b10b-f731cf6c47a2",
+              "createdAt": "2026-10-21T21:21:15.000Z",
+              "updatedAt": "2026-10-21T21:21:15.000Z",
+              "uid": "35240-11ad42dc-8226-4b2c-b10b-f731cf6c47a2"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "82a4d83a-6772-40e7-a32c-331d16055716",
-          "name": "Delete Whitelist",
-          "request": {
-            "name": "Delete Whitelist",
-            "description": {
-              "content": "Remove a whitelist rule by id.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "admin",
-                "whitelist",
-                ":rule_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "rule_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "DELETE",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "57e4ec5f-7c06-486c-a4cf-2c79d0c60824",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "admin",
-                    "whitelist",
-                    ":rule_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "rule_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"key_0\": 7459.703685088729,\n  \"key_1\": false\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "d17c181b-d2a1-4651-86ea-2947c187581f",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "admin",
-                    "whitelist",
-                    ":rule_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "rule_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "0b50c8c9-3cde-4959-a984-565b9caa7f2d",
-          "name": "Preview Match",
-          "request": {
-            "name": "Preview Match",
-            "description": {
-              "content": "Test an email against the current ruleset without side effects.\n\nUseful for admins verifying a rule before onboarding a customer.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "admin",
-                "whitelist",
-                "preview"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "1a6fb532-fe36-4d31-83ec-b43ccc80f731",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "admin",
-                    "whitelist",
-                    "preview"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"success\": true,\n  \"match\": {\n    \"id\": \"string\",\n    \"pattern\": \"string\",\n    \"created_at\": \"string\",\n    \"credit_limit_usd\": 8248.427819311426,\n    \"created_by\": \"string\",\n    \"notes\": \"string\",\n    \"detected_user_count\": 5391\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "6e156a78-ef1b-46f7-b1fe-3cd8afc92f25",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "admin",
-                    "whitelist",
-                    "preview"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "6cad23f3-eff6-41aa-817f-09215a73d2c3",
+          "createdAt": "2026-10-21T21:21:15.000Z",
+          "updatedAt": "2026-10-21T21:21:15.000Z",
+          "uid": "35240-6cad23f3-eff6-41aa-817f-09215a73d2c3"
         }
       ],
-      "event": []
+      "id": "5f641a06-291c-4b0e-aa38-9fd508de10c2",
+      "createdAt": "2026-10-21T21:21:15.000Z",
+      "updatedAt": "2026-10-21T21:21:15.000Z",
+      "uid": "35240-5f641a06-291c-4b0e-aa38-9fd508de10c2"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "b54c60e3-7bc1-4fde-9cf1-d1b610b26f9c",
-    "name": "Compresr Platform Admin Admin - Whitelist API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

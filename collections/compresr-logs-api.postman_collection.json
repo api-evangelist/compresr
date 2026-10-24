@@ -1,120 +1,122 @@
 {
+  "info": {
+    "_postman_id": "d81224ce-25a7-432f-b12d-0287b35eb518",
+    "name": "Compresr Platform Logs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:22:30.000Z",
+    "updatedAt": "2026-10-21T21:22:30.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-d81224ce-25a7-432f-b12d-0287b35eb518"
+  },
   "item": [
     {
-      "id": "b6dc1ea9-6aee-4bce-a30a-dd54ed320d35",
-      "name": "Logs",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "logs",
       "item": [
         {
-          "id": "3305c97d-ce94-4fdb-a354-fbb0f3d6d328",
-          "name": "Logs Stats",
-          "request": {
-            "name": "Logs Stats",
-            "description": {
-              "content": "Get log file sizes for monitoring.\n\nReturns current sizes of error.log and warning.log.\nUseful to check if rotation is working and total disk usage.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "logs",
-                "stats"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
+          "name": "stats",
+          "item": [
             {
-              "id": "bed7bd6f-aaae-4677-b2b7-e7da47b9749c",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "logs",
-                    "stats"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
+              "name": "Logs Stats",
+              "id": "b0716046-e089-41a8-a154-15db132eb35e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
                 },
+                "method": "GET",
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "GET",
-                "body": {}
+                "url": {
+                  "raw": "{{baseUrl}}/logs/stats",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "logs",
+                    "stats"
+                  ]
+                },
+                "description": "Get log file sizes for monitoring.\n\nReturns current sizes of error.log and warning.log.\nUseful to check if rotation is working and total disk usage."
               },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "response": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "id": "341c5525-a227-4f22-8190-c70bb0e6641a",
+                  "name": "Successful Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/logs/stats",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "logs",
+                        "stats"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{}",
+                  "createdAt": "2026-10-21T21:22:31.000Z",
+                  "updatedAt": "2026-10-21T21:22:31.000Z",
+                  "uid": "35240-341c5525-a227-4f22-8190-c70bb0e6641a"
                 }
               ],
-              "body": "{}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "createdAt": "2026-10-21T21:22:31.000Z",
+              "updatedAt": "2026-10-21T21:22:31.000Z",
+              "uid": "35240-b0716046-e089-41a8-a154-15db132eb35e"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "88920cb0-f018-441f-8e4c-5aa4143f6f59",
+          "createdAt": "2026-10-21T21:22:31.000Z",
+          "updatedAt": "2026-10-21T21:22:31.000Z",
+          "uid": "35240-88920cb0-f018-441f-8e4c-5aa4143f6f59"
         }
       ],
-      "event": []
+      "id": "340ea577-d707-4a5c-b3d1-9fe721319c33",
+      "createdAt": "2026-10-21T21:22:31.000Z",
+      "updatedAt": "2026-10-21T21:22:31.000Z",
+      "uid": "35240-340ea577-d707-4a5c-b3d1-9fe721319c33"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "4b00dab9-acbc-49a9-8148-0755b9b36665",
-    "name": "Compresr Platform Admin Logs API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

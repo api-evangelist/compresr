@@ -1,802 +1,874 @@
 {
+  "info": {
+    "_postman_id": "b1782457-ee2a-46eb-85f1-78c17cd4cacc",
+    "name": "Compresr Platform On-Prem Telemetry API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:22:46.000Z",
+    "updatedAt": "2026-10-21T21:22:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b1782457-ee2a-46eb-85f1-78c17cd4cacc"
+  },
   "item": [
     {
-      "id": "a321d8e1-53ec-4569-8f78-308bbfee4ecb",
-      "name": "On-Prem Telemetry",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "a3d31227-4c32-4573-a98d-a3d28917a696",
-          "name": "Register signing secret for HMAC verification",
-          "request": {
-            "name": "Register signing secret for HMAC verification",
-            "description": {
-              "content": "Register an on-prem signing secret (`opm_xxx`) for HMAC verification.\n\n    Call once before sending telemetry (optional — the first batch auto-\n    registers). The secret is encrypted at rest. `cmp_` API keys are rejected;\n    mint an `opm_` credential in the dashboard under Settings -> On-Prem.\n\n    **Required Headers:**\n    - `X-API-Key`: Your Compresr API key\n\n    **Body:**\n    - `signing_secret`: On-prem signing secret (`opm_xxx`)\n    - `instance_id`: Optional instance identifier",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "telemetry",
-                "register"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) ",
-                "key": "X-API-Key",
-                "value": "<string>"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"signing_secret\": \"<string>\",\n  \"instance_id\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "v1",
+          "item": [
             {
-              "id": "6905919d-249a-47de-bcb1-6895fcb3322e",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "telemetry",
-                    "register"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"signing_secret\": \"<string>\",\n  \"instance_id\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "telemetry",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "register",
+                  "item": [
+                    {
+                      "name": "Register signing secret for HMAC verification",
+                      "id": "8ecb2a78-b030-4443-9cfc-42be83bd5dfe",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "POST",
+                        "header": [
+                          {
+                            "description": "(Required) ",
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"signing_secret\": \"<string>\",\n  \"instance_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/telemetry/register",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "telemetry",
+                            "register"
+                          ]
+                        },
+                        "description": "Register an on-prem signing secret (`opm_xxx`) for HMAC verification.\n\nCall once before sending telemetry (optional \u2014 the first batch auto-\nregisters). The secret is encrypted at rest. `cmp_` API keys are rejected:\nthe on-prem image generates its own `opm_` credential on start, so upgrade\nthe image rather than supplying one by hand.\n\n**Required Headers:**\n- `X-API-Key`: Your Compresr API key\n\n**Body:**\n- `signing_secret`: On-prem signing secret (`opm_xxx`)\n- `instance_id`: Optional instance identifier"
+                      },
+                      "response": [
+                        {
+                          "id": "cc50114c-b7d6-4abe-880d-1a62b7af3fcf",
+                          "name": "Successful Response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"signing_secret\": \"<string>\",\n  \"instance_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/register",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "register"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"user_id\": \"<string>\"\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-cc50114c-b7d6-4abe-880d-1a62b7af3fcf"
+                        },
+                        {
+                          "id": "eea07dab-bad4-43f0-98f5-97d23c9b4d51",
+                          "name": "Secret already registered to a different account. Retrying cannot clear this; generate a new secret for this deployment.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"signing_secret\": \"<string>\",\n  \"instance_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/register",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "register"
+                              ]
+                            }
+                          },
+                          "status": "Conflict",
+                          "code": 409,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\",\n  \"error_code\": \"<string>\",\n  \"success\": false\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-eea07dab-bad4-43f0-98f5-97d23c9b4d51"
+                        },
+                        {
+                          "id": "7b083e2c-319d-4367-b4c3-c1bd0222dc79",
+                          "name": "Validation Error",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"signing_secret\": \"<string>\",\n  \"instance_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/register",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "register"
+                              ]
+                            }
+                          },
+                          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                          "code": 422,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-7b083e2c-319d-4367-b4c3-c1bd0222dc79"
+                        },
+                        {
+                          "id": "d0050a22-545f-4e42-be65-55647c69e4d2",
+                          "name": "Internal server error",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"signing_secret\": \"<string>\",\n  \"instance_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/register",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "register"
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-d0050a22-545f-4e42-be65-55647c69e4d2"
+                        }
+                      ],
+                      "createdAt": "2026-10-21T21:22:46.000Z",
+                      "updatedAt": "2026-10-21T21:22:46.000Z",
+                      "uid": "35240-8ecb2a78-b030-4443-9cfc-42be83bd5dfe"
+                    }
+                  ],
+                  "id": "10fdf921-d566-4161-9fa6-3fa1b41e1aaa",
+                  "createdAt": "2026-10-21T21:22:46.000Z",
+                  "updatedAt": "2026-10-21T21:22:46.000Z",
+                  "uid": "35240-10fdf921-d566-4161-9fa6-3fa1b41e1aaa"
+                },
+                {
+                  "name": "batch",
+                  "item": [
+                    {
+                      "name": "Ingest telemetry batch from on-prem instance",
+                      "id": "d53c0211-9a34-42b2-ad6c-e110671d274f",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "description": "On-prem instance ID",
+                            "key": "x-instance-id",
+                            "value": "<string>"
+                          },
+                          {
+                            "description": "HMAC signature",
+                            "key": "x-compresr-signature",
+                            "value": "<string>"
+                          },
+                          {
+                            "description": "(Required) ",
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"<string>\",\n      \"timestamp\": \"<string>\",\n      \"event_type\": \"<string>\",\n      \"model_name\": \"<string>\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"id_8\": 86177334.37270224\n      },\n      \"event_hmac\": \"4ce4ec25cf3a0210010e76a90f87b9357c8aa0887d53bad4a58947d3cc5dc64c\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"<string>\",\n    \"api_key_hash\": \"a3bf33df9c8b28147312d1f9f7ae0df65886cb4dde0ccc6ec0b548bda2ba7757\",\n    \"created_at\": \"<string>\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/telemetry/batch",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "telemetry",
+                            "batch"
+                          ]
+                        },
+                        "description": "Receive and store a batch of telemetry events from an on-prem Compresr instance.\n\n**Required Headers:**\n- `X-API-Key`: Compresr API key (authentication)\n- `X-Compresr-Signature`: HMAC signature (integrity)\n\n**Optional Headers:**\n- `X-Instance-ID`: On-prem instance identifier\n\n**First Request (auto-registration):**\nInclude `signing_secret` (`opm_xxx`) in the body - it will be registered\nautomatically. The on-prem image generates this credential itself; `cmp_`\nAPI keys are rejected.\n\n**Signature Format:**\n```\nt=timestamp,v1=HMAC-SHA256(timestamp + \".\" + JSON(payload), signing_secret)\n```\n\n**Event Types:**\n- `compression`: Counted for billing\n- `error`: Logged only\n- `startup`/`shutdown`: Operational\n\n**Idempotency:**\nSame batch_id within 24h returns success without reprocessing. A batch\nwith failed events stays replayable: retry it and already-billed events\nare returned as status \"duplicate\" (never billed twice)."
+                      },
+                      "response": [
+                        {
+                          "id": "86dc6ec7-e820-41f6-8984-8decb41bd5b2",
+                          "name": "Successful Response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "On-prem instance ID",
+                                "key": "x-instance-id",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "HMAC signature",
+                                "key": "x-compresr-signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"<string>\",\n      \"timestamp\": \"<string>\",\n      \"event_type\": \"<string>\",\n      \"model_name\": \"<string>\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"id_8\": 86177334.37270224\n      },\n      \"event_hmac\": \"4ce4ec25cf3a0210010e76a90f87b9357c8aa0887d53bad4a58947d3cc5dc64c\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"<string>\",\n    \"api_key_hash\": \"a3bf33df9c8b28147312d1f9f7ae0df65886cb4dde0ccc6ec0b548bda2ba7757\",\n    \"created_at\": \"<string>\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/batch",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "batch"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"success\": \"<boolean>\",\n  \"batch_id\": \"<string>\",\n  \"events_received\": \"<integer>\",\n  \"events_stored\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"events_rejected\": 0,\n  \"rejected_reasons\": {\n    \"occaecat_d4\": \"<integer>\"\n  },\n  \"signing_secret_registered\": \"<boolean>\",\n  \"signing_secret_error\": \"<string>\",\n  \"events_billed\": 0,\n  \"events_unbilled\": 0,\n  \"events_duplicate\": 0,\n  \"events_failed\": 0,\n  \"event_results\": [\n    {\n      \"event_id\": \"<string>\",\n      \"status\": \"duplicate\",\n      \"reason\": \"<string>\"\n    },\n    {\n      \"event_id\": \"<string>\",\n      \"status\": \"billed\",\n      \"reason\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-86dc6ec7-e820-41f6-8984-8decb41bd5b2"
+                        },
+                        {
+                          "id": "994cfc0b-adfd-4127-9a39-19a089b9cdc9",
+                          "name": "Invalid request body",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "On-prem instance ID",
+                                "key": "x-instance-id",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "HMAC signature",
+                                "key": "x-compresr-signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"<string>\",\n      \"timestamp\": \"<string>\",\n      \"event_type\": \"<string>\",\n      \"model_name\": \"<string>\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"id_8\": 86177334.37270224\n      },\n      \"event_hmac\": \"4ce4ec25cf3a0210010e76a90f87b9357c8aa0887d53bad4a58947d3cc5dc64c\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"<string>\",\n    \"api_key_hash\": \"a3bf33df9c8b28147312d1f9f7ae0df65886cb4dde0ccc6ec0b548bda2ba7757\",\n    \"created_at\": \"<string>\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/batch",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "batch"
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-994cfc0b-adfd-4127-9a39-19a089b9cdc9"
+                        },
+                        {
+                          "id": "54bc126e-c43d-460f-be3c-ed9a424c4cc8",
+                          "name": "Invalid API key or signature",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "On-prem instance ID",
+                                "key": "x-instance-id",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "HMAC signature",
+                                "key": "x-compresr-signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"<string>\",\n      \"timestamp\": \"<string>\",\n      \"event_type\": \"<string>\",\n      \"model_name\": \"<string>\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"id_8\": 86177334.37270224\n      },\n      \"event_hmac\": \"4ce4ec25cf3a0210010e76a90f87b9357c8aa0887d53bad4a58947d3cc5dc64c\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"<string>\",\n    \"api_key_hash\": \"a3bf33df9c8b28147312d1f9f7ae0df65886cb4dde0ccc6ec0b548bda2ba7757\",\n    \"created_at\": \"<string>\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/batch",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "batch"
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\",\n  \"error_code\": \"<string>\",\n  \"success\": false\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-54bc126e-c43d-460f-be3c-ed9a424c4cc8"
+                        },
+                        {
+                          "id": "9c4598a2-9f3e-4e86-8640-a539431f4e74",
+                          "name": "Validation Error",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "On-prem instance ID",
+                                "key": "x-instance-id",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "HMAC signature",
+                                "key": "x-compresr-signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"<string>\",\n      \"timestamp\": \"<string>\",\n      \"event_type\": \"<string>\",\n      \"model_name\": \"<string>\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"id_8\": 86177334.37270224\n      },\n      \"event_hmac\": \"4ce4ec25cf3a0210010e76a90f87b9357c8aa0887d53bad4a58947d3cc5dc64c\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"<string>\",\n    \"api_key_hash\": \"a3bf33df9c8b28147312d1f9f7ae0df65886cb4dde0ccc6ec0b548bda2ba7757\",\n    \"created_at\": \"<string>\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/batch",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "batch"
+                              ]
+                            }
+                          },
+                          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                          "code": 422,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-9c4598a2-9f3e-4e86-8640-a539431f4e74"
+                        },
+                        {
+                          "id": "d5289a31-6b69-4609-af62-b3b9fcd336b9",
+                          "name": "Internal server error",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "On-prem instance ID",
+                                "key": "x-instance-id",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "HMAC signature",
+                                "key": "x-compresr-signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"<string>\",\n      \"timestamp\": \"<string>\",\n      \"event_type\": \"<string>\",\n      \"model_name\": \"<string>\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"id_8\": 86177334.37270224\n      },\n      \"event_hmac\": \"4ce4ec25cf3a0210010e76a90f87b9357c8aa0887d53bad4a58947d3cc5dc64c\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"<string>\",\n    \"api_key_hash\": \"a3bf33df9c8b28147312d1f9f7ae0df65886cb4dde0ccc6ec0b548bda2ba7757\",\n    \"created_at\": \"<string>\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/batch",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "batch"
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-d5289a31-6b69-4609-af62-b3b9fcd336b9"
+                        }
+                      ],
+                      "createdAt": "2026-10-21T21:22:46.000Z",
+                      "updatedAt": "2026-10-21T21:22:46.000Z",
+                      "uid": "35240-d53c0211-9a34-42b2-ad6c-e110671d274f"
+                    }
+                  ],
+                  "id": "e2993ebc-9181-4996-b701-6232cae4206e",
+                  "createdAt": "2026-10-21T21:22:46.000Z",
+                  "updatedAt": "2026-10-21T21:22:46.000Z",
+                  "uid": "35240-e2993ebc-9181-4996-b701-6232cae4206e"
+                },
+                {
+                  "name": "health",
+                  "item": [
+                    {
+                      "name": "Telemetry endpoint health check",
+                      "id": "85cd3172-6fe8-4310-b6e0-41efa5206a7a",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/telemetry/health",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "telemetry",
+                            "health"
+                          ]
+                        },
+                        "description": "Simple health check for telemetry ingestion endpoint."
+                      },
+                      "response": [
+                        {
+                          "id": "705ca75f-6a90-488f-94f7-b273ce8469b1",
+                          "name": "Successful Response",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/telemetry/health",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "telemetry",
+                                "health"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"ut2\": false,\n  \"sunt_b5\": 27008730.386793494\n}",
+                          "createdAt": "2026-10-21T21:22:46.000Z",
+                          "updatedAt": "2026-10-21T21:22:46.000Z",
+                          "uid": "35240-705ca75f-6a90-488f-94f7-b273ce8469b1"
+                        }
+                      ],
+                      "createdAt": "2026-10-21T21:22:46.000Z",
+                      "updatedAt": "2026-10-21T21:22:46.000Z",
+                      "uid": "35240-85cd3172-6fe8-4310-b6e0-41efa5206a7a"
+                    }
+                  ],
+                  "id": "60a57328-0760-483c-a661-c97cd562a470",
+                  "createdAt": "2026-10-21T21:22:46.000Z",
+                  "updatedAt": "2026-10-21T21:22:46.000Z",
+                  "uid": "35240-60a57328-0760-483c-a661-c97cd562a470"
                 }
               ],
-              "body": "{\n  \"success\": false,\n  \"message\": \"string\",\n  \"user_id\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "888e211b-1358-45a0-9a09-de880d6202e6",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "telemetry",
-                    "register"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"signing_secret\": \"<string>\",\n  \"instance_id\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "f81a9bbd-ff9c-4271-b495-7dacb849f058",
+              "createdAt": "2026-10-21T21:22:46.000Z",
+              "updatedAt": "2026-10-21T21:22:46.000Z",
+              "uid": "35240-f81a9bbd-ff9c-4271-b495-7dacb849f058"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "17152f0e-9e04-48c3-9934-6152b98bae58",
-          "name": "Ingest telemetry batch from on-prem instance",
-          "request": {
-            "name": "Ingest telemetry batch from on-prem instance",
-            "description": {
-              "content": "Receive and store a batch of telemetry events from an on-prem Compresr instance.\n    \n    **Required Headers:**\n    - `X-API-Key`: Compresr API key (authentication)\n    - `X-Compresr-Signature`: HMAC signature (integrity)\n    \n    **Optional Headers:**\n    - `X-Instance-ID`: On-prem instance identifier\n    \n    **First Request (auto-registration):**\n    Include `signing_secret` (`opm_xxx`) in the body - it will be registered\n    automatically. `cmp_` API keys are rejected; mint an `opm_` credential\n    in the dashboard under Settings -> On-Prem first.\n\n    **Signature Format:**\n    ```\n    t=timestamp,v1=HMAC-SHA256(timestamp + \".\" + JSON(payload), signing_secret)\n    ```\n    \n    **Event Types:**\n    - `compression`: Counted for billing\n    - `error`: Logged only\n    - `startup`/`shutdown`: Operational\n    \n    **Idempotency:**\n    Same batch_id within 24h returns success without reprocessing.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "telemetry",
-                "batch"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "On-prem instance ID",
-                "key": "x-instance-id",
-                "value": "<string>"
-              },
-              {
-                "disabled": false,
-                "description": "HMAC signature",
-                "key": "x-compresr-signature",
-                "value": "<string>"
-              },
-              {
-                "disabled": false,
-                "description": "(Required) ",
-                "key": "X-API-Key",
-                "value": "<string>"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"<string>\",\n      \"timestamp\": \"<string>\",\n      \"event_type\": \"<string>\",\n      \"model_name\": \"<string>\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"key_0\": 9730.81857544941\n      },\n      \"event_hmac\": \"<string>\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"<string>\",\n    \"api_key_hash\": \"<string>\",\n    \"created_at\": \"<string>\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "2ce4020a-08f1-45a6-8aba-3f086295d4a6",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "telemetry",
-                    "batch"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "On-prem instance ID",
-                    "key": "x-instance-id",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "HMAC signature",
-                    "key": "x-compresr-signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"string\",\n      \"timestamp\": \"string\",\n      \"event_type\": \"string\",\n      \"model_name\": \"string\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"event_hmac\": \"e50f6f28329abab1fdca64ed2701756b04d6f9ec47520bc14a7d58b94c7e8d81\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"string\",\n    \"api_key_hash\": \"36da8f2b2deb7c0a88783305c6831bb4c31a2d0476c87b7c07694cf06f733721\",\n    \"created_at\": \"string\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"success\": false,\n  \"batch_id\": \"string\",\n  \"events_received\": 1245,\n  \"events_stored\": 4717,\n  \"message\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "cf78a345-7afb-4a8c-a029-e72874b8bb2f",
-              "name": "Invalid request body",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "telemetry",
-                    "batch"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "On-prem instance ID",
-                    "key": "x-instance-id",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "HMAC signature",
-                    "key": "x-compresr-signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"string\",\n      \"timestamp\": \"string\",\n      \"event_type\": \"string\",\n      \"model_name\": \"string\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"event_hmac\": \"e50f6f28329abab1fdca64ed2701756b04d6f9ec47520bc14a7d58b94c7e8d81\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"string\",\n    \"api_key_hash\": \"36da8f2b2deb7c0a88783305c6831bb4c31a2d0476c87b7c07694cf06f733721\",\n    \"created_at\": \"string\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 4830,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "88d2a83e-d813-4960-9d50-2ab9ee1f6d1b",
-              "name": "Invalid API key or signature",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "telemetry",
-                    "batch"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "On-prem instance ID",
-                    "key": "x-instance-id",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "HMAC signature",
-                    "key": "x-compresr-signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"string\",\n      \"timestamp\": \"string\",\n      \"event_type\": \"string\",\n      \"model_name\": \"string\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"event_hmac\": \"e50f6f28329abab1fdca64ed2701756b04d6f9ec47520bc14a7d58b94c7e8d81\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"string\",\n    \"api_key_hash\": \"36da8f2b2deb7c0a88783305c6831bb4c31a2d0476c87b7c07694cf06f733721\",\n    \"created_at\": \"string\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"error_code\": \"string\",\n  \"success\": false\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "be38b013-ea18-48af-a662-5d474a3ca9ca",
-              "name": "Duplicate batch (idempotency)",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "telemetry",
-                    "batch"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "On-prem instance ID",
-                    "key": "x-instance-id",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "HMAC signature",
-                    "key": "x-compresr-signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"string\",\n      \"timestamp\": \"string\",\n      \"event_type\": \"string\",\n      \"model_name\": \"string\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"event_hmac\": \"e50f6f28329abab1fdca64ed2701756b04d6f9ec47520bc14a7d58b94c7e8d81\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"string\",\n    \"api_key_hash\": \"36da8f2b2deb7c0a88783305c6831bb4c31a2d0476c87b7c07694cf06f733721\",\n    \"created_at\": \"string\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Conflict",
-              "code": 409,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"error_code\": \"string\",\n  \"success\": false\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "bb825c35-b1ec-4fdd-b6f2-edaff269b9bc",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "telemetry",
-                    "batch"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "On-prem instance ID",
-                    "key": "x-instance-id",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "HMAC signature",
-                    "key": "x-compresr-signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"string\",\n      \"timestamp\": \"string\",\n      \"event_type\": \"string\",\n      \"model_name\": \"string\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"event_hmac\": \"e50f6f28329abab1fdca64ed2701756b04d6f9ec47520bc14a7d58b94c7e8d81\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"string\",\n    \"api_key_hash\": \"36da8f2b2deb7c0a88783305c6831bb4c31a2d0476c87b7c07694cf06f733721\",\n    \"created_at\": \"string\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "f548ae8a-e474-4535-9e71-89f793a5556f",
-              "name": "Internal server error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "telemetry",
-                    "batch"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "On-prem instance ID",
-                    "key": "x-instance-id",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "HMAC signature",
-                    "key": "x-compresr-signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"batch_id\": \"<string>\",\n  \"instance_id\": \"<string>\",\n  \"events\": [\n    {\n      \"event_id\": \"string\",\n      \"timestamp\": \"string\",\n      \"event_type\": \"string\",\n      \"model_name\": \"string\",\n      \"original_tokens\": 0,\n      \"compressed_tokens\": 0,\n      \"tokens_saved\": 0,\n      \"duration_ms\": 0,\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"event_hmac\": \"e50f6f28329abab1fdca64ed2701756b04d6f9ec47520bc14a7d58b94c7e8d81\"\n    }\n  ],\n  \"identity\": {\n    \"instance_id\": \"string\",\n    \"api_key_hash\": \"36da8f2b2deb7c0a88783305c6831bb4c31a2d0476c87b7c07694cf06f733721\",\n    \"created_at\": \"string\"\n  },\n  \"signing_secret\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 4830,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "f8b27012-cd44-41ad-ad77-7ea6ae1c94d2",
-          "name": "Telemetry endpoint health check",
-          "request": {
-            "name": "Telemetry endpoint health check",
-            "description": {
-              "content": "Simple health check for telemetry ingestion endpoint.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "telemetry",
-                "health"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "cf8544ed-5038-4ce0-98ba-4aa2f9fc32ab",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "telemetry",
-                    "health"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"key_0\": false,\n  \"key_1\": 1502\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "cea92f29-8fc9-4581-aa42-28a74f88f2a6",
+          "createdAt": "2026-10-21T21:22:46.000Z",
+          "updatedAt": "2026-10-21T21:22:46.000Z",
+          "uid": "35240-cea92f29-8fc9-4581-aa42-28a74f88f2a6"
         }
       ],
-      "event": []
+      "id": "fc4a12e8-69d3-45c1-a977-27b8bd6349a7",
+      "createdAt": "2026-10-21T21:22:46.000Z",
+      "updatedAt": "2026-10-21T21:22:46.000Z",
+      "uid": "35240-fc4a12e8-69d3-45c1-a977-27b8bd6349a7"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "56763265-5b37-4687-9c14-94c0b08b2a77",
-    "name": "Compresr Platform Admin On-Prem Telemetry API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

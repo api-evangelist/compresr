@@ -1,1068 +1,1147 @@
 {
+  "info": {
+    "_postman_id": "89e83d1c-2a7b-47fc-97c2-8419f903f61a",
+    "name": "Compresr Platform Gateway API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:22:20.000Z",
+    "updatedAt": "2026-10-21T21:22:21.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-89e83d1c-2a7b-47fc-97c2-8419f903f61a"
+  },
   "item": [
     {
-      "id": "ddbf989a-7d0d-47f3-ba45-c72dcf28e25d",
-      "name": "Gateway",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "98bc056c-c17b-4f00-97d6-b4204a34dded",
-          "name": "Get Install Script",
-          "request": {
-            "name": "Get Install Script",
-            "description": {
-              "content": "Serve the Context-Gateway install script.\n\n- No authentication required\n- Rate limited to 60 requests/minute per IP\n- Tracks download for analytics (version + geo only)\n- Fetches install.sh from GitHub (cached for 5 minutes)\n\nUsage:\n    curl -fsSL https://compresr.ai/install | sh",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "install"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "v",
-                  "value": "<string>",
-                  "description": "Gateway version (default: latest)"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "install",
+          "item": [
             {
-              "id": "af174505-c148-4505-9268-dc0040403bd7",
-              "name": "Install script",
-              "originalRequest": {
+              "name": "Get Install Script",
+              "id": "4f1b52de-998e-4462-820a-e621130142c2",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
                 "url": {
+                  "raw": "{{baseUrl}}/api/install?v=<string>&title=Req",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
                   "path": [
                     "api",
                     "install"
                   ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
                   "query": [
                     {
+                      "description": "Gateway version (default: latest)",
                       "key": "v",
                       "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "b9e0c969-2237-4740-a572-2f19694f97c0",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "install"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                    },
                     {
-                      "key": "v",
-                      "value": "<string>"
+                      "description": "(Required) ",
+                      "key": "title",
+                      "value": "Req"
                     }
-                  ],
-                  "variable": []
+                  ]
                 },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
+                "description": "Serve the Context-Gateway install script.\n\n- No authentication required\n- Rate limited to 60 requests/minute per IP\n- Tracks download for analytics (version + geo only)\n- Fetches install.sh from GitHub (cached for 5 minutes)\n\nUsage:\ncurl -fsSL https://compresr.ai/install | sh"
               },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
+              "response": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "ad0c8b1c-654c-4883-b5b3-78ed2f9c583c",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "install"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "id": "35ac3215-413b-4cc1-b8f6-4d6d8e08f157",
+                  "name": "Install script",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/install?v=<string>&title=Req",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "install"
+                      ],
+                      "query": [
+                        {
+                          "description": "Gateway version (default: latest)",
+                          "key": "v",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) ",
+                          "key": "title",
+                          "value": "Req"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
                     {
-                      "key": "v",
-                      "value": "<string>"
+                      "key": "Content-Type",
+                      "value": "application/json"
                     }
                   ],
-                  "variable": []
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{}",
+                  "createdAt": "2026-10-21T21:22:21.000Z",
+                  "updatedAt": "2026-10-21T21:22:21.000Z",
+                  "uid": "35240-35ac3215-413b-4cc1-b8f6-4d6d8e08f157"
                 },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "id": "51dae2e9-d963-48cf-bef5-e5467a02f3ea",
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/install?v=<string>&title=Req",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "install"
+                      ],
+                      "query": [
+                        {
+                          "description": "Gateway version (default: latest)",
+                          "key": "v",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) ",
+                          "key": "title",
+                          "value": "Req"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                  "code": 422,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-10-21T21:22:21.000Z",
+                  "updatedAt": "2026-10-21T21:22:21.000Z",
+                  "uid": "35240-51dae2e9-d963-48cf-bef5-e5467a02f3ea"
+                },
+                {
+                  "id": "f34a1a17-cc1e-45ca-8415-70533da04570",
+                  "name": "Internal Server Error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/install?v=<string>&title=Req",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "install"
+                      ],
+                      "query": [
+                        {
+                          "description": "Gateway version (default: latest)",
+                          "key": "v",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) ",
+                          "key": "title",
+                          "value": "Req"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                  "createdAt": "2026-10-21T21:22:21.000Z",
+                  "updatedAt": "2026-10-21T21:22:21.000Z",
+                  "uid": "35240-f34a1a17-cc1e-45ca-8415-70533da04570"
                 }
               ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 2630,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "createdAt": "2026-10-21T21:22:21.000Z",
+              "updatedAt": "2026-10-21T21:22:21.000Z",
+              "uid": "35240-4f1b52de-998e-4462-820a-e621130142c2"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "fc62988b-0306-4ade-b244-8d385dde28e8",
+          "createdAt": "2026-10-21T21:22:21.000Z",
+          "updatedAt": "2026-10-21T21:22:21.000Z",
+          "uid": "35240-fc62988b-0306-4ade-b244-8d385dde28e8"
         },
         {
-          "id": "13af73fb-616c-4e27-954b-955ffb519da1",
-          "name": "Get Public Download Count",
-          "request": {
-            "name": "Get Public Download Count",
-            "description": {
-              "content": "Get total Context-Gateway download count (public, no auth).\n\n- Rate limited to 120 requests/minute per IP\n- Used by frontend to display download count badge.\n- Returns all-time total downloads with 5-minute caching.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "gateway",
-                "downloads"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "gateway",
+          "item": [
             {
-              "id": "b5c8fd8d-88b5-4bd2-830e-76d04aa2d7bd",
-              "name": "Total download count",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "downloads"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "downloads",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "Get Public Download Count",
+                  "id": "130d1850-44ed-4feb-9de8-55bdfb0af62e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/gateway/downloads?title=Req",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "gateway",
+                        "downloads"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) ",
+                          "key": "title",
+                          "value": "Req"
+                        }
+                      ]
+                    },
+                    "description": "Get total Context-Gateway download count (public, no auth).\n\n- Rate limited to 120 requests/minute per IP\n- Used by frontend to display download count badge.\n- Returns all-time total downloads with 5-minute caching."
+                  },
+                  "response": [
+                    {
+                      "id": "54cfeaf2-b51e-4b62-9328-8685cf56dac9",
+                      "name": "Total download count",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/downloads?title=Req",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "downloads"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) ",
+                              "key": "title",
+                              "value": "Req"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"nostrud_3\": \"labore in\",\n  \"tempor6a_\": 15427412,\n  \"incididunt_30_\": -58974769\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-54cfeaf2-b51e-4b62-9328-8685cf56dac9"
+                    },
+                    {
+                      "id": "c1c45975-dba1-4997-a338-dfcc3e5649bc",
+                      "name": "Validation Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/downloads?title=Req",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "downloads"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) ",
+                              "key": "title",
+                              "value": "Req"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-c1c45975-dba1-4997-a338-dfcc3e5649bc"
+                    },
+                    {
+                      "id": "04b85032-a233-401d-8d39-b98c0001e9d6",
+                      "name": "Internal Server Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/downloads?title=Req",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "downloads"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) ",
+                              "key": "title",
+                              "value": "Req"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-04b85032-a233-401d-8d39-b98c0001e9d6"
+                    }
+                  ],
+                  "createdAt": "2026-10-21T21:22:21.000Z",
+                  "updatedAt": "2026-10-21T21:22:21.000Z",
+                  "uid": "35240-130d1850-44ed-4feb-9de8-55bdfb0af62e"
                 }
               ],
-              "body": "{\n  \"key_0\": 7056.547411571651,\n  \"key_1\": 7464.742448940558\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "f29e4570-bdc8-4316-bd43-5129424f9981",
+              "createdAt": "2026-10-21T21:22:21.000Z",
+              "updatedAt": "2026-10-21T21:22:21.000Z",
+              "uid": "35240-f29e4570-bdc8-4316-bd43-5129424f9981"
             },
             {
-              "id": "b1ee7486-288c-4477-8a24-99a77cd701a0",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "downloads"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
+              "name": "stats",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "Get Gateway Stats",
+                  "id": "7ed50b19-bd06-49db-a8c5-43e8e9dca943",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/gateway/stats",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "gateway",
+                        "stats"
+                      ]
+                    },
+                    "description": "Get Context-Gateway install statistics.\n\n**Requires admin authentication**\n\nReturns aggregated stats:\n- Total installs (all time)\n- Installs by time period (day, week, month)\n- Breakdown by OS\n- Breakdown by version\n- Top 10 countries"
+                  },
+                  "response": [
+                    {
+                      "id": "dfaa987d-1b23-403b-976b-5bdd04a7cca0",
+                      "name": "Successful Response",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/stats",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "stats"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"period\": \"<string>\",\n  \"period_start\": \"<string>\",\n  \"period_end\": \"<string>\",\n  \"total_installs\": \"<integer>\",\n  \"success\": true,\n  \"message\": \"<string>\",\n  \"by_version\": {\n    \"consequat_1ed\": \"<integer>\",\n    \"sint05\": \"<integer>\",\n    \"est_6\": \"<integer>\",\n    \"aute6\": \"<integer>\"\n  },\n  \"top_countries\": {\n    \"voluptated\": \"<integer>\",\n    \"dolore1\": \"<integer>\"\n  }\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-dfaa987d-1b23-403b-976b-5bdd04a7cca0"
+                    },
+                    {
+                      "id": "c625ca33-8663-47d2-aa5f-4ac511a36c96",
+                      "name": "Unauthorized - requires API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/stats",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "stats"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-c625ca33-8663-47d2-aa5f-4ac511a36c96"
+                    },
+                    {
+                      "id": "2bb4387e-5268-43e9-8970-1ab124236238",
+                      "name": "Forbidden - admin access required",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/stats",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "stats"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-2bb4387e-5268-43e9-8970-1ab124236238"
+                    },
+                    {
+                      "id": "40dd5ed8-bd1d-4887-8bbf-a8538ab484b2",
+                      "name": "Internal Server Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/stats",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "stats"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-40dd5ed8-bd1d-4887-8bbf-a8538ab484b2"
+                    }
+                  ],
+                  "createdAt": "2026-10-21T21:22:21.000Z",
+                  "updatedAt": "2026-10-21T21:22:21.000Z",
+                  "uid": "35240-7ed50b19-bd06-49db-a8c5-43e8e9dca943"
                 }
               ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "11740a45-47e5-4567-88ed-1a06e56d9ed9",
+              "createdAt": "2026-10-21T21:22:21.000Z",
+              "updatedAt": "2026-10-21T21:22:21.000Z",
+              "uid": "35240-11740a45-47e5-4567-88ed-1a06e56d9ed9"
             },
             {
-              "id": "872b408d-4b6a-471c-8ee3-3d0adc58a87f",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "downloads"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
+              "name": "installs",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "Get Recent Installs",
+                  "id": "d2030ae6-2631-4333-a518-d9008a76e7e0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/gateway/installs?limit=50",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "gateway",
+                        "installs"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of records to return",
+                          "key": "limit",
+                          "value": "50"
+                        }
+                      ]
+                    },
+                    "description": "Get recent Context-Gateway installs.\n\n**Requires admin authentication**\n\nReturns list of recent install records for admin dashboard."
+                  },
+                  "response": [
+                    {
+                      "id": "1ced1d28-42b2-4883-ac8b-d6d79065e885",
+                      "name": "Successful Response",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/installs?limit=50",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "installs"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of records to return",
+                              "key": "limit",
+                              "value": "50"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"success\": true,\n  \"message\": \"<string>\",\n  \"installs\": [\n    {\n      \"id\": \"<uuid>\",\n      \"created_at\": \"<dateTime>\",\n      \"version\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"created_at\": \"<dateTime>\",\n      \"version\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    }\n  ],\n  \"total\": 0\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-1ced1d28-42b2-4883-ac8b-d6d79065e885"
+                    },
+                    {
+                      "id": "35d3af8b-5176-403b-8d6c-1347762edeb3",
+                      "name": "Unauthorized - requires API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/installs?limit=50",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "installs"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of records to return",
+                              "key": "limit",
+                              "value": "50"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-35d3af8b-5176-403b-8d6c-1347762edeb3"
+                    },
+                    {
+                      "id": "8a0eccc8-fd55-4597-bb83-1f5dd26aa0f5",
+                      "name": "Forbidden - admin access required",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/installs?limit=50",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "installs"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of records to return",
+                              "key": "limit",
+                              "value": "50"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-8a0eccc8-fd55-4597-bb83-1f5dd26aa0f5"
+                    },
+                    {
+                      "id": "b0b2184f-5f0c-447e-be14-1f744ed37117",
+                      "name": "Validation Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/installs?limit=50",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "installs"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of records to return",
+                              "key": "limit",
+                              "value": "50"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-b0b2184f-5f0c-447e-be14-1f744ed37117"
+                    },
+                    {
+                      "id": "306f273c-2e4c-4aa6-9f86-1cd1e0aefd53",
+                      "name": "Internal Server Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/installs?limit=50",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "installs"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of records to return",
+                              "key": "limit",
+                              "value": "50"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-306f273c-2e4c-4aa6-9f86-1cd1e0aefd53"
+                    }
+                  ],
+                  "createdAt": "2026-10-21T21:22:21.000Z",
+                  "updatedAt": "2026-10-21T21:22:21.000Z",
+                  "uid": "35240-d2030ae6-2631-4333-a518-d9008a76e7e0"
                 }
               ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 2630,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "edd1493d-34c0-41cf-88ed-8a39dbbe1da0",
+              "createdAt": "2026-10-21T21:22:21.000Z",
+              "updatedAt": "2026-10-21T21:22:21.000Z",
+              "uid": "35240-edd1493d-34c0-41cf-88ed-8a39dbbe1da0"
+            },
+            {
+              "name": "status",
+              "item": [
+                {
+                  "name": "Get Gateway Status",
+                  "id": "63bbad5e-0cb5-443d-ba72-fa772df6e025",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "(Required) ",
+                        "key": "X-API-Key",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/gateway/status",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "gateway",
+                        "status"
+                      ]
+                    },
+                    "description": "Get current usage status for Context-Gateway CLI display.\n\n**Requires API key authentication** (any valid COMPRESR_API_KEY)\n\nReturns lightweight status summary:\n- Credits remaining (subscription + wallet combined)\n- Usage percentage of monthly budget\n- Tier information\n- Request counts\n\nUsed by Context-Gateway to display a persistent status bar showing\nthe user's balance and usage during operation."
+                  },
+                  "response": [
+                    {
+                      "id": "4d894b5b-2396-44fc-8cc2-92f30493275b",
+                      "name": "User's usage status for gateway display",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "(Required) ",
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/status",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "status"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"success\": true,\n  \"message\": \"<string>\",\n  \"data\": {\n    \"tier\": \"tier1\",\n    \"credits_remaining_usd\": 0,\n    \"credits_used_this_month\": 0,\n    \"monthly_budget_usd\": 0,\n    \"usage_percent\": 0,\n    \"requests_today\": 0,\n    \"requests_this_month\": 0,\n    \"daily_request_limit\": \"<integer>\",\n    \"is_admin\": false\n  }\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-4d894b5b-2396-44fc-8cc2-92f30493275b"
+                    },
+                    {
+                      "id": "92dd00aa-a620-4630-8ab5-0ac9cfd25040",
+                      "name": "Unauthorized - requires API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "(Required) ",
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/status",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "status"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-92dd00aa-a620-4630-8ab5-0ac9cfd25040"
+                    },
+                    {
+                      "id": "b3ae7364-491c-48e9-bae8-da93b43d2f0d",
+                      "name": "Validation Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "(Required) ",
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/status",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "status"
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-b3ae7364-491c-48e9-bae8-da93b43d2f0d"
+                    },
+                    {
+                      "id": "0f09ae4b-bfdb-4726-9539-f82afbf1168c",
+                      "name": "Internal Server Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "(Required) ",
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/gateway/status",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "gateway",
+                            "status"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\",\n  \"code\": \"<string>\",\n  \"success\": false,\n  \"detail\": \"<string>\",\n  \"retry_after\": \"<integer>\",\n  \"field\": \"<string>\"\n}",
+                      "createdAt": "2026-10-21T21:22:21.000Z",
+                      "updatedAt": "2026-10-21T21:22:21.000Z",
+                      "uid": "35240-0f09ae4b-bfdb-4726-9539-f82afbf1168c"
+                    }
+                  ],
+                  "createdAt": "2026-10-21T21:22:21.000Z",
+                  "updatedAt": "2026-10-21T21:22:21.000Z",
+                  "uid": "35240-63bbad5e-0cb5-443d-ba72-fa772df6e025"
+                }
+              ],
+              "id": "3630e220-5b84-486d-b149-862e7534978b",
+              "createdAt": "2026-10-21T21:22:21.000Z",
+              "updatedAt": "2026-10-21T21:22:21.000Z",
+              "uid": "35240-3630e220-5b84-486d-b149-862e7534978b"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "26b0a7ee-7bf7-4079-add3-93f4da22db2f",
-          "name": "Get Gateway Stats",
-          "request": {
-            "name": "Get Gateway Stats",
-            "description": {
-              "content": "Get Context-Gateway install statistics.\n\n**Requires admin authentication**\n\nReturns aggregated stats:\n- Total installs (all time)\n- Installs by time period (day, week, month)\n- Breakdown by OS\n- Breakdown by version\n- Top 10 countries",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "gateway",
-                "stats"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "0df00dd1-e7f4-43f1-bc8c-822d73cdc141",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "stats"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"period\": \"string\",\n  \"period_start\": \"string\",\n  \"period_end\": \"string\",\n  \"total_installs\": 9340,\n  \"success\": true,\n  \"message\": \"string\",\n  \"by_version\": {\n    \"key_0\": 2992,\n    \"key_1\": 5203\n  },\n  \"top_countries\": {\n    \"key_0\": 6024,\n    \"key_1\": 8108,\n    \"key_2\": 351\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "44446063-732a-4cce-920e-bff38f8c1d98",
-              "name": "Unauthorized - requires API key",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "stats"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "b2c9a904-1e1a-4d2d-b0c6-0602365fe51b",
-              "name": "Forbidden - admin access required",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "stats"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Forbidden",
-              "code": 403,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "4e03a6fc-4d24-4bde-821f-a9ae83254784",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "stats"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 2630,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "4efd6531-1595-46b9-98e5-450209316db9",
-          "name": "Get Recent Installs",
-          "request": {
-            "name": "Get Recent Installs",
-            "description": {
-              "content": "Get recent Context-Gateway installs.\n\n**Requires admin authentication**\n\nReturns list of recent install records for admin dashboard.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "gateway",
-                "installs"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "limit",
-                  "value": "50",
-                  "description": "Number of records to return"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "fdbf92bc-5a41-4d8e-8544-91318a2e6d3f",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "installs"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "limit",
-                      "value": "50"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"installs\": [\n    {\n      \"id\": \"0bb3ed21-c537-47af-7227-1b948b43fd49\",\n      \"created_at\": \"1959-10-07T17:50:56.259Z\",\n      \"version\": \"string\",\n      \"country_code\": \"string\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    {\n      \"id\": \"206d4fa6-e9b1-c3cc-5b7f-59054b7dc680\",\n      \"created_at\": \"1986-07-05T23:19:18.876Z\",\n      \"version\": \"string\",\n      \"country_code\": \"string\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    }\n  ],\n  \"total\": 0\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "94995b09-785a-4787-bf13-a44ffb6f0f6c",
-              "name": "Unauthorized - requires API key",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "installs"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "limit",
-                      "value": "50"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "7061b9de-a078-4c38-8f36-e9565a98884d",
-              "name": "Forbidden - admin access required",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "installs"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "limit",
-                      "value": "50"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Forbidden",
-              "code": 403,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "e93986a6-ec82-49e1-bf55-00a3c14213d4",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "installs"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "limit",
-                      "value": "50"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "58c4fe77-b104-4ad1-befa-c424f30a9c02",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "installs"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "limit",
-                      "value": "50"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 2630,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "aab1002c-c8c5-4593-aecc-9ab677324735",
-          "name": "Get Gateway Status",
-          "request": {
-            "name": "Get Gateway Status",
-            "description": {
-              "content": "Get current usage status for Context-Gateway CLI display.\n\n**Requires API key authentication** (any valid COMPRESR_API_KEY)\n\nReturns lightweight status summary:\n- Credits remaining (subscription + wallet combined)\n- Usage percentage of monthly budget\n- Tier information\n- Request counts\n\nUsed by Context-Gateway to display a persistent status bar showing\nthe user's balance and usage during operation.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "gateway",
-                "status"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) ",
-                "key": "X-API-Key",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "abccdc2c-dde9-4fa3-ad08-e3e2cb55d8d6",
-              "name": "User's usage status for gateway display",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "status"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"data\": {\n    \"tier\": \"tier1\",\n    \"credits_remaining_usd\": 0,\n    \"credits_used_this_month\": 0,\n    \"monthly_budget_usd\": 0,\n    \"usage_percent\": 0,\n    \"requests_today\": 0,\n    \"requests_this_month\": 0,\n    \"daily_request_limit\": 6267,\n    \"is_admin\": false\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "df456355-4063-4264-a454-deec3ef7662b",
-              "name": "Unauthorized - requires API key",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "status"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "b4f07ebb-39ce-4fab-a627-79f0b66add61",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "status"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "93070ec9-5a96-4e6e-b735-c39a0843819e",
-              "name": "Internal Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "gateway",
-                    "status"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": \"string\",\n  \"code\": \"string\",\n  \"success\": false,\n  \"detail\": \"string\",\n  \"retry_after\": 2630,\n  \"field\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "d0a60f4f-915b-4826-bd02-36d8033c6df9",
+          "createdAt": "2026-10-21T21:22:21.000Z",
+          "updatedAt": "2026-10-21T21:22:21.000Z",
+          "uid": "35240-d0a60f4f-915b-4826-bd02-36d8033c6df9"
         }
       ],
-      "event": []
+      "id": "9eb88e39-16d5-4b12-8d02-6c19d727df28",
+      "createdAt": "2026-10-21T21:22:21.000Z",
+      "updatedAt": "2026-10-21T21:22:21.000Z",
+      "uid": "35240-9eb88e39-16d5-4b12-8d02-6c19d727df28"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "e11ffed3-84f1-45bf-929d-9f8486be9384",
-    "name": "Compresr Platform Admin Gateway API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

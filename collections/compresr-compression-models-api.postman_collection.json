@@ -1,381 +1,380 @@
 {
+  "info": {
+    "_postman_id": "2259a610-10c8-4c35-9545-531da84ffdc4",
+    "name": "Compresr Platform Compression Models API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:22:10.000Z",
+    "updatedAt": "2026-10-21T21:22:10.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2259a610-10c8-4c35-9545-531da84ffdc4"
+  },
   "item": [
     {
-      "id": "8fe13d41-9d14-4a15-910c-250d7b8ad921",
-      "name": "Compression-Models",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "ead323c5-3b5f-438c-b943-7a86686ff59f",
-          "name": "List Compression Models",
-          "request": {
-            "name": "List Compression Models",
-            "description": {
-              "content": "List compression models; admin_only entries hidden for non-admins.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "compress",
-                "models"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "model_type",
-                  "value": "<string>"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "key": "X-API-Key",
-                "value": "<string>",
-                "description": ""
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
+          "name": "compress",
+          "item": [
             {
-              "id": "3781ef29-7358-4069-b7a4-5264f4e6f120",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "compress",
-                    "models"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+              "name": "models",
+              "item": [
+                {
+                  "name": "{model_id}",
+                  "item": [
                     {
-                      "key": "model_type",
-                      "value": "<string>"
+                      "name": "Get Compression Model",
+                      "id": "360c53ed-6695-4ed8-a08f-a03e74ea7b33",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/compress/models/:model_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "compress",
+                            "models",
+                            ":model_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "3db7f7a1-2193-4135-bd54-179fb65912c3",
+                              "key": "model_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Get a specific model. 404 (not 403) for admin_only when non-admin, to avoid leaking existence."
+                      },
+                      "response": [
+                        {
+                          "id": "06ec3362-6769-42da-bd1c-815ac428a383",
+                          "name": "Successful Response",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/compress/models/:model_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "compress",
+                                "models",
+                                ":model_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "model_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": {\n    \"sample_texts\": [\n      {\n        \"name\": \"<string>\",\n        \"text\": \"<string>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"text\": \"<string>\"\n      }\n    ]\n  },\n  \"success\": true,\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-10-21T21:22:10.000Z",
+                          "updatedAt": "2026-10-21T21:22:10.000Z",
+                          "uid": "35240-06ec3362-6769-42da-bd1c-815ac428a383"
+                        },
+                        {
+                          "id": "6ca72900-eb2a-4f09-ae7d-370c17b7e7e7",
+                          "name": "Validation Error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/compress/models/:model_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "compress",
+                                "models",
+                                ":model_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "model_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                          "code": 422,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-21T21:22:10.000Z",
+                          "updatedAt": "2026-10-21T21:22:10.000Z",
+                          "uid": "35240-6ca72900-eb2a-4f09-ae7d-370c17b7e7e7"
+                        }
+                      ],
+                      "createdAt": "2026-10-21T21:22:10.000Z",
+                      "updatedAt": "2026-10-21T21:22:10.000Z",
+                      "uid": "35240-360c53ed-6695-4ed8-a08f-a03e74ea7b33"
                     }
                   ],
-                  "variable": []
+                  "id": "86e7016e-ad73-4ace-8215-75c15e9da183",
+                  "createdAt": "2026-10-21T21:22:10.000Z",
+                  "updatedAt": "2026-10-21T21:22:10.000Z",
+                  "uid": "35240-86e7016e-ad73-4ace-8215-75c15e9da183"
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "key": "X-API-Key",
-                    "value": "<string>",
-                    "description": ""
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"sample_texts\": [\n      {\n        \"name\": \"string\",\n        \"text\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"text\": \"string\"\n      }\n    ]\n  },\n  \"success\": true,\n  \"message\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "9af0e567-da48-4af3-b07b-7cf0911a6e8b",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "compress",
-                    "models"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "name": "List Compression Models",
+                  "id": "52c91652-8f89-4a61-ae90-7d6615f41c41",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "X-API-Key",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/compress/models?model_type=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "compress",
+                        "models"
+                      ],
+                      "query": [
+                        {
+                          "key": "model_type",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "List compression models; admin_only entries hidden for non-admins."
+                  },
+                  "response": [
                     {
-                      "key": "model_type",
-                      "value": "<string>"
+                      "id": "846b1f3b-97c0-400c-8242-22734ebd60f1",
+                      "name": "Successful Response",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/compress/models?model_type=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "compress",
+                            "models"
+                          ],
+                          "query": [
+                            {
+                              "key": "model_type",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"sample_texts\": [\n      {\n        \"name\": \"<string>\",\n        \"text\": \"<string>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"text\": \"<string>\"\n      }\n    ]\n  },\n  \"success\": true,\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-10-21T21:22:10.000Z",
+                      "updatedAt": "2026-10-21T21:22:10.000Z",
+                      "uid": "35240-846b1f3b-97c0-400c-8242-22734ebd60f1"
+                    },
+                    {
+                      "id": "0c185453-2574-4e33-a55b-6357213f980b",
+                      "name": "Validation Error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/compress/models?model_type=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "compress",
+                            "models"
+                          ],
+                          "query": [
+                            {
+                              "key": "model_type",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-21T21:22:10.000Z",
+                      "updatedAt": "2026-10-21T21:22:10.000Z",
+                      "uid": "35240-0c185453-2574-4e33-a55b-6357213f980b"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "key": "X-API-Key",
-                    "value": "<string>",
-                    "description": ""
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "createdAt": "2026-10-21T21:22:10.000Z",
+                  "updatedAt": "2026-10-21T21:22:10.000Z",
+                  "uid": "35240-52c91652-8f89-4a61-ae90-7d6615f41c41"
                 }
               ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "6a2bafe8-1a93-4215-86d8-367bce853c74",
+              "createdAt": "2026-10-21T21:22:10.000Z",
+              "updatedAt": "2026-10-21T21:22:10.000Z",
+              "uid": "35240-6a2bafe8-1a93-4215-86d8-367bce853c74"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "d50fb04a-f131-4870-8adb-eda53ae4dea0",
-          "name": "Get Compression Model",
-          "request": {
-            "name": "Get Compression Model",
-            "description": {
-              "content": "Get a specific model. 404 (not 403) for admin_only when non-admin, to avoid leaking existence.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "compress",
-                "models",
-                ":model_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "model_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "disabled": false,
-                "key": "X-API-Key",
-                "value": "<string>",
-                "description": ""
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "f644ef0c-74e6-46c1-b40d-d39d7cf3199e",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "compress",
-                    "models",
-                    ":model_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "model_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "key": "X-API-Key",
-                    "value": "<string>",
-                    "description": ""
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"sample_texts\": [\n      {\n        \"name\": \"string\",\n        \"text\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"text\": \"string\"\n      }\n    ]\n  },\n  \"success\": true,\n  \"message\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "de8068c2-ff1f-4e3b-aab3-dfc9d5a998be",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "compress",
-                    "models",
-                    ":model_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "model_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "key": "X-API-Key",
-                    "value": "<string>",
-                    "description": ""
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "e58cdcbf-5ec0-4fad-9fcc-656c435656aa",
+          "createdAt": "2026-10-21T21:22:10.000Z",
+          "updatedAt": "2026-10-21T21:22:10.000Z",
+          "uid": "35240-e58cdcbf-5ec0-4fad-9fcc-656c435656aa"
         }
       ],
-      "event": []
+      "id": "d2c7006b-80d4-4077-81d1-038699c9610a",
+      "createdAt": "2026-10-21T21:22:10.000Z",
+      "updatedAt": "2026-10-21T21:22:10.000Z",
+      "uid": "35240-d2c7006b-80d4-4077-81d1-038699c9610a"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "9465aef1-2533-4bab-aac6-1c3b4fc74449",
-    "name": "Compresr Platform Admin Compression-Models API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

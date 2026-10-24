@@ -1,102 +1,96 @@
 {
+  "info": {
+    "_postman_id": "5a48d09d-0d60-4027-98ac-4ae7d596bad8",
+    "name": "Compresr Platform Ready API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:22:56.000Z",
+    "updatedAt": "2026-10-21T21:22:57.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-5a48d09d-0d60-4027-98ac-4ae7d596bad8"
+  },
   "item": [
     {
-      "id": "6cf8d95b-3b8f-47a6-a212-11256fb54e16",
-      "name": "Ready",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "ready",
       "item": [
         {
-          "id": "edcaaeba-8cf5-4751-a0e1-9c413e9b6830",
           "name": "Readiness",
+          "id": "533834ca-4603-40b0-9888-6ddf411bccc9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
-            "name": "Readiness",
-            "description": {
-              "content": "Readiness probe for Kubernetes/orchestrator.\n\nReturns 200 only if the service can handle requests:\n- Compression engine is initialized\n- At least one model is available",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "ready"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
+            "method": "GET",
             "header": [
               {
                 "key": "Accept",
                 "value": "application/json"
               }
             ],
-            "method": "GET",
-            "auth": null
+            "url": {
+              "raw": "{{baseUrl}}/ready",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ready"
+              ]
+            },
+            "description": "Readiness probe for Kubernetes/orchestrator.\n\nReturns 200 only if the service can handle requests:\n- Compression engine is initialized\n- At least one model is available"
           },
           "response": [
             {
-              "id": "b4d77b3c-af8d-436b-8a89-7611e55bfbcf",
+              "id": "29f306bf-c150-4b08-916b-2ca1a2442e57",
               "name": "Successful Response",
               "originalRequest": {
-                "url": {
-                  "path": [
-                    "ready"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
+                "method": "GET",
                 "header": [
                   {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "GET",
-                "body": {}
+                "url": {
+                  "raw": "{{baseUrl}}/ready",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ready"
+                  ]
+                }
               },
               "status": "OK",
               "code": 200,
+              "_postman_previewlanguage": "json",
               "header": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": "{}",
               "cookie": [],
-              "_postman_previewlanguage": "json"
+              "responseTime": null,
+              "body": "{}",
+              "createdAt": "2026-10-21T21:22:57.000Z",
+              "updatedAt": "2026-10-21T21:22:57.000Z",
+              "uid": "35240-29f306bf-c150-4b08-916b-2ca1a2442e57"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "createdAt": "2026-10-21T21:22:57.000Z",
+          "updatedAt": "2026-10-21T21:22:57.000Z",
+          "uid": "35240-533834ca-4603-40b0-9888-6ddf411bccc9"
         }
       ],
-      "event": []
+      "id": "d42f9c80-7e38-4194-9d70-ed440aff4174",
+      "createdAt": "2026-10-21T21:22:57.000Z",
+      "updatedAt": "2026-10-21T21:22:57.000Z",
+      "uid": "35240-d42f9c80-7e38-4194-9d70-ed440aff4174"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "37e9a9a3-323a-42f9-b5bb-75faea6bf449",
-    "name": "Compresr Platform Admin Ready API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

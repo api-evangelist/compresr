@@ -1,172 +1,199 @@
 {
+  "info": {
+    "_postman_id": "6a4c2134-73a7-4e26-b1d5-c542ccc3be74",
+    "name": "Compresr Platform Auth API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:21:28.000Z",
+    "updatedAt": "2026-10-21T21:21:28.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-6a4c2134-73a7-4e26-b1d5-c542ccc3be74"
+  },
   "item": [
     {
-      "id": "deda1fbd-87fb-4904-93ca-0d044cbb5c23",
-      "name": "Auth",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "d895fa9e-78be-4e2d-8596-09d1ad30a363",
-          "name": "Check Email Exists",
-          "request": {
-            "name": "Check Email Exists",
-            "description": {
-              "content": "Check if an email already has a completed account.\n\nReturns {\"exists\": true} only if the email is registered AND has a\nuser_profiles row (completed signup). Users mid-OTP-verification\nwon't be blocked, so \"Resend OTP\" still works.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "auth",
-                "check-email"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"<email>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "auth",
+          "item": [
             {
-              "id": "d47b0a2a-41eb-4b36-b54b-06f81e881a2e",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "auth",
-                    "check-email"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"<email>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "check-email",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "Check Email Exists",
+                  "id": "af42749a-f05f-4759-bf9a-f7d77da2a56a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"<email>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/check-email",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "check-email"
+                      ]
+                    },
+                    "description": "Check if an email already has a completed account.\n\nReturns {\"exists\": true} only if the email is registered AND has a\nuser_profiles row (completed signup). Users mid-OTP-verification\nwon't be blocked, so \"Resend OTP\" still works."
+                  },
+                  "response": [
+                    {
+                      "id": "ba670cca-c111-4367-b67f-d772c89cccdc",
+                      "name": "Successful Response",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<email>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/check-email",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "check-email"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"exists\": \"<boolean>\"\n}",
+                      "createdAt": "2026-10-21T21:21:28.000Z",
+                      "updatedAt": "2026-10-21T21:21:28.000Z",
+                      "uid": "35240-ba670cca-c111-4367-b67f-d772c89cccdc"
+                    },
+                    {
+                      "id": "b28f9878-5a5b-4e1a-b61f-0f8b59ece170",
+                      "name": "Validation Error",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"<email>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/check-email",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "check-email"
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-21T21:21:28.000Z",
+                      "updatedAt": "2026-10-21T21:21:28.000Z",
+                      "uid": "35240-b28f9878-5a5b-4e1a-b61f-0f8b59ece170"
+                    }
+                  ],
+                  "createdAt": "2026-10-21T21:21:28.000Z",
+                  "updatedAt": "2026-10-21T21:21:28.000Z",
+                  "uid": "35240-af42749a-f05f-4759-bf9a-f7d77da2a56a"
                 }
               ],
-              "body": "{\n  \"exists\": true\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "66767ea9-dbbc-4e9d-a5c6-56b6f1acdae1",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "auth",
-                    "check-email"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"<email>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "556ea7e9-dc21-4f44-923a-4dbf499fb8a0",
+              "createdAt": "2026-10-21T21:21:28.000Z",
+              "updatedAt": "2026-10-21T21:21:28.000Z",
+              "uid": "35240-556ea7e9-dc21-4f44-923a-4dbf499fb8a0"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "90817c21-e905-4840-9afe-1e21a825b57e",
+          "createdAt": "2026-10-21T21:21:28.000Z",
+          "updatedAt": "2026-10-21T21:21:28.000Z",
+          "uid": "35240-90817c21-e905-4840-9afe-1e21a825b57e"
         }
       ],
-      "event": []
+      "id": "f03b4c3b-efe8-42e1-98a9-3b2c8a0b0704",
+      "createdAt": "2026-10-21T21:21:28.000Z",
+      "updatedAt": "2026-10-21T21:21:28.000Z",
+      "uid": "35240-f03b4c3b-efe8-42e1-98a9-3b2c8a0b0704"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "f9a6fbb4-9e8a-4b20-bc63-5a138fcfca2e",
-    "name": "Compresr Platform Admin Auth API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

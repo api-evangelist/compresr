@@ -1,185 +1,203 @@
 {
+  "info": {
+    "_postman_id": "ff86e0d5-f0a7-41db-b316-e0add44471eb",
+    "name": "Compresr Platform On Prem API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:22:43.000Z",
+    "updatedAt": "2026-10-21T21:22:43.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ff86e0d5-f0a7-41db-b316-e0add44471eb"
+  },
   "item": [
     {
-      "id": "fe74f862-00e7-42f5-bdd4-c8db4c26e657",
-      "name": "On-Prem",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "22b98224-77bb-468b-9d47-43bb399cbad2",
-          "name": "Validate Key",
-          "request": {
-            "name": "Validate Key",
-            "description": {},
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "onprem",
-                "validate-key"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) ",
-                "key": "X-API-Key",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
+          "name": "v1",
+          "item": [
             {
-              "id": "45c99fed-776f-42c2-acc4-c0b0fb060371",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "onprem",
-                    "validate-key"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "onprem",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "validate-key",
+                  "item": [
+                    {
+                      "name": "Validate Key",
+                      "id": "d74843b4-5181-4aa8-8f5e-ef41fedf58de",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "(Required) ",
+                            "key": "X-API-Key",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/onprem/validate-key",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "onprem",
+                            "validate-key"
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "id": "ff3c2363-6533-4906-9505-f48581b18322",
+                          "name": "Successful Response",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/onprem/validate-key",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "onprem",
+                                "validate-key"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"valid\": \"<boolean>\",\n  \"user_id\": \"<string>\",\n  \"scope\": \"<string>\"\n}",
+                          "createdAt": "2026-10-21T21:22:43.000Z",
+                          "updatedAt": "2026-10-21T21:22:43.000Z",
+                          "uid": "35240-ff3c2363-6533-4906-9505-f48581b18322"
+                        },
+                        {
+                          "id": "9e80e6c8-0add-4968-92aa-37a372f67f2f",
+                          "name": "Validation Error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "X-API-Key",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/onprem/validate-key",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "onprem",
+                                "validate-key"
+                              ]
+                            }
+                          },
+                          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                          "code": 422,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-21T21:22:43.000Z",
+                          "updatedAt": "2026-10-21T21:22:43.000Z",
+                          "uid": "35240-9e80e6c8-0add-4968-92aa-37a372f67f2f"
+                        }
+                      ],
+                      "createdAt": "2026-10-21T21:22:43.000Z",
+                      "updatedAt": "2026-10-21T21:22:43.000Z",
+                      "uid": "35240-d74843b4-5181-4aa8-8f5e-ef41fedf58de"
+                    }
+                  ],
+                  "id": "c17cb378-195c-4e3b-ac64-3a8359aa4707",
+                  "createdAt": "2026-10-21T21:22:43.000Z",
+                  "updatedAt": "2026-10-21T21:22:43.000Z",
+                  "uid": "35240-c17cb378-195c-4e3b-ac64-3a8359aa4707"
                 }
               ],
-              "body": "{\n  \"valid\": false,\n  \"user_id\": \"string\",\n  \"scope\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "f237e86b-0b81-46d6-af70-6f7a1385e8cd",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "onprem",
-                    "validate-key"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) ",
-                    "key": "X-API-Key",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "005bf847-0676-4ad0-a27a-4adf948779af",
+              "createdAt": "2026-10-21T21:22:43.000Z",
+              "updatedAt": "2026-10-21T21:22:43.000Z",
+              "uid": "35240-005bf847-0676-4ad0-a27a-4adf948779af"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "dfe3132e-aaf2-424f-b6fa-9ea0113304b5",
+          "createdAt": "2026-10-21T21:22:43.000Z",
+          "updatedAt": "2026-10-21T21:22:43.000Z",
+          "uid": "35240-dfe3132e-aaf2-424f-b6fa-9ea0113304b5"
         }
       ],
-      "event": []
+      "id": "a3c51061-2296-4e5b-8429-ea03ead1ec75",
+      "createdAt": "2026-10-21T21:22:43.000Z",
+      "updatedAt": "2026-10-21T21:22:43.000Z",
+      "uid": "35240-a3c51061-2296-4e5b-8429-ea03ead1ec75"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "b27e4f55-b7dd-4eff-9e87-c76093ecbe7f",
-    "name": "Compresr Platform Admin On-Prem API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

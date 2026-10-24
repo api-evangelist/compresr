@@ -1,143 +1,52 @@
 {
+  "info": {
+    "_postman_id": "1bf8a32d-c1e3-427c-b47f-63e664e896bb",
+    "name": "Compresr Platform Health API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:22:24.000Z",
+    "updatedAt": "2026-10-21T21:22:24.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-1bf8a32d-c1e3-427c-b47f-63e664e896bb"
+  },
   "item": [
     {
-      "id": "17f9c53a-cba7-40be-9fa4-e4969b8a835b",
-      "name": "Health",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "health",
       "item": [
         {
-          "id": "db8f2118-0185-4071-9558-d965fbd1f98d",
-          "name": "Health",
-          "request": {
-            "name": "Health",
-            "description": {
-              "content": "Health check endpoint for ALB.\n\nCRITICAL: Must respond within 5 seconds (ALB timeout).\nRedis checks are optional - failure should not fail the health check.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "health"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "deep",
+          "item": [
             {
-              "id": "79bfe9b1-c2d9-4273-bedc-f52e9639d9ec",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "health"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
+              "name": "Deep Health",
+              "id": "1f638686-3584-432f-b744-28e2c1b9c0b6",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
                 },
+                "method": "GET",
                 "header": [
                   {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "3dc3754f-ea4b-45b7-b5a0-d23177473bf4",
-          "name": "Deep Health",
-          "request": {
-            "name": "Deep Health",
-            "description": {
-              "content": "Deep health check with dependency status.\n\nUse for monitoring dashboards and debugging.\nNOT for ALB health checks (too slow).\n\nQuery params:\n    include_stripe: Include Stripe API check\n    include_compression: Include compression service check",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "health",
-                "deep"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "include_stripe",
-                  "value": "false"
-                },
-                {
-                  "disabled": false,
-                  "key": "include_compression",
-                  "value": "false"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "ee9bbd96-bcfa-4aa1-b681-536a2c814d98",
-              "name": "Successful Response",
-              "originalRequest": {
                 "url": {
+                  "raw": "{{baseUrl}}/health/deep?include_stripe=false&include_compression=false",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
                   "path": [
                     "health",
                     "deep"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
                   ],
                   "query": [
                     {
@@ -148,204 +57,301 @@
                       "key": "include_compression",
                       "value": "false"
                     }
-                  ],
-                  "variable": []
+                  ]
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                "description": "Deep health check with dependency status.\n\nUse for monitoring dashboards and debugging.\nNOT for ALB health checks (too slow).\n\nQuery params:\ninclude_stripe: Include Stripe API check\ninclude_compression: Include compression service check"
+              },
+              "response": [
+                {
+                  "id": "6c372a69-e833-4ce4-b008-62cbd31cf24d",
+                  "name": "Successful Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/health/deep?include_stripe=false&include_compression=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "health",
+                        "deep"
+                      ],
+                      "query": [
+                        {
+                          "key": "include_stripe",
+                          "value": "false"
+                        },
+                        {
+                          "key": "include_compression",
+                          "value": "false"
+                        }
+                      ]
+                    }
                   },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{}",
+                  "createdAt": "2026-10-21T21:22:24.000Z",
+                  "updatedAt": "2026-10-21T21:22:24.000Z",
+                  "uid": "35240-6c372a69-e833-4ce4-b008-62cbd31cf24d"
+                },
+                {
+                  "id": "2f7baef9-0152-4b08-8cd9-b340bbb6ee28",
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/health/deep?include_stripe=false&include_compression=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "health",
+                        "deep"
+                      ],
+                      "query": [
+                        {
+                          "key": "include_stripe",
+                          "value": "false"
+                        },
+                        {
+                          "key": "include_compression",
+                          "value": "false"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                  "code": 422,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-10-21T21:22:24.000Z",
+                  "updatedAt": "2026-10-21T21:22:24.000Z",
+                  "uid": "35240-2f7baef9-0152-4b08-8cd9-b340bbb6ee28"
+                }
+              ],
+              "createdAt": "2026-10-21T21:22:24.000Z",
+              "updatedAt": "2026-10-21T21:22:24.000Z",
+              "uid": "35240-1f638686-3584-432f-b744-28e2c1b9c0b6"
+            }
+          ],
+          "id": "47f7c010-2eb9-4b60-adcd-4b1caa084b01",
+          "createdAt": "2026-10-21T21:22:24.000Z",
+          "updatedAt": "2026-10-21T21:22:24.000Z",
+          "uid": "35240-47f7c010-2eb9-4b60-adcd-4b1caa084b01"
+        },
+        {
+          "name": "circuits",
+          "item": [
+            {
+              "name": "Circuit Status",
+              "id": "4cee5ee1-f686-4279-a89d-c7f23ccc68c8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
                   {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "b8f00382-fa61-4907-ad36-388f8aba7290",
-              "name": "Validation Error",
-              "originalRequest": {
                 "url": {
-                  "path": [
-                    "health",
-                    "deep"
-                  ],
+                  "raw": "{{baseUrl}}/health/circuits",
                   "host": [
                     "{{baseUrl}}"
                   ],
-                  "query": [
-                    {
-                      "key": "include_stripe",
-                      "value": "false"
-                    },
-                    {
-                      "key": "include_compression",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "60d1a020-ba39-453d-9317-e4c5ccf7d825",
-          "name": "Circuit Status",
-          "request": {
-            "name": "Circuit Status",
-            "description": {
-              "content": "Circuit breaker status for all services.\n\nUse for monitoring circuit breaker states and detecting\nfailing downstream services.\n\nSecurity: Requires support/admin role to prevent information disclosure.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "health",
-                "circuits"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "ba35cd8e-23b1-4e3e-ab56-eb13ea3a583a",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
                   "path": [
                     "health",
                     "circuits"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
+                  ]
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                "description": "Circuit breaker status for all services.\n\nUse for monitoring circuit breaker states and detecting\nfailing downstream services.\n\nSecurity: Requires support/admin role to prevent information disclosure."
+              },
+              "response": [
+                {
+                  "id": "da93d954-122b-4497-ab25-b4403844dca8",
+                  "name": "Successful Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/health/circuits",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "health",
+                        "circuits"
+                      ]
+                    }
                   },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{}",
+                  "createdAt": "2026-10-21T21:22:24.000Z",
+                  "updatedAt": "2026-10-21T21:22:24.000Z",
+                  "uid": "35240-da93d954-122b-4497-ab25-b4403844dca8"
+                }
+              ],
+              "createdAt": "2026-10-21T21:22:24.000Z",
+              "updatedAt": "2026-10-21T21:22:24.000Z",
+              "uid": "35240-4cee5ee1-f686-4279-a89d-c7f23ccc68c8"
+            }
+          ],
+          "id": "a94b3e2c-0cc2-45aa-9adb-cd8d4b3eda39",
+          "createdAt": "2026-10-21T21:22:24.000Z",
+          "updatedAt": "2026-10-21T21:22:24.000Z",
+          "uid": "35240-a94b3e2c-0cc2-45aa-9adb-cd8d4b3eda39"
+        },
+        {
+          "name": "Health",
+          "id": "6320c017-f02e-4c8d-9766-00a3ca357886",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Health check endpoint for ALB.\n\nCRITICAL: Must respond within 5 seconds (ALB timeout).\nRedis checks are optional - failure should not fail the health check."
+          },
+          "response": [
+            {
+              "id": "8694c7cc-70f7-43f3-8210-fb11c157310f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
                   {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "GET",
-                "body": {}
+                "url": {
+                  "raw": "{{baseUrl}}/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health"
+                  ]
+                }
               },
               "status": "OK",
               "code": 200,
+              "_postman_previewlanguage": "json",
               "header": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": "{}",
               "cookie": [],
-              "_postman_previewlanguage": "json"
+              "responseTime": null,
+              "body": "{}",
+              "createdAt": "2026-10-21T21:22:24.000Z",
+              "updatedAt": "2026-10-21T21:22:24.000Z",
+              "uid": "35240-8694c7cc-70f7-43f3-8210-fb11c157310f"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "createdAt": "2026-10-21T21:22:24.000Z",
+          "updatedAt": "2026-10-21T21:22:24.000Z",
+          "uid": "35240-6320c017-f02e-4c8d-9766-00a3ca357886"
         }
       ],
-      "event": []
+      "id": "c38c0669-d51a-4dcc-a1ad-8eb7c0351523",
+      "createdAt": "2026-10-21T21:22:24.000Z",
+      "updatedAt": "2026-10-21T21:22:24.000Z",
+      "uid": "35240-c38c0669-d51a-4dcc-a1ad-8eb7c0351523"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "860b8173-0e90-4e5a-84ee-63812c135ea1",
-    "name": "Compresr Platform Admin Health API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

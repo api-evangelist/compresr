@@ -1,172 +1,199 @@
 {
+  "info": {
+    "_postman_id": "700c4d7f-4775-4026-8bc4-c514a239e9cd",
+    "name": "Compresr Platform Inference API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T21:22:27.000Z",
+    "updatedAt": "2026-10-21T21:22:27.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-700c4d7f-4775-4026-8bc4-c514a239e9cd"
+  },
   "item": [
     {
-      "id": "aa5d5971-0383-4f02-82fe-18ea605a6558",
-      "name": "Inference",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "4a819aa0-19a6-4350-8e04-3fc866c9097e",
-          "name": "Count Tokens Endpoint",
-          "request": {
-            "name": "Count Tokens Endpoint",
-            "description": {
-              "content": "Count tokens in text for cost estimation.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "tokens",
-                "count"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"prompt\": \"<string>\",\n  \"model\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "tokens",
+          "item": [
             {
-              "id": "eb1a0a7c-8ac5-4a6d-adbc-182471f49f84",
-              "name": "Successful Response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "tokens",
-                    "count"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"model\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "count",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "Count Tokens Endpoint",
+                  "id": "846cbacc-23e2-41b2-a55d-246960a54ed3",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"prompt\": \"<string>\",\n  \"model\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/tokens/count",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "tokens",
+                        "count"
+                      ]
+                    },
+                    "description": "Count tokens in text for cost estimation."
+                  },
+                  "response": [
+                    {
+                      "id": "d043f808-d19a-4f94-be65-242e324236b1",
+                      "name": "Successful Response",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"prompt\": \"<string>\",\n  \"model\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/tokens/count",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "tokens",
+                            "count"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"tokens\": \"<integer>\",\n  \"model\": \"<string>\"\n}",
+                      "createdAt": "2026-10-21T21:22:27.000Z",
+                      "updatedAt": "2026-10-21T21:22:27.000Z",
+                      "uid": "35240-d043f808-d19a-4f94-be65-242e324236b1"
+                    },
+                    {
+                      "id": "c7aa76f1-7981-4cc3-8619-130bf0ae82f7",
+                      "name": "Validation Error",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"prompt\": \"<string>\",\n  \"model\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/tokens/count",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "tokens",
+                            "count"
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-21T21:22:27.000Z",
+                      "updatedAt": "2026-10-21T21:22:27.000Z",
+                      "uid": "35240-c7aa76f1-7981-4cc3-8619-130bf0ae82f7"
+                    }
+                  ],
+                  "createdAt": "2026-10-21T21:22:27.000Z",
+                  "updatedAt": "2026-10-21T21:22:27.000Z",
+                  "uid": "35240-846cbacc-23e2-41b2-a55d-246960a54ed3"
                 }
               ],
-              "body": "{\n  \"tokens\": 1765,\n  \"model\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "a8c69c9e-19ce-41b0-a4d4-e6db581d0314",
-              "name": "Validation Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "tokens",
-                    "count"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"model\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "0ee53374-d6a7-42da-9386-c7d296bcade8",
+              "createdAt": "2026-10-21T21:22:27.000Z",
+              "updatedAt": "2026-10-21T21:22:27.000Z",
+              "uid": "35240-0ee53374-d6a7-42da-9386-c7d296bcade8"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "ce46b123-cc51-41a8-a093-bd7365b29ad0",
+          "createdAt": "2026-10-21T21:22:27.000Z",
+          "updatedAt": "2026-10-21T21:22:27.000Z",
+          "uid": "35240-ce46b123-cc51-41a8-a093-bd7365b29ad0"
         }
       ],
-      "event": []
+      "id": "6d4dc4bb-5803-4fb5-9484-d36b7dd0408b",
+      "createdAt": "2026-10-21T21:22:27.000Z",
+      "updatedAt": "2026-10-21T21:22:27.000Z",
+      "uid": "35240-6d4dc4bb-5803-4fb5-9484-d36b7dd0408b"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "/"
     }
-  ],
-  "info": {
-    "_postman_id": "80928956-dce8-4151-8091-b41770054ffe",
-    "name": "Compresr Platform Admin Inference API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "",
-      "type": "text/plain"
-    }
-  }
+  ]
 }
